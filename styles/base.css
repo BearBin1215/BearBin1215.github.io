@@ -4,16 +4,25 @@
  */
 
 body {
-    font-size: 0.875rem;
     margin: 0;
     padding: 0;
 }
 
 header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
     height: 48px;
+    padding: .5em .8em;
     box-shadow: 0 1px 5px rgb(127 127 127 / 50%);
+}
+
+.header-left {
+
+}
+
+.header-right {
 }
 
 h1 {
