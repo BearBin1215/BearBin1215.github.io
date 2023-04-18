@@ -91,6 +91,9 @@ header {
     background-color: rgb(191 191 191 / 40%);
 }
 
+
+/* 各级标题
+------------------------------ */
 h1 {
     font-size: 2em;
     text-align: center;
@@ -100,6 +103,10 @@ h1, h2, h3, h4 {
     font-family: "Times New Roman", Times, 思源宋体, "Source Han Serif", "Source Han Serif SC", sans-serif ;
 }
 
+/* 主体
+------------------------------ */
 article {
+    max-width: 64em;
+    margin: .5em auto;
     text-align: center;
 }
