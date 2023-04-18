@@ -13,16 +13,22 @@ header {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    height: 48px;
     padding: .5em .8em;
     box-shadow: 0 1px 5px rgb(127 127 127 / 50%);
+    user-select: none;
 }
 
-.header-left {
-
+.header-left>div,
+.header-right>div {
+    padding: 6px;
+    transition: all .3s;
+    border-radius: 9px;
+    cursor: default;
 }
 
-.header-right {
+.header-left>div:hover,
+.header-right>div:hover {
+    box-shadow: 0 0 5px rgb(191 191 191 / 70%)
 }
 
 h1 {
@@ -32,4 +38,8 @@ h1 {
 
 h1, h2, h3, h4 {
     font-family: "Times New Roman", Times, 思源宋体, "Source Han Serif", "Source Han Serif SC", sans-serif ;
+}
+
+article {
+    text-align: center;
 }
