@@ -69,7 +69,7 @@ header {
     margin: 0;
     padding: .2em .2em;
     list-style: none;
-    border: px solid #bbb;
+    border: 1px solid #bbb;
     border-radius: .5em;
     background-color: #fff;
     white-space: nowrap;
