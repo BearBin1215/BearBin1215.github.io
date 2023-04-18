@@ -11,8 +11,14 @@ body {
     padding: 0;
 }
 
-a {
+a,
+a:visited {
     text-decoration: none;
+    color: #333;
+}
+
+a:active {
+    color: orange;
 }
 
 
@@ -42,7 +48,7 @@ header {
 
 .header-left>div:hover,
 .header-right>div:hover {
-    box-shadow: 0 0 5px rgb(191 191 191 / 70%)
+    box-shadow: 0 0 5px rgb(191 191 191 / 70%);
 }
 
 #myname {
@@ -56,21 +62,33 @@ header {
 }
 
 .my-links-list {
-    /*display: none;*/
-    margin: 0;
+    display: none;
     position: absolute;
     top: 36px;
     right: 0;
-    padding: .5em;
+    margin: 0;
+    padding: .2em .2em;
     list-style: none;
-    border: 1px solid #bbb;
+    border: px solid #bbb;
     border-radius: .5em;
     background-color: #fff;
     white-space: nowrap;
+    text-align: right;
+    transition: all .3s;
 }
 
-.my-links:hover .my-links-list {
+#my-links:hover .my-links-list {
     display: revert;
+}
+
+.my-links-list>li {
+    padding: .4em;
+    transition: all .3s;
+    border-radius: .3em;
+}
+
+.my-links-list>li:hover {
+    background-color: rgb(191 191 191 / 40%);
 }
 
 h1 {
