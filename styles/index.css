@@ -1,0 +1,26 @@
+/**
+ * Used for index.html
+ *
+ */
+
+body {
+    font-size: 0.875rem;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    box-shadow: 0 1px 5px rgb(127 127 127 / 50%);
+}
+
+h1 {
+    font-size: 2em;
+    text-align: center;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Times New Roman", Times, 思源宋体, "Source Han Serif", "Source Han Serif SC", sans-serif ;
+}
