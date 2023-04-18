@@ -3,11 +3,21 @@
  *
  */
 
+
+/* 页面基础
+------------------------------ */
 body {
     margin: 0;
     padding: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
+
+/* 顶部
+------------------------------ */
 header {
     display: flex;
     justify-content: space-between;
@@ -20,15 +30,47 @@ header {
 
 .header-left>div,
 .header-right>div {
-    padding: 6px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 36px;
+    padding: 0 .6em;
     transition: all .3s;
     border-radius: 9px;
-    cursor: default;
+    cursor: pointer;
 }
 
 .header-left>div:hover,
 .header-right>div:hover {
     box-shadow: 0 0 5px rgb(191 191 191 / 70%)
+}
+
+#myname {
+    cursor: default;
+}
+
+/* 链接列表
+------------------------------ */
+#my-links {
+    position: relative;
+}
+
+.my-links-list {
+    /*display: none;*/
+    margin: 0;
+    position: absolute;
+    top: 36px;
+    right: 0;
+    padding: .5em;
+    list-style: none;
+    border: 1px solid #bbb;
+    border-radius: .5em;
+    background-color: #fff;
+    white-space: nowrap;
+}
+
+.my-links:hover .my-links-list {
+    display: revert;
 }
 
 h1 {
