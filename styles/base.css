@@ -29,7 +29,8 @@ header {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    padding: .5em .8em;
+    padding: .3em;
+    background-color: #f7f7f7;
     box-shadow: 0 1px 5px rgb(127 127 127 / 50%);
     user-select: none;
 }
@@ -48,7 +49,7 @@ header {
 
 .header-left>div:hover,
 .header-right>div:hover {
-    box-shadow: 0 0 5px rgb(191 191 191 / 70%);
+    box-shadow: inset 0 0 7px rgb(191 191 191 / 40%);
 }
 
 #myname {
