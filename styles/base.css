@@ -144,7 +144,6 @@ header {
 }
 
 .my-links-list {
-    display: none;
     position: absolute;
     top: 36px;
     right: 0;
@@ -156,11 +155,14 @@ header {
     background-color: #fff;
     white-space: nowrap;
     text-align: right;
-    transition: all .3s;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s ease-out;
 }
 
 #my-links:hover .my-links-list {
-    display: revert;
+    visibility: visible;
+    opacity: 1;
 }
 
 .my-links-list>li {
