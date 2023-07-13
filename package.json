@@ -1,0 +1,33 @@
+{
+  "name": "bearbin1215.github.io",
+  "version": "0.0.1",
+  "description": "BearBin的GitHub.io",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BearBin1215/BearBin1215.github.io.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Page"
+  ],
+  "author": "BearBin",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/BearBin1215/BearBin1215.github.io/issues"
+  },
+  "homepage": "https://github.com/BearBin1215/BearBin1215.github.io#readme",
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-plugin-prefer-arrow-functions": "^3.1.4",
+    "stylelint": "^15.10.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "jquery": "^3.7.0",
+    "vue": "^3.3.4"
+  }
+}
