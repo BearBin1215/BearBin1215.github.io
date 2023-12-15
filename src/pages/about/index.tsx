@@ -2,7 +2,9 @@ import React from 'react';
 import { LinkCardWall } from '@/components';
 import {
   ReactIcon,
+  TypeScriptIcon,
   SassIcon,
+  PostCSSIcon,
   GitHubIcon,
   WebpackIcon,
   LoadingIcon
@@ -24,22 +26,36 @@ const About: React.FC = () => {
           框架：React
         </LinkCard>
         <LinkCard
+          href='https://www.typescriptlang.org/'
+          icon={<TypeScriptIcon color='#3178c6' />}
+        >
+          语言：TypeScript
+        </LinkCard>
+        <LinkCard
           href='https://sass-lang.com/'
           icon={<SassIcon />}
         >
           CSS预处理器：Sass
         </LinkCard>
         <LinkCard
-          href='https://github.com/BearBin1215/BearBin1215.github.io'
-          icon={<GitHubIcon />}
+          href='https://postcss.org/'
+          icon={<PostCSSIcon />}
         >
-          代码托管：GitHub
+          CSS转换：PostCSS
         </LinkCard>
         <LinkCard
           href='https://webpack.js.org/'
           icon={<WebpackIcon />}
         >
           构建工具：webpack
+        </LinkCard>
+      </LinkCardWall>
+      <LinkCardWall>
+        <LinkCard
+          href='https://github.com/BearBin1215/BearBin1215.github.io'
+          icon={<GitHubIcon />}
+        >
+          代码托管：GitHub
         </LinkCard>
         <LinkCard
           href='https://loading.io/'

@@ -34,6 +34,15 @@ const App: React.FC = () => {
   };
 
   /**
+   * 检测屏幕宽度缩小至1024以上时关闭弹窗
+   */
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1024 && sideMenuRef.current) {
+      closeSideMenu();
+    }
+  });
+
+  /**
    * 链接
    */
   const NavLinks: React.FC = () => (
@@ -68,12 +77,6 @@ const App: React.FC = () => {
       }
     };
 
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 1024 && sideMenuRef.current) {
-        closeSideMenu();
-      }
-    });
-
     return (
       <>
         <header id='page-header'>
@@ -90,9 +93,24 @@ const App: React.FC = () => {
                 strokeLinecap='round'
                 strokeWidth='2'
               >
-                <line x1='3' y1='6' x2='21' y2='6' />
-                <line x1='3' y1='12' x2='21' y2='12' />
-                <line x1='3' y1='18' x2='21' y2='18' />
+                <line
+                  x1='3'
+                  y1='6'
+                  x2='21'
+                  y2='6'
+                />
+                <line
+                  x1='3'
+                  y1='12'
+                  x2='21'
+                  y2='12'
+                />
+                <line
+                  x1='3'
+                  y1='18'
+                  x2='21'
+                  y2='18'
+                />
               </svg>
             </button>
             <Link
@@ -144,9 +162,7 @@ const App: React.FC = () => {
       <Header />
       <div id='page-container'>
         <aside id='page-sidebar'>
-          <nav
-            className='modal'
-          >
+          <nav className='modal'>
             <NavLinks />
           </nav>
           <footer>
