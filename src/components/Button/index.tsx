@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ buttonType = 'normal', className = '', children, ...otherProps }) => {
+const Button: React.FC<ButtonProps> = ({ buttonType = 'normal', className, children, ...otherProps }) => {
   const buttonClass = classNames(
     'bearui-button',
     `bearui-button-${buttonType}`,

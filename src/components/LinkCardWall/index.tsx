@@ -10,7 +10,7 @@ interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 const LinkCard: React.FC<LinkCardProps> = ({ length = 1, children, className, icon, ...props }) => {
   const buttonClass = classNames(
     'link-card',
-    `link-card-length${length}`,
+    `link-card-length-${length}`,
     icon ? '' : 'noicon',
     className
   );
@@ -35,10 +35,10 @@ interface LinkCardWallProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
-const LinkCardWall: React.FC<LinkCardWallProps> & { LinkCard: typeof LinkCard } = ({ children, ...props }) => {
+const LinkCardWall: React.FC<LinkCardWallProps> & { LinkCard: typeof LinkCard } = ({ children, className, ...props }) => {
   const buttonClass = classNames(
     'link-card-list',
-    props.className
+    className
   );
   return (
     <div
