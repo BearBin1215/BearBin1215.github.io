@@ -16,16 +16,19 @@ $card-gap: 0.95em;
 }
 
 .link-card {
-    $card-radius: 16px;
+    $card-border-radius: 16px;
+    $card-border-width: 2px;
+    $card-padding: math.div($card-border-radius, 1.5);
     $transition-duration: 0.6s;
     $link-color: color.adjust($default-block-bdcolor, $lightness: -20%, $alpha: 1);
 
+    box-sizing: border-box;
     display: block;
-    width: 360px;
-    height: 145px;
-    padding: math.div($card-radius, 1.5);
-    border-radius: $card-radius;
-    border: 2px solid color.adjust($default-block-bdcolor, $lightness: 20%, $alpha: - 0.3);
+    width: 380px;
+    height: 158px;
+    padding: $card-padding;
+    border-radius: $card-border-radius;
+    border: $card-border-width solid color.adjust($default-block-bdcolor, $lightness: 20%, $alpha: - 0.3);
     transition:
         border-color ease-out $transition-duration,
         box-shadow ease-out math.div($transition-duration, 1.5);
@@ -38,8 +41,8 @@ $card-gap: 0.95em;
     }
 
     @media (max-width: 600px) {
-        max-width: calc(100vw - 80px);
-        height: 112px;
+        max-width: calc(100vw - 2 * (1px + $default-block-padding));
+        height: 120px;
 
         .link-card-inner {
             padding: 0.65em 1.2em;
@@ -53,7 +56,7 @@ $card-gap: 0.95em;
         height: 100%;
         padding: 0.65em 1.4em;
         box-shadow: inset 0 0 24px color.scale($default-block-bdcolor, $lightness: 65%);
-        border-radius: math.div($card-radius, 1.5);
+        border-radius: math.div($card-border-radius, 1.5);
         font-size: 1.15em;
         color: inherit;
         text-decoration: none;

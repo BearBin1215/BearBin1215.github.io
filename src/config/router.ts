@@ -13,7 +13,7 @@ const routes: Route[] = [
     Component: lazy(() => import('../pages/home')),
   },
   {
-    title: 'About',
+    title: '关于',
     path: '/about',
     Component: lazy(() => import('../pages/about')),
   },

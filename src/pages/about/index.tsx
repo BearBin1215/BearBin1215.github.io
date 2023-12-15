@@ -12,13 +12,13 @@ import {
 import './index.scss';
 
 const About: React.FC = () => {
-  document.title = 'About - BearBin';
+  document.title = '关于 - BearBin';
 
   const { LinkCard } = LinkCardWall;
 
   return (
     <>
-      <h1>About</h1>
+      <h1>关于本站</h1>
       <LinkCardWall>
         <LinkCard
           href='https://react.docschina.org/'
