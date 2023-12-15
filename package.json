@@ -1,6 +1,6 @@
 {
   "name": "bearbin1215.github.io",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "BearBin的GitHub.io",
   "main": "./docs/index.html",
   "scripts": {
