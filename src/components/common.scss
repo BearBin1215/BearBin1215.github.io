@@ -1,0 +1,29 @@
+// 默认文字颜色
+$default-font-color: #151515;
+
+// 默认边框颜色
+$default-border-color: #c5c5c5;
+
+// primary颜色
+$primary-color: #66d;
+
+// danger颜色
+$danger-color: #f2330d;
+
+// flat颜色
+$flat-color: #efefef;
+
+// link颜色
+$link-color: $primary-color;
+
+// 默认调量幅度，一般用于:hover
+$default-lighten-amount: 7%;
+
+// 默认调暗幅度，一般用于:active
+$default-darken-amount: 8%;
+
+// disable颜色
+$disabled-color: #c3c3c3;
+
+// disabled+primary
+$disabled-primary-color: #898989;

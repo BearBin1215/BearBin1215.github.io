@@ -1,0 +1,31 @@
+import React, { SVGProps } from 'react';
+
+interface LoadingIconProps extends SVGProps<SVGSVGElement> {
+  color?: string;
+}
+
+const LoadingIcon: React.FC<LoadingIconProps> = ({ color, ...props }) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 100 100'
+    preserveAspectRatio='xMidYMid'
+    {...props}
+  >
+    <path
+      d='M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50'
+      fill={color || '#1d0e0b'}
+      stroke='none'
+    >
+      <animateTransform
+        attributeName='transform'
+        type='rotate'
+        dur='1s'
+        repeatCount='indefinite'
+        keyTimes='0;1'
+        values='0 50 51;360 50 51'
+      />
+    </path>
+  </svg>
+);
+
+export default LoadingIcon;

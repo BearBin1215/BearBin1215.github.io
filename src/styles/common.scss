@@ -1,0 +1,54 @@
+$header-height: 50px; // 头部栏高度
+
+$zone-gap: 1em; // 各区域间隙
+
+$page-container-height: calc(100vh - $header-height - $zone-gap * 2); // 页面主要内容高度（排除页顶）
+
+$default-border-radius: 0.75em; // 默认圆角幅度
+
+$default-block-box-shadow-color: rgba(127, 127, 127, 45%); // 默认阴影
+
+$default-block-bgcolor: rgba(255, 255, 255, 82%); // 默认背景颜色
+
+$default-block-bdcolor: rgba(77, 117, 203, 85%);// 默认块边框颜色
+
+$default-blue-bgcolor: rgba(51, 78, 185, 25%); // 默认背景蓝色
+
+$default-block-padding: 1em; // 默认元素内边距
+
+$default-font-color: #151515; // 默认文字颜色
+
+$default-link-bgcolor: rgba(191, 191, 191, 18%); // 默认链接背景颜色
+
+$default-button-hover-bgcolor: rgba(191, 191, 191, 30%); // 默认按钮hover背景色
+
+$default-button-active-bdcolor: #999; // 默认按钮点击边框
+
+// flex居中显示
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// transfrom居中显示
+@mixin transform-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// 移动设备（手机、平板）隐藏元素
+@mixin narrow-hide-pad {
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+// 手机隐藏元素
+@mixin narrow-hide-phone {
+    @media (max-width: 600px) {
+        display: none;
+    }
+}
