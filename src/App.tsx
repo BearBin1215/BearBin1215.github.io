@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, Suspense } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import {
   HashRouter,
   Routes,
   Route,
-  NavLink,
-  useLocation
+  NavLink
 } from 'react-router-dom';
 import { throttle } from '@/utils/perf';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes, { Route as RouteType } from '@/config/router';
 import externalLinkList, { ExternalLink } from '@/config/externalLink';
+import { ComponentTransition } from '@/components';
 import './App.scss';
 
 const App: React.FC = () => {
@@ -64,30 +64,6 @@ const App: React.FC = () => {
       }
     }
   }, 200));
-
-
-  /**
-   * 渐变
-   */
-  const ComponentTransition = ({ Component }) => {
-    const location = useLocation();
-
-    useEffect(() => {
-      articleRef.current.classList.add('fade-in');
-
-      const onAnimationEnd = () => {
-        articleRef.current.classList.remove('fade-in');
-      };
-
-      articleRef.current.addEventListener('animationend', onAnimationEnd);
-
-      return () => {
-        articleRef.current.removeEventListener('animationend', onAnimationEnd);
-      };
-    }, [location]);
-
-    return <Component />;
-  };
 
   /**
    * 链接
@@ -233,7 +209,13 @@ const App: React.FC = () => {
                     <Route
                       key={path}
                       path={path}
-                      element={<ComponentTransition Component={Component} />}
+                      element={
+                        <ComponentTransition
+                          Component={Component}
+                          animationClass='fade-in'
+                          elementRef={articleRef}
+                        />
+                      }
                     />
                   );
                 })}
