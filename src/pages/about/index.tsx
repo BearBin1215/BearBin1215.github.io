@@ -60,7 +60,7 @@ const About: React.FC = () => {
         </LinkCard>
         <LinkCard
           href='https://loading.io/'
-          icon={<LoadingIcon />}
+          icon={<LoadingIcon color='#7171df' />}
         >
           加载图标：loading.io
         </LinkCard>

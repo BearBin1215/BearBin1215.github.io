@@ -1,5 +1,7 @@
 $header-height: 50px; // 头部栏高度
 
+$header-bgcolor: #f7f7f7; // 头部栏高度
+
 $zone-gap: 1em; // 各区域间隙
 
 $page-container-height: calc(100vh - $header-height - $zone-gap * 2); // 页面主要内容高度（排除页顶）

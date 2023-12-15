@@ -91,9 +91,10 @@ a {
     box-sizing: border-box;
     padding: .3em .6em;
     box-shadow: 0 0 12px 4px $default-block-box-shadow-color;
-    background-color: rgba(247, 247, 247, 92%);
+    background-color: color.adjust($header-bgcolor, $alpha: -0.08);
     user-select: none;
     z-index: 1;
+    transition: box-shadow ease-out 0.42s;
 
     .header-left {
         @include flex-center;
@@ -180,6 +181,15 @@ a {
             }
         }
     }
+
+    @media (max-width: 600px) {
+        box-shadow: none;
+        background-color: $header-bgcolor;
+
+        &.shadowed {
+            box-shadow: 0 0 8px $default-block-box-shadow-color;
+        }
+    }
 }
 
 /* 页面主体
@@ -195,8 +205,8 @@ a {
 
     @media (max-width: 600px) {
         width: unset;
-        margin: math.div($zone-gap, 2) auto;
-        padding: 0 math.div($zone-gap, 2);
+        margin: 0;
+        padding: 0;
     }
 
     /* 侧边栏
@@ -263,7 +273,9 @@ a {
             border-left-width: 2px;
         }
         @media (max-width: 600px) {
-            min-height: calc(100vh - $header-height - $zone-gap);
+            min-height: calc(100vh - $header-height);
+            border-width: 1px;
+            border-radius: 0;
         }
     }
     @at-root #article-base {
@@ -302,7 +314,7 @@ a {
     }
 
     &.side-menu-open {
-        background-color: rgba(127, 127, 127, 33%);
+        background-color: rgba(127, 127, 127, 37%);
 
         >nav {
             transform: translateX(0);
@@ -372,4 +384,8 @@ a {
     background-size: cover;
     background-attachment: local;
     background-position: 28% 40%;
+
+    @media (max-width: 600px) {
+        top: $header-height;
+    }
 }

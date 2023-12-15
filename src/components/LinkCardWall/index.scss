@@ -18,6 +18,7 @@ $card-gap: 0.95em;
 .link-card {
     $card-radius: 16px;
     $transition-duration: 0.6s;
+    $link-color: color.adjust($default-block-bdcolor, $lightness: -20%, $alpha: 1);
 
     display: block;
     width: 360px;
@@ -25,7 +26,16 @@ $card-gap: 0.95em;
     padding: math.div($card-radius, 1.5);
     border-radius: $card-radius;
     border: 2px solid color.adjust($default-block-bdcolor, $lightness: 20%, $alpha: - 0.3);
-    transition: border-color ease-out $transition-duration;
+    transition:
+        border-color ease-out $transition-duration,
+        box-shadow ease-out math.div($transition-duration, 1.5);
+
+    &,
+    &:hover,
+    &:active,
+    &:visited {
+        color: $link-color;
+    }
 
     @media (max-width: 600px) {
         max-width: calc(100vw - 80px);
@@ -77,5 +87,9 @@ $card-gap: 0.95em;
         .link-card-icon {
             transform: scale(1.14);
         }
+    }
+
+    &:active {
+        box-shadow: 0 0 12px 2px color.scale($default-block-bdcolor, $lightness: 44%);
     }
 }

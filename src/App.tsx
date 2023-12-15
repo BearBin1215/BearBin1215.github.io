@@ -6,6 +6,7 @@ import {
   Route,
   NavLink
 } from 'react-router-dom';
+import { throttle } from '@/utils/perf';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes, { Route as RouteType } from '@/config/router';
 import externalLinkList, { ExternalLink } from '@/config/externalLink';
@@ -16,6 +17,11 @@ const App: React.FC = () => {
    * 侧边菜单
    */
   const sideMenuRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * 页眉
+   */
+  const headerRef = useRef<HTMLHeadElement>(null);
 
   /**
    * 打开弹窗
@@ -34,11 +40,24 @@ const App: React.FC = () => {
   /**
    * 检测屏幕宽度缩小至1024以上时关闭弹窗
    */
-  window.addEventListener('resize', () => {
+  window.addEventListener('resize', throttle(() => {
     if (window.innerWidth > 1024 && sideMenuRef.current) {
       closeSideMenu();
     }
-  });
+  }, 200));
+
+  /**
+   * 检测屏幕宽度缩小至1024以上时关闭弹窗
+   */
+  window.addEventListener('scroll', throttle(() => {
+    if (headerRef.current) {
+      if (window.scrollY && !headerRef.current.classList.contains('shadowed')) {
+        headerRef.current.classList.add('shadowed');
+      } else if (!window.scrollY && headerRef.current.classList.contains('shadowed')) {
+        headerRef.current.classList.remove('shadowed');
+      }
+    }
+  }, 200));
 
   /**
    * 链接
@@ -79,7 +98,7 @@ const App: React.FC = () => {
 
     return (
       <>
-        <header id='page-header'>
+        <header id='page-header' ref={headerRef}>
           <nav className='header-left'>
             <button
               className='menu-button'
