@@ -11,25 +11,10 @@ import routes, { Route as RouteType } from '@/config/router';
 import externalLinkList, { ExternalLink } from '@/config/externalLink';
 import './App.scss';
 
-/**
- * 链接
- */
-const NavLinks: React.FC = () => (
-  <ul className='menu-list'>
-    {routes
-      .filter(({ path }) => path !== '/')
-      .map(({ title, path }: RouteType) => (
-        <li key={title}>
-          <Link to={path}>{title}</Link>
-        </li>
-      ))}
-  </ul>
-);
-
-/**
- * 页顶
- */
-const Header: React.FC = () => {
+const App: React.FC = () => {
+  /**
+   * 侧边菜单
+   */
   const sideMenuRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -49,80 +34,107 @@ const Header: React.FC = () => {
   };
 
   /**
-   * 切换
+   * 链接
    */
-  const switchSideMenu = () => {
-    if (sideMenuRef.current.classList.contains('side-menu-open')) {
-      closeSideMenu();
-    } else {
-      openSideMenu();
-    }
+  const NavLinks: React.FC = () => (
+    <ul className='menu-list'>
+      {routes
+        .filter(({ path }) => path !== '/')
+        .map(({ title, path }: RouteType) => (
+          <li key={title}>
+            <Link
+              to={path}
+              onClick={closeSideMenu}
+            >
+              {title}
+            </Link>
+          </li>
+        ))}
+    </ul>
+  );
+
+  /**
+   * 页顶
+   */
+  const Header: React.FC = () => {
+    /**
+     * 切换
+     */
+    const switchSideMenu = () => {
+      if (sideMenuRef.current.classList.contains('side-menu-open')) {
+        closeSideMenu();
+      } else {
+        openSideMenu();
+      }
+    };
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 1024 && sideMenuRef.current) {
+        closeSideMenu();
+      }
+    });
+
+    return (
+      <>
+        <header id='page-header'>
+          <nav className='header-left'>
+            <button
+              className='menu-button'
+              onClick={switchSideMenu}
+            >
+              <svg
+                width='24px'
+                height='24px'
+                fill='none'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeWidth='2'
+              >
+                <line x1='3' y1='6' x2='21' y2='6' />
+                <line x1='3' y1='12' x2='21' y2='12' />
+                <line x1='3' y1='18' x2='21' y2='18' />
+              </svg>
+            </button>
+            <Link
+              className='home-link'
+              to='/'
+              onClick={closeSideMenu}
+            >
+              <div className='avatar' />
+              <div className='name'>BearBin</div>
+            </Link>
+          </nav>
+          <nav className='header-right'>
+            {externalLinkList.map(({ href, title, Icon }: ExternalLink) => (
+              <a
+                key={title}
+                title={title}
+                href={href}
+                rel='noreferrer'
+                target='_blank'
+              >
+                <Icon className='link-icon' />
+              </a>
+            ))}
+          </nav>
+        </header>
+        <div
+          id='side-modal-wrapper'
+          className='side-menu-close'
+          ref={sideMenuRef}
+          onClick={closeSideMenu}
+        >
+          <nav
+            className='modal'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <NavLinks />
+          </nav>
+        </div>
+      </>
+    );
   };
 
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 1024 && sideMenuRef.current) {
-      closeSideMenu();
-    }
-  });
-
-  return (
-    <>
-      <header id='page-header'>
-        <nav className='header-left'>
-          <button
-            className='menu-button'
-            onClick={switchSideMenu}
-          >
-            <svg
-              width='24px'
-              height='24px'
-              fill='none'
-              stroke='currentColor'
-              strokeLinecap='round'
-              strokeWidth='2'
-            >
-              <line x1='3' y1='6' x2='21' y2='6' />
-              <line x1='3' y1='12' x2='21' y2='12' />
-              <line x1='3' y1='18' x2='21' y2='18' />
-            </svg>
-          </button>
-          <Link className='home-link' to='/'>
-            <div className='avatar' />
-            <div className='name'>BearBin</div>
-          </Link>
-        </nav>
-        <nav className='header-right'>
-          {externalLinkList.map(({ href, title, Icon }: ExternalLink) => (
-            <a
-              key={title}
-              title={title}
-              href={href}
-              rel='noreferrer'
-              target='_blank'
-            >
-              <Icon className='link-icon' />
-            </a>
-          ))}
-        </nav>
-      </header>
-      <div
-        id='side-modal-wrapper'
-        className='side-menu-close'
-        ref={sideMenuRef}
-        onClick={closeSideMenu}
-      >
-        <nav
-          className='modal'
-          onClick={(e) => e.stopPropagation()}
-        >
-          <NavLinks />
-        </nav>
-      </div>
-    </>
-  );
-};
-
-const App: React.FC = () => {
   return (
     <HashRouter>
       {createPortal(
