@@ -285,7 +285,7 @@ a {
     position: fixed;
     top: $header-height;
     right: 0;
-    bottom: 0;
+    height: calc(100vh - $header-height);
     left: 0;
     user-select: none;
     overflow: hidden;
@@ -349,6 +349,10 @@ a {
                 color: #ffdf34;
                 background-color: color.scale($default-button-hover-bgcolor, $lightness: 34%);
                 border-color: color.scale($default-button-active-bdcolor, $lightness: 45%);
+            }
+
+            &.active {
+                background-color: color.scale($default-button-hover-bgcolor, $lightness: 45%);
             }
         }
     }

@@ -4,7 +4,7 @@ import {
   HashRouter,
   Routes,
   Route,
-  Link
+  NavLink
 } from 'react-router-dom';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes, { Route as RouteType } from '@/config/router';
@@ -22,7 +22,6 @@ const App: React.FC = () => {
    */
   const openSideMenu = () => {
     sideMenuRef.current.classList.replace('side-menu-close', 'side-menu-open');
-    document.body.style.overflow = 'hidden';
   };
 
   /**
@@ -30,7 +29,6 @@ const App: React.FC = () => {
    */
   const closeSideMenu = () => {
     sideMenuRef.current.classList.replace('side-menu-open', 'side-menu-close');
-    document.body.style.overflow = 'auto';
   };
 
   /**
@@ -45,22 +43,24 @@ const App: React.FC = () => {
   /**
    * 链接
    */
-  const NavLinks: React.FC = () => (
-    <ul className='menu-list'>
-      {routes
-        .filter(({ path }) => path !== '/')
-        .map(({ title, path }: RouteType) => (
-          <li key={title}>
-            <Link
-              to={path}
-              onClick={closeSideMenu}
-            >
-              {title}
-            </Link>
-          </li>
-        ))}
-    </ul>
-  );
+  const NavLinks: React.FC = () => {
+    return (
+      <ul className='menu-list'>
+        {routes
+          .filter(({ path }) => path !== '/')
+          .map(({ title, path }: RouteType) => (
+            <li key={title}>
+              <NavLink
+                to={path}
+                onClick={closeSideMenu}
+              >
+                {title}
+              </NavLink>
+            </li>
+          ))}
+      </ul>
+    );
+  };
 
   /**
    * 页顶
@@ -113,14 +113,14 @@ const App: React.FC = () => {
                 />
               </svg>
             </button>
-            <Link
+            <NavLink
               className='home-link'
               to='/'
               onClick={closeSideMenu}
             >
               <div className='avatar' />
               <div className='name'>BearBin</div>
-            </Link>
+            </NavLink>
           </nav>
           <nav className='header-right'>
             {externalLinkList.map(({ href, title, Icon }: ExternalLink) => (

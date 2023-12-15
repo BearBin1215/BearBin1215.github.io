@@ -13,6 +13,7 @@ import './index.scss';
 
 const About: React.FC = () => {
   document.title = 'About - BearBin';
+
   const { LinkCard } = LinkCardWall;
 
   return (
@@ -27,7 +28,7 @@ const About: React.FC = () => {
         </LinkCard>
         <LinkCard
           href='https://www.typescriptlang.org/'
-          icon={<TypeScriptIcon color='#3178c6' />}
+          icon={<TypeScriptIcon />}
         >
           语言：TypeScript
         </LinkCard>
