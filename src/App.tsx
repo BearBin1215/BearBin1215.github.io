@@ -1,10 +1,11 @@
-import React, { useRef, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import {
   HashRouter,
   Routes,
   Route,
-  NavLink
+  NavLink,
+  useLocation
 } from 'react-router-dom';
 import { throttle } from '@/utils/perf';
 import { LoadingIcon } from '@/components/SvgIcon';
@@ -22,6 +23,11 @@ const App: React.FC = () => {
    * 页眉
    */
   const headerRef = useRef<HTMLHeadElement>(null);
+
+  /**
+   * article
+   */
+  const articleRef = useRef<HTMLElement>(null);
 
   /**
    * 打开弹窗
@@ -58,6 +64,30 @@ const App: React.FC = () => {
       }
     }
   }, 200));
+
+
+  /**
+   * 渐变
+   */
+  const ComponentTransition = ({ Component }) => {
+    const location = useLocation();
+
+    useEffect(() => {
+      articleRef.current.classList.add('fade-in');
+
+      const onAnimationEnd = () => {
+        articleRef.current.classList.remove('fade-in');
+      };
+
+      articleRef.current.addEventListener('animationend', onAnimationEnd);
+
+      return () => {
+        articleRef.current.removeEventListener('animationend', onAnimationEnd);
+      };
+    }, [location]);
+
+    return <Component />;
+  };
 
   /**
    * 链接
@@ -195,7 +225,7 @@ const App: React.FC = () => {
           </footer>
         </aside>
         <main id='content-base'>
-          <article id='article-base'>
+          <article id='article-base' ref={articleRef}>
             <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
               <Routes>
                 {routes.map(({ path, Component }: RouteType) => {
@@ -203,7 +233,7 @@ const App: React.FC = () => {
                     <Route
                       key={path}
                       path={path}
-                      element={<Component />}
+                      element={<ComponentTransition Component={Component} />}
                     />
                   );
                 })}

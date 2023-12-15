@@ -2,7 +2,6 @@
 
 @import './common';
 
-
 a {
     color: #2a4a8f;
 
@@ -20,9 +19,12 @@ article {
     /* 各级标题
     ------------------------------ */
     h1 {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
         margin: .2em 0;
-        font-size: 2em;
-        text-align: center;
+        font-size: 1.75em;
+        height: 40px;
         color: #1f3668;
         border-bottom: 2px inset #abb8e8;
         font-family:

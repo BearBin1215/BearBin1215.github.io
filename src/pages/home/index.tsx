@@ -5,8 +5,8 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <h1>Welcome</h1>
-      稳中向好！
+      <h1>欢迎</h1>
+      本站搭建中，稳中向好！
     </>
   );
 };
