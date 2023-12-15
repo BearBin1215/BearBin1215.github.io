@@ -77,6 +77,7 @@ module.exports = (_, argv) => ({
   devServer: {
     'static': './dist',
     port: 8090,
+    open: true,
   },
   optimization: {
     minimize: true,
