@@ -20,7 +20,7 @@
     }
 
     &.bearui-banner-default {
-        border: 2px solid color.scale($default-block-bdcolor, $lightness: 55%, $alpha: -37%);
+        border: 2px solid color.scale($default-block-bdcolor, $lightness: 55%, $alpha: -47%);
         font-family: $default-serif-family;
         max-width: 94%;
 
@@ -33,7 +33,7 @@
     &.bearui-banner-header {
         border-width: 0 4px;
         border-style: solid;
-        border-color: color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -25%);
+        border-color: color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -35%);
         background-color: color.scale($default-blue-bgcolor, $lightness: 27%, $alpha: -28%);
     }
 

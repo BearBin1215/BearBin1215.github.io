@@ -10,14 +10,14 @@ interface BannerProps extends HTMLAttributes<HTMLElement> {
 }
 
 const Banner: React.FC<BannerProps> = ({ className, type, signature, source, children, ...props }) => {
-  const BannerClass = classNames(
+  const classes = classNames(
     'bearui-banner',
     `bearui-banner-${type || 'default'}`,
     className
   );
   return (
     <div
-      className={BannerClass}
+      className={classes}
       {...props}
     >
       <div

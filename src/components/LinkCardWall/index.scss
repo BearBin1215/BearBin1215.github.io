@@ -28,7 +28,7 @@ $card-gap: 0.95em;
     height: 158px;
     padding: $card-padding;
     border-radius: $card-border-radius;
-    border: $card-border-width solid color.adjust($default-block-bdcolor, $lightness: 20%, $alpha: - 0.3);
+    border: $card-border-width solid color.adjust($default-block-bdcolor, $lightness: 20%, $alpha: - 0.45);
     transition:
         border-color ease-out $transition-duration,
         box-shadow ease-out math.div($transition-duration, 1.5);
@@ -55,7 +55,7 @@ $card-gap: 0.95em;
         box-sizing: border-box;
         height: 100%;
         padding: 0.65em 1.4em;
-        box-shadow: inset 0 0 24px color.scale($default-block-bdcolor, $lightness: 65%);
+        box-shadow: inset 0 0 24px color.scale($default-block-bdcolor, $lightness: 65%, $alpha: -15%);
         border-radius: math.div($card-border-radius, 1.5);
         font-size: 1.15em;
         color: inherit;
@@ -84,7 +84,7 @@ $card-gap: 0.95em;
         border-color: color.adjust($default-block-bdcolor, $lightness: 5%, $alpha: - 0.13);
 
         .link-card-inner {
-            box-shadow: inset 0 0 24px 10px color.scale($default-block-bdcolor, $lightness: 64%);
+            box-shadow: inset 0 0 24px 10px color.scale($default-block-bdcolor, $lightness: 64%, $alpha: -15%);
         }
 
         .link-card-icon {

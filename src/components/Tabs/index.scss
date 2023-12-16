@@ -1,0 +1,40 @@
+@use 'sass:color';
+
+@import '../../styles/common';
+
+.bearui-tabs {
+    @at-root .bearui-tabs-panel {
+        display: flex;
+        border-bottom: 1px solid #e2e2e2;
+
+        .bearui-tabs-button {
+            @include flex-center;
+
+            position: relative;
+            flex-grow: 1;
+            height: 36px;
+            padding: 0 12px;
+            cursor: pointer;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 3px;
+                background: color.scale($default-block-bdcolor, $alpha: -36%);
+                transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.125);
+            }
+
+            &.bearui-tab-active::after {
+                left: 0;
+                width: 100%;
+            }
+        }
+    }
+
+    @at-root .bearui-tab-content {
+        padding: 1em;
+    }
+}
