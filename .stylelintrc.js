@@ -14,8 +14,8 @@ module.exports = {
     'at-rule-empty-line-before': [
       'always',
       {
-        except: ['first-nested', 'after-same-name'],
-        ignore: ['after-comment'],
+        except: ['first-nested'],
+        ignore: ['after-comment', 'blockless-after-blockless'],
       }
     ],
     'media-feature-range-notation': null,

@@ -71,18 +71,16 @@ const App: React.FC = () => {
   const NavLinks: React.FC = () => {
     return (
       <ul className='menu-list'>
-        {routes
-          .filter(({ path }) => path !== '/')
-          .map(({ title, path }: RouteType) => (
-            <li key={title}>
-              <NavLink
-                to={path}
-                onClick={closeSideMenu}
-              >
-                {title}
-              </NavLink>
-            </li>
-          ))}
+        {routes.map(({ title, path }: RouteType) => (
+          <li key={title}>
+            <NavLink
+              to={path}
+              onClick={closeSideMenu}
+            >
+              {title}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     );
   };

@@ -12,7 +12,7 @@ $default-block-box-shadow-color: rgba(127, 127, 127, 45%); // 默认阴影
 
 $default-block-bgcolor: rgba(255, 255, 255, 82%); // 默认背景颜色
 
-$default-block-bdcolor: rgba(77, 117, 203, 85%);// 默认块边框颜色
+$default-block-bdcolor: rgba(77, 117, 203, 85%); // 默认块边框颜色
 
 $default-blue-bgcolor: rgba(51, 78, 185, 25%); // 默认背景蓝色
 
@@ -25,6 +25,8 @@ $default-link-bgcolor: rgba(191, 191, 191, 18%); // 默认链接背景颜色
 $default-button-hover-bgcolor: rgba(191, 191, 191, 30%); // 默认按钮hover背景色
 
 $default-button-active-bdcolor: #999; // 默认按钮点击边框
+
+$default-serif-family: 'Lucida Calligraphy', 'Monotype Corsiva', 'Times New Roman', times, 思源宋体, 'Source Han Serif', 'Source Han Serif SC', sans-serif;
 
 // flex居中显示
 @mixin flex-center {
@@ -57,7 +59,7 @@ $default-button-active-bdcolor: #999; // 默认按钮点击边框
 
 @keyframes fade-in {
     0% {
-        transform: scale(0.85);
+        transform: scale(0.92);
         opacity: 0;
     }
 

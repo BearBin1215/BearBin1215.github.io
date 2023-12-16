@@ -1,0 +1,1 @@
+export { BannerProps } from './Banner';

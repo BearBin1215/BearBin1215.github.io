@@ -8,9 +8,14 @@ interface Route {
 
 const routes: Route[] = [
   {
-    title: 'Home',
+    title: '首页',
     path: '/',
     Component: lazy(() => import('../pages/home')),
+  },
+  {
+    title: '个人观点',
+    path: '/viewpoint',
+    Component: lazy(() => import('../pages/viewpoint')),
   },
   {
     title: '关于',

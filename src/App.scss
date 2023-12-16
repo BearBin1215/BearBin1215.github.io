@@ -102,7 +102,7 @@ a {
             &:hover {
                 background-color: $default-button-hover-bgcolor;
             }
-    
+
             &:active {
                 color: #ffdf34;
                 background-color: color.scale($default-button-hover-bgcolor, $lightness: 34%);
@@ -252,6 +252,7 @@ a {
         margin: math.div($zone-gap, 2);
         padding: math.div($zone-gap, 2);
     }
+
     @media (max-width: 600px) {
         width: unset;
         margin: 0;
@@ -288,7 +289,7 @@ a {
 
             >a {
                 @include flex-center;
-                
+
                 height: 100%;
                 border-radius: 0 0 0 $default-border-radius;
                 text-decoration: none;
@@ -321,12 +322,14 @@ a {
             border-radius: $default-border-radius;
             border-left-width: 2px;
         }
+
         @media (max-width: 600px) {
             min-height: calc(100vh - $header-height);
             border-width: 1px;
             border-radius: 0;
         }
     }
+
     @at-root #article-base {
         position: relative;
         height: 100%;
@@ -334,7 +337,7 @@ a {
         .loading-icon {
             width: 40%;
             max-width: 540px;
-            
+
             @include transform-center;
         }
     }

@@ -36,6 +36,21 @@ article {
             sans-serif;
     }
 
+    p {
+        margin: 0.3125em 0;
+    }
+
+    a {
+        &,
+        &:visited {
+            color: #082277;
+        }
+
+        &:active {
+            text-decoration: underline dashed;
+        }
+    }
+
     hr {
         border: none;
         border-top: 1px solid #bbb;

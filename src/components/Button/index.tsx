@@ -24,3 +24,4 @@ const Button: React.FC<ButtonProps> = ({ buttonType = 'normal', className, child
 };
 
 export default Button;
+export {ButtonProps};
