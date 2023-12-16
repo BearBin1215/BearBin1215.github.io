@@ -1,6 +1,5 @@
 /**
  * @description 性能优化相关函数
- * @
  */
 
 /**
@@ -11,7 +10,7 @@
  */
 const debounce = (func: () => void, interval: number): (() => void) => {
   let timeout: NodeJS.Timeout | null;
-  return function () {
+  return () => {
     clearTimeout(timeout);
     timeout = setTimeout(func, interval);
   };
@@ -26,7 +25,7 @@ const debounce = (func: () => void, interval: number): (() => void) => {
 const throttle = (func: () => void, interval: number): (() => void) => {
   let lastFunc: NodeJS.Timeout;
   let lastRan: number;
-  return function () {
+  return () => {
     if (!lastRan) {
       func();
       lastRan = Date.now();

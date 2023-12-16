@@ -77,6 +77,46 @@ a {
     }
 }
 
+/* 菜单链接
+------------------------------ */
+.menu-list {
+    $border-radius-inner: math.div($default-border-radius, math.div(5, 3));
+    $border-radius-outer: math.div($default-border-radius, math.div(4, 3));
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    >li {
+        >a {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            height: 28px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid transparent;
+            border-radius: $border-radius-inner;
+            transition: all ease-in-out .32s;
+
+            &:hover {
+                background-color: $default-button-hover-bgcolor;
+            }
+    
+            &:active {
+                color: #ffdf34;
+                background-color: color.scale($default-button-hover-bgcolor, $lightness: 34%);
+                border-color: color.scale($default-button-active-bdcolor, $lightness: 45%);
+            }
+
+            &.active {
+                background-color: color.scale($default-button-hover-bgcolor, $lightness: 45%);
+                pointer-events: none;
+            }
+        }
+    }
+}
+
 /* 顶部
 ------------------------------ */
 #page-header {
@@ -162,6 +202,10 @@ a {
             background-size: cover;
             border-radius: 50%;
             cursor: default;
+        }
+
+        &.active {
+            background-color: color.scale($default-button-hover-bgcolor, $lightness: 35%);
         }
     }
 
@@ -335,43 +379,6 @@ a {
         border-radius: $default-border-radius;
         background-color: #f7f7f7;
         transition: transform ease-in-out .4s;
-    }
-}
-
-.menu-list {
-    $border-radius-inner: math.div($default-border-radius, math.div(5, 3));
-    $border-radius-outer: math.div($default-border-radius, math.div(4, 3));
-
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    >li {
-        >a {
-            display: flex;
-            align-items: center;
-            padding: 4px 8px;
-            height: 28px;
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid transparent;
-            border-radius: $border-radius-inner;
-            transition: all ease-in-out .32s;
-
-            &:hover {
-                background-color: $default-button-hover-bgcolor;
-            }
-    
-            &:active {
-                color: #ffdf34;
-                background-color: color.scale($default-button-hover-bgcolor, $lightness: 34%);
-                border-color: color.scale($default-button-active-bdcolor, $lightness: 45%);
-            }
-
-            &.active {
-                background-color: color.scale($default-button-hover-bgcolor, $lightness: 45%);
-            }
-        }
     }
 }
 
