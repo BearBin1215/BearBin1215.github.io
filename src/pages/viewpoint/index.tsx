@@ -1,6 +1,8 @@
 import React from 'react';
-import { Banner } from '@/components';
+import { Banner, Tabs } from '@/components';
 import { BannerProps } from '@/components/props';
+
+const { Tab } = Tabs;
 import './index.scss';
 
 interface viewPointItem extends BannerProps {
@@ -11,7 +13,7 @@ interface viewPointItem extends BannerProps {
 /**
  * 观点列表
  */
-const viewPointList: viewPointItem[] = [
+const viewpointList: viewPointItem[] = [
   {
     key: 1,
     text: <>爱怎么说话是自己的事，说完别人怎么看是别人的事。</>,
@@ -29,7 +31,20 @@ const viewPointList: viewPointItem[] = [
   },
   {
     key: 4,
-    text: <>类比这一修辞手法在不讲逻辑的用途上是相当不错的手段。</>,
+    text: (
+      <>
+        类比这一修辞手法在不讲
+        <ruby>
+          道理
+          <rp>（</rp>
+          <rt>
+            逻辑
+          </rt>
+          <rp>）</rp>
+        </ruby>
+        的用途上是相当不错的手段。
+      </>
+    ),
     signature: 'Apr 7th, 2023',
   },
   {
@@ -87,11 +102,6 @@ const viewPointList: viewPointItem[] = [
   },
   {
     key: 12,
-    text: <>萌娘百科的存在不是必要的；因为一个东西（编辑、内容）没有必要而否认它同样是不合理的。</>,
-    signature: 'Jun 19th, 2023',
-  },
-  {
-    key: 13,
     text: <>
       对于“改变现状”言论发表不可能观点的人，过去或将来也是使其变得不可能的人。
       <br />
@@ -101,25 +111,49 @@ const viewPointList: viewPointItem[] = [
     signature: 'Aug 14th, 2023',
   },
   {
-    key: 14,
+    key: 13,
     text: <>Make the best use of what is in your power, and take the rest as it happens.</>,
-    source: '爱比克泰德',
+    source: (
+      <a
+        href='https://zh.wikipedia.org/wiki/%E6%84%9B%E6%AF%94%E5%85%8B%E6%B3%B0%E5%BE%B7'
+        rel='noreferrer'
+        target='_blank'
+      >
+        爱比克泰德
+      </a>
+    ),
     signature: 'Aug 16th, 2023',
   },
   {
-    key: 15,
+    key: 14,
     text: <>不要指望一个人在全局发挥大用，也不要忽略一个人对全局的作用。</>,
     signature: 'Oct 4th, 2023',
   },
   {
-    key: 16,
+    key: 15,
     text: <>“不知道”不是错误，不值得一个劲地嘲笑。</>,
     signature: 'Oct 20th, 2023',
   },
   {
-    key: 17,
+    key: 16,
     text: <>“……学得足够好就能……/在……方面干的足够顶尖就……”（即“厉害的人做什么都厉害”）是完全不负责任的唯心主义言论。</>,
     signature: 'Nov 27th, 2023',
+  },
+];
+
+/**
+ * 萌百编辑相关观点
+ */
+const mgpViewpointList: viewPointItem[] = [
+  {
+    key: 1,
+    text: <>百科是给人看的，注意他人浏览体验的编辑者才是合格的。</>,
+    signature: 'Dec 10th, 2022',
+  },
+  {
+    key: 2,
+    text: <>萌娘百科的存在不是必要的；因为一个东西（编辑、内容）没有必要而否认它同样是不合理的。</>,
+    signature: 'Jun 19th, 2023',
   },
 ];
 
@@ -142,15 +176,32 @@ const Viewpoint: React.FC = () => {
         </a>
         ，放在这里主要是凑一页用（
       </Banner>
-      {viewPointList.map(({ key, signature, text: children, source }) => (
-        <Banner
-          key={key}
-          signature={signature}
-          source={source}
-        >
-          {children}
-        </Banner>
-      ))}
+
+      <Tabs className='viewpoint-tab'>
+        <Tab label='无病呻吟' className='123'>
+          {viewpointList.map(({ key, signature, text: children, source }) => (
+            <Banner
+              key={key}
+              signature={signature}
+              source={source}
+            >
+              {children}
+            </Banner>
+          ))}
+        </Tab>
+        <Tab label='编辑相关'>
+          {mgpViewpointList.map(({ key, signature, text: children, source }) => (
+            <Banner
+              key={key}
+              signature={signature}
+              source={source}
+            >
+              {children}
+            </Banner>
+          ))}
+        </Tab>
+      </Tabs>
+
     </>
   );
 };

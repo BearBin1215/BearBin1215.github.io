@@ -33,6 +33,8 @@
     "css-loader": "^6.8.1",
     "cssnano": "^6.0.1",
     "eslint": "^8.55.0",
+    "eslint-import-resolver-webpack": "^0.13.8",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.33.2",
     "html-webpack-plugin": "^5.5.4",

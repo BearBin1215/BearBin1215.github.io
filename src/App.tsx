@@ -7,10 +7,10 @@ import {
   NavLink
 } from 'react-router-dom';
 import { throttle } from '@/utils/perf';
+import { ComponentTransition } from '@/components';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes, { Route as RouteType } from '@/config/router';
 import externalLinkList, { ExternalLink } from '@/config/externalLink';
-import { ComponentTransition } from '@/components';
 import './App.scss';
 
 const App: React.FC = () => {

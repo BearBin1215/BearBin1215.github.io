@@ -14,7 +14,7 @@ interface TabProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Tab: React.FC<TabProps> = ({ children, className, ...props }) => {
-  const classes = classnames('bearui-tab-content', className);
+  const classes = classnames('bearui-tabs-content', className);
 
   return (
     <div className={classes} {...props}>
@@ -48,7 +48,7 @@ const Tabs: React.FC<TabsProps> & { Tab: typeof Tab } = ({ children, className, 
         {children.map((tab, index) => {
           const { label } = tab.props;
           const isActive = activeTab === label;
-          const buttonClasses = classnames('bearui-tabs-button', isActive ? 'bearui-tab-active' : '');
+          const buttonClasses = classnames('bearui-tabs-label', isActive ? 'bearui-tabs-label-active' : '');
 
           return (
             <div

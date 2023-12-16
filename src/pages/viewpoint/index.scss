@@ -1,9 +1,13 @@
-.bearui-banner {
-    margin-top: 0.75em;
-}
-
 .bearui-banner-header {
     text-align: center;
     font-size: 1.0625em;
     font-weight: 500;
+}
+
+.viewpoint-tab {
+    margin-top: 0.6em;
+
+    .bearui-tabs-label {
+        flex-grow: 1;
+    }
 }

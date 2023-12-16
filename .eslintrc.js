@@ -19,12 +19,14 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/stylistic',
+    'plugin:import/recommended',
     'plugin:jsx-a11y/recommended',
   ],
   settings: {
     'react': {
       'version': 'detect',
     },
+    'import/resolver': 'webpack',
   },
   parserOptions: {
     ecmaVersion: 'latest',
@@ -127,6 +129,8 @@ module.exports = {
     'arrow-parens': 2,
     'no-use-before-define': 2,
     'prefer-destructuring': 2,
+    'import/no-duplicates': 2,
+    'import/order': 2,
     'react/jsx-indent': [2, 2],
     'react/jsx-indent-props': [2, 2],
     'react/jsx-max-props-per-line': [

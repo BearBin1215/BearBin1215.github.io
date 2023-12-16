@@ -22,7 +22,7 @@ article {
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        margin: .2em 0;
+        margin: .2em 0 0;
         font-size: 1.75em;
         height: 40px;
         color: #1f3668;
@@ -43,7 +43,7 @@ article {
     a {
         &,
         &:visited {
-            color: #082277;
+            color: $default-link-color;
         }
 
         &:active {
