@@ -396,7 +396,7 @@ a {
     left: 0;
     z-index: -1;
     background-color: #83b8ee;
-    background-image: url('./assets/global-background.jpg');
+    background-image: url('./assets/global-background.jpg'), url('./assets/global-background-low.jpg');
     background-size: cover;
     background-attachment: local;
     background-position: 28% 40%;
