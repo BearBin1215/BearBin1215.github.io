@@ -1,6 +1,7 @@
 export { default as GitHubIcon } from './sites/GitHub';
 export { default as MGPIcon } from './sites/MoegirlPedia';
 export { default as BilibiliIcon } from './sites/Bilibili';
+export { default as LoadingioIcon } from './sites/Loadingio';
 
 export { default as LoadingIcon } from './icons/loading';
 export { default as ReactIcon } from './icons/react';

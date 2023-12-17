@@ -162,7 +162,6 @@ const Viewpoint: React.FC = () => {
 
   return (
     <>
-      <h1>个人观点</h1>
       <Banner
         type='header'
       >

@@ -7,7 +7,7 @@ import {
   PostCSSIcon,
   GitHubIcon,
   WebpackIcon,
-  LoadingIcon
+  LoadingioIcon
 } from '@/components/SvgIcon';
 import './index.scss';
 
@@ -60,7 +60,7 @@ const About: React.FC = () => {
         </LinkCard>
         <LinkCard
           href='https://loading.io/'
-          icon={<LoadingIcon color='#7171df' />}
+          icon={<LoadingioIcon />}
         >
           加载图标：loading.io
         </LinkCard>

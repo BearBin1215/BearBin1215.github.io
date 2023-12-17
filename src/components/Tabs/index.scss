@@ -34,11 +34,11 @@
             &.bearui-tabs-label-active {
                 background-image:
                     linear-gradient(0deg,
-                        color.scale($default-block-bdcolor, $alpha: -95%) 0,
+                        color.scale($default-block-bdcolor, $alpha: -91%) 0,
                         transparent 100%);
 
                 &::after {
-                    left: 0;
+                    left: 0%;
                     width: 100%;
                 }
             }

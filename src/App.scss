@@ -89,18 +89,43 @@ a {
 
     >li {
         >a {
+            $horizon-padding: 8px; // 水平边距
+            $align-padding: 4px; // 垂直边距
+            $indent-padding: 6px; // hover等状态下的边距
+
+            @mixin before-show {
+                margin-right: $indent-padding;
+                background-color: color.scale($default-blue-bgcolor, $blue: 24%, $alpha: 40%);
+                width: $indent-padding;
+            }
+
             display: flex;
             align-items: center;
-            padding: 4px 8px;
+            padding: $align-padding $horizon-padding;
             height: 28px;
             text-decoration: none;
             color: inherit;
             border: 1px solid transparent;
             border-radius: $border-radius-inner;
-            transition: all ease-in-out .32s;
+            transition: all linear .32s;
+
+            &::before {
+                content: ' ';
+                display: inline-block;
+                margin-right: 0;
+                width: 0;
+                height: 20px;
+                background-color: transparent;
+                border-radius: math.div($indent-padding, 2);
+                transition: all 0.42s ease-out;
+            }
 
             &:hover {
                 background-color: $default-button-hover-bgcolor;
+
+                &::before {
+                    @include before-show;
+                }
             }
 
             &:active {
@@ -113,6 +138,10 @@ a {
                 background-color: color.scale($default-button-hover-bgcolor, $lightness: 40%);
                 box-shadow: inset 0 0 16px color.scale($default-block-box-shadow-color, $lightness: 40%, $alpha: -50%);
                 pointer-events: none;
+
+                &::before {
+                    @include before-show;
+                }
             }
         }
     }
@@ -136,6 +165,7 @@ a {
     user-select: none;
     z-index: 1;
     transition: box-shadow ease-out 0.42s;
+    backdrop-filter: blur(8px);
 
     .header-left {
         @include flex-center;
