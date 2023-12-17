@@ -10,7 +10,7 @@ $default-border-radius: 0.75em; // 默认圆角幅度
 
 $default-block-box-shadow-color: rgba(127, 127, 127, 45%); // 默认阴影
 
-$default-block-bgcolor: rgba(255, 255, 255, 82%); // 默认背景颜色
+$default-block-bgcolor: rgba(255, 255, 255, 86%); // 默认背景颜色
 
 $default-block-bdcolor: #4d75cb; // 默认块边框颜色
 
@@ -28,7 +28,7 @@ $default-button-active-bdcolor: #999; // 默认按钮点击边框
 
 $default-link-color: #082277; // 默认链接颜色
 
-$default-serif-family: 'Lucida Calligraphy', 'Monotype Corsiva', 'Times New Roman', times, 思源宋体, 'Source Han Serif', 'Source Han Serif SC', sans-serif;
+$default-serif-family: 'Lucida Calligraphy', 'Monotype Corsiva', 'Times New Roman', times, 思源宋体, 'Source Han Serif', 'Source Han Serif SC', sans-serif; // 默认衬线字体
 
 // flex居中显示
 @mixin flex-center {
