@@ -139,6 +139,11 @@ const viewpointList: viewPointItem[] = [
     text: <>“……学得足够好就能……/在……方面干的足够顶尖就……”（即“厉害的人做什么都厉害”）是完全不负责任的唯心主义言论。</>,
     signature: 'Nov 27th, 2023',
   },
+  {
+    key: 17,
+    text: <>“别把不幸当做个性。</>,
+    signature: 'Dec 22nd, 2023',
+  },
 ];
 
 /**
