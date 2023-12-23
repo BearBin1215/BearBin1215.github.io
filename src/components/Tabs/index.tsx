@@ -35,6 +35,9 @@ interface TabsProps extends HTMLAttributes<HTMLDivElement> {
   defaultTab?: string;
 }
 
+/**
+ * 标签页组件
+ */
 const Tabs: React.FC<TabsProps> & { Tab: typeof Tab } = ({ children, className, defaultTab, ...props }) => {
   /**
    * 显示的页签

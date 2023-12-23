@@ -1,6 +1,7 @@
 @use 'sass:color';
 
 @import '../../styles/common';
+@import '../common';
 
 .bearui-tabs {
     @at-root .bearui-tabs-panel {
@@ -28,7 +29,7 @@
                 width: 0;
                 height: 3px;
                 background: color.scale($default-block-bdcolor, $alpha: -36%);
-                transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.125);
+                transition: all $default-transition-duration cubic-bezier(0.175, 0.885, 0.32, 1.125);
             }
 
             &.bearui-tabs-label-active {

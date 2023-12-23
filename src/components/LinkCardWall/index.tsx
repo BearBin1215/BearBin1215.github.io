@@ -2,11 +2,25 @@ import React, { ReactNode, AnchorHTMLAttributes, HTMLAttributes } from 'react';
 import classNames from 'classnames';
 
 interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  /**
+   * 长度等级（未使用）
+   */
   length?: number;
-  children?: ReactNode;
+
+  /**
+   * 左侧图标
+   */
   icon?: ReactNode;
+
+  /**
+   * 右侧内容
+   */
+  children?: ReactNode;
 }
 
+/**
+ * 卡片组件
+ */
 const LinkCard: React.FC<LinkCardProps> = ({ length = 1, children, className, icon, ...props }) => {
   const classes = classNames(
     'link-card',
@@ -35,6 +49,9 @@ interface LinkCardWallProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
+/**
+ * 卡片墙
+ */
 const LinkCardWall: React.FC<LinkCardWallProps> & { LinkCard: typeof LinkCard } = ({ children, className, ...props }) => {
   const classes = classNames(
     'link-card-list',

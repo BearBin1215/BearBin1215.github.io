@@ -2,11 +2,17 @@ import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * 按钮类型
+   */
   buttonType?: 'normal' | 'primary' | 'danger' | 'flat' | 'link';
   className?: string;
   children?: ReactNode;
 }
 
+/**
+ * 按钮组件
+ */
 const Button: React.FC<ButtonProps> = ({ buttonType = 'normal', className, children, ...otherProps }) => {
   const classes = classNames(
     'bearui-button',
