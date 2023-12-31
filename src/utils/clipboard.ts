@@ -23,7 +23,7 @@ const copyText = async (text = ''): Promise<void> => {
  * 从剪贴板读取文本
  */
 const pasteText = async (): Promise<string> => {
-  if (navigator.clipboard && 'readText' in navigator.clipboard) {
+  if (navigator.clipboard?.readText) {
     return await navigator.clipboard.readText();
   }
   const pasteArea = document.createElement('textarea');
