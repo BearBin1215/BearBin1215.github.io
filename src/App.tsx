@@ -53,7 +53,7 @@ const App: React.FC = () => {
   }, 200));
 
   /**
-   * 检测屏幕宽度缩小至1024以上时关闭弹窗
+   * 页面滚动检测是否在顶部，控制header阴影
    */
   window.addEventListener('scroll', throttle(() => {
     if (headerRef.current) {
