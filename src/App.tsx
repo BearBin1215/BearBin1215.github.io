@@ -10,7 +10,7 @@ import { throttle } from '@/utils/perf';
 import { ComponentTransition } from '@/components';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes, { Route as RouteType } from '@/config/router';
-import externalLinkList, { ExternalLink } from '@/config/externalLink';
+import externalLinkList from '@/config/externalLink';
 import './App.scss';
 
 const App: React.FC = () => {
@@ -33,14 +33,14 @@ const App: React.FC = () => {
    * 打开弹窗
    */
   const openSideMenu = () => {
-    sideMenuRef.current.classList.replace('side-menu-close', 'side-menu-open');
+    sideMenuRef.current?.classList.replace('side-menu-close', 'side-menu-open');
   };
 
   /**
    * 关闭弹窗
    */
   const closeSideMenu = () => {
-    sideMenuRef.current.classList.replace('side-menu-open', 'side-menu-close');
+    sideMenuRef.current?.classList.replace('side-menu-open', 'side-menu-close');
   };
 
   /**
@@ -93,7 +93,7 @@ const App: React.FC = () => {
      * 切换
      */
     const switchSideMenu = () => {
-      if (sideMenuRef.current.classList.contains('side-menu-open')) {
+      if (sideMenuRef.current?.classList.contains('side-menu-open')) {
         closeSideMenu();
       } else {
         openSideMenu();
@@ -146,7 +146,7 @@ const App: React.FC = () => {
             </NavLink>
           </nav>
           <nav className='header-right'>
-            {externalLinkList.map(({ href, title, Icon }: ExternalLink) => (
+            {externalLinkList.map(({ href, title, Icon }) => (
               <a
                 key={title}
                 title={title}

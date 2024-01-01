@@ -9,7 +9,7 @@
  * @returns {() => void} - 返回
  */
 const debounce = (func: () => void, interval: number): (() => void) => {
-  let timeout: NodeJS.Timeout | null;
+  let timeout: NodeJS.Timeout;
   return () => {
     clearTimeout(timeout);
     timeout = setTimeout(func, interval);
