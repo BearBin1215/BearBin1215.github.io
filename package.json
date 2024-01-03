@@ -2,7 +2,7 @@
   "name": "bearbin1215.github.io",
   "version": "0.3.0",
   "description": "BearBin的GitHub.io",
-  "main": "./docs/index.html",
+  "main": "./src/index.tsx",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack serve --mode development",
@@ -51,7 +51,6 @@
     "stylelint-scss": "^5.3.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
-    "url-loader": "^4.1.1",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
