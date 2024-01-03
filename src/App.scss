@@ -136,7 +136,7 @@ a {
 
             &.active {
                 background-color: color.scale($default-button-hover-bgcolor, $lightness: 40%);
-                box-shadow: inset 0 0 16px color.scale($default-block-box-shadow-color, $lightness: 40%, $alpha: -50%);
+                box-shadow: inset 0 0 20px color.scale($default-block-box-shadow-color, $lightness: 50%, $alpha: -53%);
                 pointer-events: none;
 
                 &::before {
