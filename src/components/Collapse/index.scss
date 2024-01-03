@@ -29,6 +29,11 @@
         }
     }
 
+    .bearui-collapse-content-wrapper {
+        transition: height 0.3s ease-out;
+        overflow: hidden;
+    }
+
     .bearui-collapse-content {
         padding: 12px;
         border: 2px solid color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -65%);
@@ -41,10 +46,6 @@
     &.bearui-collapse-collapsed {
         .bearui-collapse-label::before {
             transform: rotate(270deg);
-        }
-
-        .bearui-collapse-content {
-            display: none;
         }
     }
 }
