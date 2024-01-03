@@ -30,16 +30,6 @@ module.exports = (_, argv) => ({
         exclude: /node_modules/,
         use: 'ts-loader',
       },
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: 'babel-loader',
-      //     options: {
-      //       presets: ['@babel/preset-env', '@babel/preset-react'],
-      //     },
-      //   },
-      // },
       {
         test: /\.css$/,
         use: [
@@ -49,10 +39,6 @@ module.exports = (_, argv) => ({
         ],
       },
       {
-        test: /\.(png|jpe?g|gif)/,
-        type: 'asset/resource',
-      },
-      {
         test: /\.s[ac]ss$/i,
         use: [
           'style-loader',
@@ -60,6 +46,10 @@ module.exports = (_, argv) => ({
           postCssLoader,
           'sass-loader',
         ],
+      },
+      {
+        test: /\.(png|jpe?g|gif)/,
+        type: 'asset/resource',
       },
     ],
   },

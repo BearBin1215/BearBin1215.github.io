@@ -7,15 +7,16 @@
     "build": "webpack --mode production",
     "start": "webpack serve --mode development",
     "lint": "eslint \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\"",
-    "lint:fix": "eeslint --quiet --fix \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\""
+    "lint:fix": "eslint --quiet --fix \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BearBin1215/BearBin1215.github.io.git"
   },
   "keywords": [
-    "GitHub",
-    "Page"
+    "GitHub Page",
+    "React",
+    "webpack"
   ],
   "author": "BearBin",
   "license": "BSD-3-Clause",
