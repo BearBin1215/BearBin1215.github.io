@@ -30,7 +30,7 @@
     }
 
     .bearui-collapse-content-wrapper {
-        transition: height 0.3s ease-out;
+        transition: height $default-transition-duration ease-out;
         overflow: hidden;
     }
 
