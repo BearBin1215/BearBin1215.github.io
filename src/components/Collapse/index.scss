@@ -35,11 +35,11 @@
     }
 
     .bearui-collapse-content {
-        padding: 12px;
-        border: 2px solid color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -65%);
+        padding: 8px;
+        border: 1px solid color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -65%);
 
         @media (max-width: 600px) {
-            padding: 6px;
+            padding: 4px;
         }
     }
 
