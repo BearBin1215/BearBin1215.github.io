@@ -6,7 +6,7 @@ import {
   Route,
   NavLink
 } from 'react-router-dom';
-import { throttle } from '@/utils/perf';
+import { throttle } from 'lodash';
 import { ComponentTransition } from '@/components';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes, { Route as RouteType } from '@/config/router';

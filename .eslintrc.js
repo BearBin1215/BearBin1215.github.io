@@ -12,6 +12,10 @@ module.exports = {
     'jsx-a11y',
     '@typescript-eslint',
   ],
+  ignorePatterns: [
+    'node_modules',
+    'dist',
+  ],
   root: true,
   parser: '@typescript-eslint/parser',
   'extends': [
