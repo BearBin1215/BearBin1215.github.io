@@ -141,7 +141,7 @@ const viewpointList: viewPointItem[] = [
   },
   {
     key: 17,
-    text: <>“别把不幸当做个性。</>,
+    text: <>别把不幸当做个性。</>,
     signature: 'Dec 22nd, 2023',
   },
 ];
