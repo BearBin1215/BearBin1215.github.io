@@ -1,4 +1,4 @@
-import React, { useRef, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import {
   HashRouter,
@@ -43,27 +43,38 @@ const App: React.FC = () => {
     sideMenuRef.current?.classList.replace('side-menu-open', 'side-menu-close');
   };
 
-  /**
-   * 检测屏幕宽度缩小至1024以上时关闭弹窗
-   */
-  window.addEventListener('resize', throttle(() => {
-    if (window.innerWidth > 1024 && sideMenuRef.current) {
-      closeSideMenu();
-    }
-  }, 200));
-
-  /**
-   * 页面滚动检测是否在顶部，控制header阴影
-   */
-  window.addEventListener('scroll', throttle(() => {
-    if (headerRef.current) {
-      if (window.scrollY && !headerRef.current.classList.contains('shadowed')) {
-        headerRef.current.classList.add('shadowed');
-      } else if (!window.scrollY && headerRef.current.classList.contains('shadowed')) {
-        headerRef.current.classList.remove('shadowed');
+  useEffect(() => {
+    const closeSideMenu = throttle(() => {
+      if (window.innerWidth > 1024 && sideMenuRef.current) {
+        closeSideMenu();
       }
-    }
-  }, 200));
+    }, 200);
+
+    const addHeaderShadow = throttle(() => {
+      if (headerRef.current) {
+        if (window.scrollY && !headerRef.current.classList.contains('shadowed')) {
+          headerRef.current.classList.add('shadowed');
+        } else if (!window.scrollY && headerRef.current.classList.contains('shadowed')) {
+          headerRef.current.classList.remove('shadowed');
+        }
+      }
+    }, 200);
+
+    /**
+     * 检测屏幕宽度缩小至1024以上时关闭弹窗
+     */
+    window.addEventListener('resize', closeSideMenu);
+
+    /**
+     * 页面滚动检测是否在顶部，控制header阴影
+     */
+    window.addEventListener('scroll', addHeaderShadow);
+
+    return () => {
+      window.removeEventListener('resize', closeSideMenu);
+      window.removeEventListener('scroll', addHeaderShadow);
+    };
+  }, []);
 
   /**
    * 链接
