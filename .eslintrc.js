@@ -74,6 +74,7 @@ module.exports = {
     'no-inner-declarations': 0,
     'no-unneeded-ternary': 2,
     'no-trailing-spaces': 2,
+    'spaced-comment': 2,
     'comma-dangle': [
       1,
       {
