@@ -10,7 +10,7 @@ interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * 左侧图标
    */
-  icon?: ReactNode;
+  icon?: ReactNode | string;
 
   /**
    * 右侧内容

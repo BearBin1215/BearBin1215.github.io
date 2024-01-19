@@ -207,7 +207,6 @@ const Viewpoint: React.FC = () => {
           ))}
         </Tab>
       </Tabs>
-
     </>
   );
 };

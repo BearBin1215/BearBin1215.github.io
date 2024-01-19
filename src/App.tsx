@@ -9,7 +9,7 @@ import {
 import throttle from 'lodash/throttle';
 import { ComponentTransition } from '@/components';
 import { LoadingIcon } from '@/components/SvgIcon';
-import routes, { Route as RouteType } from '@/config/router';
+import routes from '@/config/router';
 import externalLinkList from '@/config/externalLink';
 import './App.scss';
 
@@ -82,8 +82,8 @@ const App: React.FC = () => {
   const NavLinks: React.FC = () => {
     return (
       <ul className='menu-list'>
-        {routes.map(({ title, path }: RouteType) => (
-          <li key={title}>
+        {routes.map(({ title, path }) => (
+          <li key={path}>
             <NavLink
               to={path}
               onClick={closeSideMenu}
@@ -127,24 +127,9 @@ const App: React.FC = () => {
                 strokeLinecap='round'
                 strokeWidth='2'
               >
-                <line
-                  x1='3'
-                  y1='6'
-                  x2='21'
-                  y2='6'
-                />
-                <line
-                  x1='3'
-                  y1='12'
-                  x2='21'
-                  y2='12'
-                />
-                <line
-                  x1='3'
-                  y1='18'
-                  x2='21'
-                  y2='18'
-                />
+                <line x1='3' y1='6' x2='21' y2='6' />
+                <line x1='3' y1='12' x2='21' y2='12' />
+                <line x1='3' y1='18' x2='21' y2='18' />
               </svg>
             </button>
             <NavLink
@@ -159,7 +144,7 @@ const App: React.FC = () => {
           <nav className='header-right'>
             {externalLinkList.map(({ href, title, Icon }) => (
               <a
-                key={title}
+                key={href}
                 title={title}
                 href={href}
                 rel='noreferrer'
@@ -213,7 +198,7 @@ const App: React.FC = () => {
           <article id='article-base' ref={articleRef}>
             <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
               <Routes>
-                {routes.map(({ path, Component }: RouteType) => {
+                {routes.map(({ path, Component }) => {
                   return (
                     <Route
                       key={path}

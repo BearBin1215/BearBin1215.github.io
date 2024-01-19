@@ -11,12 +11,12 @@ import {
 } from '@/components/SvgIcon';
 import './index.scss';
 
+const { LinkCard } = LinkCardWall;
+
 const About: React.FC = () => {
   useEffect(() => {
     document.title = '关于 - BearBin';
   }, []);
-
-  const { LinkCard } = LinkCardWall;
 
   return (
     <>

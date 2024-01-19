@@ -1,7 +1,4 @@
-/**
- * @description 折叠组件
- */
-import React, { useState, useRef, useEffect, HTMLAttributes } from 'react';
+import React, { useState, useRef, useEffect, HTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 
 interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
@@ -15,7 +12,7 @@ interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
    */
   expanded?: boolean;
 
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**
