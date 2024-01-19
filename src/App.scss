@@ -5,12 +5,6 @@
 @import './styles/article'; // 内容
 @import './components/index'; // 组件
 
-// 微软雅黑
-@font-face {
-    font-family: msYaHei;
-    src: url('./assets/font/msyh.ttc');
-}
-
 // 思源宋体
 @font-face {
     font-family: 'Source Han Serif';
@@ -75,6 +69,12 @@ a {
     &:active {
         color: orange;
     }
+}
+
+pre,
+code,
+.code {
+    font-family: 'Source Code Pro', consolas, 'Jetbrains mono', monospace;
 }
 
 /* 菜单链接

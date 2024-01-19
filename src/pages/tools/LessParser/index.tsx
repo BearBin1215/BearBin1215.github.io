@@ -1,13 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { render as parseLess } from 'less';
 import { debounce } from 'lodash';
 import './index.scss';
 
+const defaultLessCode = `
+.foo {
+  color: #000;
+
+  .bar {
+    text-decoration: underline;
+
+    &:hover {
+      color: red;
+    }
+  }
+}
+`.trim();
+
+
 const StyleParser: React.FC = () => {
   const [lessParseResult, setLessParseResult] = useState('');
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    document.title = 'LESS解析器 - BearBin';
+    document.title = 'Less解析器 - BearBin';
+    if (inputRef.current) {
+      inputRef.current.value = defaultLessCode;
+    }
+    parseLess(defaultLessCode).then(({ css }) => {
+      setLessParseResult(css);
+    });
   }, []);
 
   const handleLessCodeChange = debounce(({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -18,14 +40,17 @@ const StyleParser: React.FC = () => {
 
   return (
     <>
-      <h1>LESS解析器</h1>
-      <div className='styleparser-wrapper'>
+      <h1>Less解析器</h1>
+      <div className='lessparser-wrapper'>
         <textarea
           onChange={handleLessCodeChange}
+          ref={inputRef}
+          className='code'
         />
         <textarea
           readOnly
           value={lessParseResult}
+          className='code'
         />
       </div>
     </>

@@ -1,12 +1,18 @@
-.styleparser-wrapper {
+.lessparser-wrapper {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6em;
+    margin-top: 0.3em;
 
     textarea {
         flex: 1 0 20em;
         height: 40em;
         max-height: 80vh;
         resize: none;
+        background-color: rgba(255, 255, 255, 75%);
+
+        &:focus-visible {
+            outline: unset;
+        }
     }
 }
