@@ -53,6 +53,7 @@ const StyleParser: React.FC = () => {
           className='code'
         />
       </div>
+      本来还想搓一个scss解析器上去，结果发现scss只能在node上运行（
     </>
   );
 };
