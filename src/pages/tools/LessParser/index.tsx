@@ -17,7 +17,6 @@ const defaultLessCode = `
 }
 `.trim();
 
-
 const StyleParser: React.FC = () => {
   const [lessParseResult, setLessParseResult] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -32,11 +31,14 @@ const StyleParser: React.FC = () => {
     });
   }, []);
 
+  /**
+   * 输入框代码发生变化后若0.5s内无变化则进行解析
+   */
   const handleLessCodeChange = debounce(({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>) => {
     parseLess(value)
       .then(({ css }) => setLessParseResult(css))
       .catch((error) => setLessParseResult(error));
-  }, 1000);
+  }, 500);
 
   return (
     <>
