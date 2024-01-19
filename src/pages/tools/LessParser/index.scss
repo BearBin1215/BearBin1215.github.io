@@ -1,0 +1,12 @@
+.styleparser-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+
+    textarea {
+        flex: 1 0 20em;
+        height: 40em;
+        max-height: 80vh;
+        resize: none;
+    }
+}

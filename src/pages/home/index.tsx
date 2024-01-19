@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Collapse } from '@/components';
 
 const Home: React.FC = () => {
-  document.title = 'BearBin';
+  useEffect(() => {
+    document.title = 'BearBin';
+  }, []);
 
   return (
     <>

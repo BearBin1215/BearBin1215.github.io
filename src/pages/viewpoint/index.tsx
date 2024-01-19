@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Banner, Tabs } from '@/components';
 import { BannerProps } from '@/components/props';
 
@@ -163,7 +163,9 @@ const mgpViewpointList: viewPointItem[] = [
 ];
 
 const Viewpoint: React.FC = () => {
-  document.title = '个人观点 - BearBin';
+  useEffect(() => {
+    document.title = '个人观点 - BearBin';
+  }, []);
 
   return (
     <>
@@ -182,7 +184,7 @@ const Viewpoint: React.FC = () => {
       </Banner>
 
       <Tabs className='viewpoint-tab'>
-        <Tab label='无病呻吟' className='123'>
+        <Tab label='无病呻吟'>
           {viewpointList.map(({ key, signature, text: children, source }) => (
             <Banner
               key={key}

@@ -18,6 +18,11 @@ const routes: Route[] = [
     Component: lazy(() => import('../pages/viewpoint')),
   },
   {
+    title: 'LESS解析器',
+    path: '/LessParser',
+    Component: lazy(() => import('../pages/tools/LessParser')),
+  },
+  {
     title: '关于',
     path: '/about',
     Component: lazy(() => import('../pages/about')),
