@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { render as parseLess } from 'less';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import './index.scss';
 
 const defaultLessCode = `
