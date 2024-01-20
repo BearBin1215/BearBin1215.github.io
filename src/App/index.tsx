@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, Suspense } from 'react';
-import { createPortal } from 'react-dom';
 import {
-  HashRouter,
   Routes,
   Route,
-  NavLink
+  NavLink,
+  useLocation
 } from 'react-router-dom';
 import throttle from 'lodash/throttle';
-import { ComponentTransition } from '@/components';
+import MenuList from './MenuList';
 import { LoadingIcon } from '@/components/SvgIcon';
-import routes from '@/config/router';
+import router from '@/config/router';
 import externalLinkList from '@/config/externalLink';
 import './index.scss';
 
@@ -29,6 +28,8 @@ const App: React.FC = () => {
    */
   const articleRef = useRef<HTMLElement>(null);
 
+  const location = useLocation();
+
   /**
    * 打开弹窗
    */
@@ -43,13 +44,27 @@ const App: React.FC = () => {
     sideMenuRef.current?.classList.replace('side-menu-open', 'side-menu-close');
   };
 
+  const switchSideMenu = () => {
+    if (sideMenuRef.current?.classList.contains('side-menu-open')) {
+      closeSideMenu();
+    } else {
+      openSideMenu();
+    }
+  };
+
   useEffect(() => {
+    /**
+     * 检测屏幕宽度缩小至1024以上时关闭弹窗
+     */
     const closeSide = throttle(() => {
       if (window.innerWidth > 1024 && sideMenuRef.current) {
         closeSideMenu();
       }
     }, 200);
 
+    /**
+     * 页面滚动检测是否在顶部，控制header阴影
+     */
     const addHeader = throttle(() => {
       if (headerRef.current) {
         if (window.scrollY && !headerRef.current.classList.contains('shadowed')) {
@@ -60,14 +75,7 @@ const App: React.FC = () => {
       }
     }, 200);
 
-    /**
-     * 检测屏幕宽度缩小至1024以上时关闭弹窗
-     */
     window.addEventListener('resize', closeSide);
-
-    /**
-     * 页面滚动检测是否在顶部，控制header阴影
-     */
     window.addEventListener('scroll', addHeader);
 
     return () => {
@@ -76,113 +84,82 @@ const App: React.FC = () => {
     };
   }, []);
 
-  /**
-   * 链接
-   */
-  const NavLinks: React.FC = () => {
-    return (
-      <ul className='menu-list'>
-        {routes.map(({ title, path }) => (
-          <li key={path}>
-            <NavLink
-              to={path}
-              onClick={closeSideMenu}
-            >
-              {title}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    );
-  };
+  // 在页面路由切换时提供页面淡入效果
+  useEffect(() => {
+    const { current } = articleRef;
 
-  /**
-   * 页顶
-   */
-  const Header: React.FC = () => {
-    /**
-     * 切换
-     */
-    const switchSideMenu = () => {
-      if (sideMenuRef.current?.classList.contains('side-menu-open')) {
-        closeSideMenu();
-      } else {
-        openSideMenu();
-      }
-    };
+    if (current) {
+      current.classList.add('fade-in'); // 动画开始，添加对应的类
 
-    return (
-      <>
-        <header id='page-header' ref={headerRef}>
-          <nav className='header-left'>
-            <button
-              className='menu-button'
-              onClick={switchSideMenu}
-            >
-              <svg
-                width='24px'
-                height='24px'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeWidth='2'
-              >
-                <line x1='3' y1='6' x2='21' y2='6' />
-                <line x1='3' y1='12' x2='21' y2='12' />
-                <line x1='3' y1='18' x2='21' y2='18' />
-              </svg>
-            </button>
-            <NavLink
-              className='home-link'
-              to='/'
-              onClick={closeSideMenu}
-            >
-              <div className='avatar' />
-              <div className='name'>BearBin</div>
-            </NavLink>
-          </nav>
-          <nav className='header-right'>
-            {externalLinkList.map(({ href, title, Icon }) => (
-              <a
-                key={href}
-                title={title}
-                href={href}
-                rel='noreferrer'
-                target='_blank'
-              >
-                <Icon className='link-icon' />
-              </a>
-            ))}
-          </nav>
-        </header>
-        <div
-          id='side-modal-wrapper'
-          className='side-menu-close'
-          ref={sideMenuRef}
-          onClick={closeSideMenu}
-        >
-          <nav
-            className='modal'
-            onClick={(e) => e.stopPropagation()}
-          >
-            <NavLinks />
-          </nav>
-        </div>
-      </>
-    );
-  };
+      const onAnimationEnd = () => current.classList.remove('fade-in');
+      current.addEventListener('animationend', onAnimationEnd); // 检测动画结束，删除对应的类
+
+      return () => current.removeEventListener('animationend', onAnimationEnd);
+    }
+  }, [location]);
 
   return (
-    <HashRouter>
-      {createPortal(
-        <div id='global-background' />,
-        document.body
-      )}
-      <Header />
+    <>
+      <div id='global-background' />
+      <header id='page-header' ref={headerRef}>
+        <nav className='header-left'>
+          <button
+            className='menu-button'
+            onClick={switchSideMenu}
+          >
+            <svg
+              width='24px'
+              height='24px'
+              fill='none'
+              stroke='currentColor'
+              strokeLinecap='round'
+              strokeWidth='2'
+            >
+              <line x1='3' y1='6' x2='21' y2='6' />
+              <line x1='3' y1='12' x2='21' y2='12' />
+              <line x1='3' y1='18' x2='21' y2='18' />
+            </svg>
+          </button>
+          <NavLink
+            className='home-link'
+            to='/'
+            onClick={closeSideMenu}
+          >
+            <div className='avatar' />
+            <div className='name'>BearBin</div>
+          </NavLink>
+        </nav>
+        <nav className='header-right'>
+          {externalLinkList.map(({ href, title, Icon }) => (
+            <a
+              key={href}
+              title={title}
+              href={href}
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Icon className='link-icon' />
+            </a>
+          ))}
+        </nav>
+      </header>
+      <div
+        id='side-modal-wrapper'
+        className='side-menu-close'
+        ref={sideMenuRef}
+        onClick={closeSideMenu}
+      >
+        <nav
+          className='modal'
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MenuList onClick={closeSideMenu} />
+        </nav>
+      </div>
       <div id='page-container'>
         <aside id='page-sidebar'>
           <nav className='modal'>
-            <NavLinks />
+            <MenuList onClick={closeSideMenu} />
           </nav>
           <footer>
             <a
@@ -198,17 +175,12 @@ const App: React.FC = () => {
           <article id='article-base' ref={articleRef}>
             <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
               <Routes>
-                {routes.map(({ path, Component }) => {
+                {router.map(({ path, Component }) => {
                   return (
                     <Route
                       key={path}
                       path={path}
-                      element={
-                        <ComponentTransition
-                          Component={Component}
-                          animationClass='fade-in'
-                          elementRef={articleRef}
-                        />
+                      element={<Component />
                       }
                     />
                   );
@@ -218,7 +190,7 @@ const App: React.FC = () => {
           </article>
         </main>
       </div>
-    </HashRouter>
+    </>
   );
 };
 
