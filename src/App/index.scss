@@ -1,14 +1,14 @@
 @use 'sass:math';
 @use 'sass:color';
 
-@import './styles/common'; // 共用样式
-@import './styles/article'; // 内容
-@import './components/index'; // 组件
+@import '@/styles/common'; // 共用样式
+@import '@/styles/article'; // 内容
+@import '@/components/index'; // 组件
 
 // 思源宋体
 @font-face {
     font-family: 'Source Han Serif';
-    src: url('./assets/font/SourceHanSerifSC-VF.otf') format('opentype');
+    src: url('@/assets/font/SourceHanSerifSC-VF.otf') format('opentype');
 }
 
 /* 滚动条
@@ -227,7 +227,7 @@ code,
         .avatar {
             width: $avator-height;
             height: $avator-height;
-            background-image: url('./assets/avatar.jpg');
+            background-image: url('@/assets/avatar.jpg');
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
@@ -426,7 +426,7 @@ code,
     left: 0;
     z-index: -1;
     background-color: #83b8ee;
-    background-image: url('./assets/global-background.jpg'), url('./assets/global-background-low.jpg');
+    background-image: url('@/assets/global-background.jpg'), url('@/assets/global-background-low.jpg');
     background-size: cover;
     background-attachment: local;
     background-position: 28% 40%;

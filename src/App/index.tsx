@@ -11,7 +11,7 @@ import { ComponentTransition } from '@/components';
 import { LoadingIcon } from '@/components/SvgIcon';
 import routes from '@/config/router';
 import externalLinkList from '@/config/externalLink';
-import './App.scss';
+import './index.scss';
 
 const App: React.FC = () => {
   /**
