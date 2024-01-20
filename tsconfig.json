@@ -9,6 +9,8 @@
     "rootDir": "src",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
     "jsx": "react",
     "lib": [
       "ESNext",
