@@ -1,7 +1,7 @@
-@use 'sass:color';
+@use "sass:color";
 
-@import '../../styles/common';
-@import '../common';
+@import "../../styles/common";
+@import "../common";
 
 .bearui-tabs {
     @at-root .bearui-tabs-panel {
@@ -22,21 +22,23 @@
             font-weight: 500;
 
             &::after {
-                content: '';
+                content: "";
                 position: absolute;
                 bottom: 0;
                 left: 50%;
                 width: 0;
                 height: 3px;
                 background: color.scale($default-block-bdcolor, $alpha: -36%);
-                transition: all $default-transition-duration cubic-bezier(0.175, 0.885, 0.32, 1.125);
+                transition: all $default-transition-duration
+                    cubic-bezier(0.175, 0.885, 0.32, 1.125);
             }
 
             &.bearui-tabs-label-active {
-                background-image:
-                    linear-gradient(0deg,
-                        color.scale($default-block-bdcolor, $alpha: -91%) 0,
-                        transparent 100%);
+                background-image: linear-gradient(
+                    0deg,
+                    color.scale($default-block-bdcolor, $alpha: -91%) 0,
+                    transparent 100%
+                );
 
                 &::after {
                     left: 0%;

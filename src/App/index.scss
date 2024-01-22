@@ -1,21 +1,21 @@
-@use 'sass:math';
-@use 'sass:color';
+@use "sass:math";
+@use "sass:color";
 
-@import '@/styles/common'; // 共用样式
-@import '@/styles/article'; // 内容
-@import '@/components/index'; // 组件
+@import "@/styles/common"; // 共用样式
+@import "@/styles/article"; // 内容
+@import "@/components/index"; // 组件
 
 // 思源宋体
 @font-face {
-    font-family: 'Source Han Serif';
-    src: url('@/assets/font/SourceHanSerifSC-VF.otf') format('opentype');
+    font-family: "Source Han Serif";
+    src: url("@/assets/font/SourceHanSerifSC-VF.otf") format("opentype");
 }
 
 /* 滚动条
 ------------------------------ */
 html {
     &::-webkit-scrollbar {
-        width: 16px
+        width: 16px;
     }
 
     &::-webkit-scrollbar-button {
@@ -30,7 +30,7 @@ html {
         background: transparent;
 
         &:hover {
-            background: rgba(0, 0, 0, 7%)
+            background: rgba(0, 0, 0, 7%);
         }
     }
 
@@ -41,7 +41,7 @@ html {
         box-shadow: inset 0 0 0 20px rgba(127, 127, 127, 70%);
 
         &:hover {
-            box-shadow: inset 0 0 0 20px rgb(127 127 127)
+            box-shadow: inset 0 0 0 20px rgb(127 127 127);
         }
 
         &:active {
@@ -74,7 +74,7 @@ a {
 pre,
 code,
 .code {
-    font-family: 'Source Code Pro', consolas, 'Jetbrains mono', monospace;
+    font-family: "Source Code Pro", consolas, "Jetbrains mono", monospace;
 }
 
 /* 菜单链接
@@ -87,15 +87,19 @@ code,
     margin: 0;
     padding: 0;
 
-    >li {
-        >a {
+    > li {
+        > a {
             $horizon-padding: 8px; // 水平边距
             $align-padding: 4px; // 垂直边距
             $indent-padding: 6px; // hover等状态下的边距
 
             @mixin before-show {
                 margin-right: $indent-padding;
-                background-color: color.scale($default-blue-bgcolor, $blue: 24%, $alpha: 40%);
+                background-color: color.scale(
+                    $default-blue-bgcolor,
+                    $blue: 24%,
+                    $alpha: 40%
+                );
                 width: $indent-padding;
             }
 
@@ -107,10 +111,10 @@ code,
             color: inherit;
             border: 1px solid transparent;
             border-radius: $border-radius-inner;
-            transition: all linear .32s;
+            transition: all linear 0.32s;
 
             &::before {
-                content: ' ';
+                content: " ";
                 display: inline-block;
                 margin-right: 0;
                 width: 0;
@@ -130,13 +134,27 @@ code,
 
             &:active {
                 color: #ffdf34;
-                background-color: color.scale($default-button-hover-bgcolor, $lightness: 34%);
-                border-color: color.scale($default-button-active-bdcolor, $lightness: 45%);
+                background-color: color.scale(
+                    $default-button-hover-bgcolor,
+                    $lightness: 34%
+                );
+                border-color: color.scale(
+                    $default-button-active-bdcolor,
+                    $lightness: 45%
+                );
             }
 
             &.active {
-                background-color: color.scale($default-button-hover-bgcolor, $lightness: 40%);
-                box-shadow: inset 0 0 20px color.scale($default-block-box-shadow-color, $lightness: 50%, $alpha: -53%);
+                background-color: color.scale(
+                    $default-button-hover-bgcolor,
+                    $lightness: 40%
+                );
+                box-shadow: inset 0 0 20px
+                    color.scale(
+                        $default-block-box-shadow-color,
+                        $lightness: 50%,
+                        $alpha: -53%
+                    );
                 pointer-events: none;
 
                 &::before {
@@ -159,7 +177,7 @@ code,
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: .3em .6em;
+    padding: 0.3em 0.6em;
     box-shadow: 0 0 12px 4px $default-block-box-shadow-color;
     background-color: color.adjust($header-bgcolor, $alpha: -0.08);
     user-select: none;
@@ -190,7 +208,10 @@ code,
 
         &:active {
             border-color: $default-button-active-bdcolor;
-            background-color: color.scale($default-link-bgcolor, $lightness: 40%);
+            background-color: color.scale(
+                $default-link-bgcolor,
+                $lightness: 40%
+            );
         }
 
         @media (max-width: 1024px) {
@@ -210,7 +231,10 @@ code,
         }
 
         &:active {
-            background-color: color.scale($default-button-hover-bgcolor, $lightness: 35%);
+            background-color: color.scale(
+                $default-button-hover-bgcolor,
+                $lightness: 35%
+            );
             box-shadow: inset 0 0 4px $default-button-hover-bgcolor;
         }
     }
@@ -227,7 +251,7 @@ code,
         .avatar {
             width: $avator-height;
             height: $avator-height;
-            background-image: url('@/assets/avatar.jpg');
+            background-image: url("@/assets/avatar.jpg");
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
@@ -236,14 +260,17 @@ code,
         }
 
         &.active {
-            background-color: color.scale($default-button-hover-bgcolor, $lightness: 35%);
+            background-color: color.scale(
+                $default-button-hover-bgcolor,
+                $lightness: 35%
+            );
         }
     }
 
     .header-right {
         @include flex-center;
 
-        >a {
+        > a {
             @include flex-center;
 
             width: 40px;
@@ -309,23 +336,26 @@ code,
 
         @include narrow-hide-pad;
 
-        >nav {
+        > nav {
             flex: 1 0;
             padding: math.div($default-block-padding, math.div(5, 3));
             overflow: hidden;
         }
 
-        >footer {
+        > footer {
             flex: 0 0 44px;
 
-            >a {
+            > a {
                 @include flex-center;
 
                 height: 100%;
                 border-radius: 0 0 0 $default-border-radius;
                 text-decoration: none;
                 color: $default-font-color;
-                background-color: color.scale($default-blue-bgcolor, $lightness: 25%);
+                background-color: color.scale(
+                    $default-blue-bgcolor,
+                    $lightness: 25%
+                );
                 transition: all ease-in 0.44s;
 
                 &:hover {
@@ -385,13 +415,13 @@ code,
     user-select: none;
     overflow: hidden;
     z-index: 999;
-    transition: background-color ease-in-out .4s;
+    transition: background-color ease-in-out 0.4s;
 
     &.side-menu-close {
         background-color: transparent;
         pointer-events: none;
 
-        >nav {
+        > nav {
             transform: translateX(-100vw);
         }
     }
@@ -399,12 +429,12 @@ code,
     &.side-menu-open {
         background-color: rgba(127, 127, 127, 37%);
 
-        >nav {
+        > nav {
             transform: translateX(0);
         }
     }
 
-    >nav {
+    > nav {
         box-sizing: border-box;
         width: 320px;
         max-width: calc(100vw - $zone-gap - $modal-margin);
@@ -412,7 +442,7 @@ code,
         padding: 6px;
         border-radius: $default-border-radius;
         background-color: #f7f7f7;
-        transition: transform ease-in-out .4s;
+        transition: transform ease-in-out 0.4s;
     }
 }
 
@@ -426,7 +456,8 @@ code,
     left: 0;
     z-index: -1;
     background-color: #83b8ee;
-    background-image: url('@/assets/global-background.jpg'), url('@/assets/global-background-low.jpg');
+    background-image: url("@/assets/global-background.jpg"),
+        url("@/assets/global-background-low.jpg");
     background-size: cover;
     background-attachment: local;
     background-position: 28% 40%;

@@ -1,7 +1,7 @@
-@use 'sass:color';
-@use 'sass:math';
+@use "sass:color";
+@use "sass:math";
 
-@import '../../styles/common';
+@import "../../styles/common";
 
 $card-gap: 0.95em;
 
@@ -10,7 +10,7 @@ $card-gap: 0.95em;
     flex-wrap: wrap;
     gap: $card-gap;
 
-    +.link-card-list {
+    + .link-card-list {
         margin-top: $card-gap;
     }
 
@@ -19,19 +19,27 @@ $card-gap: 0.95em;
         $card-border-width: 2px;
         $card-padding: math.div($card-border-radius, 1.5);
         $transition-duration: 0.6s;
-        $link-color: color.adjust($default-block-bdcolor, $lightness: -20%, $alpha: 1);
-    
+        $link-color: color.adjust(
+            $default-block-bdcolor,
+            $lightness: -20%,
+            $alpha: 1
+        );
+
         box-sizing: border-box;
         display: block;
         width: 380px;
         height: 158px;
         padding: $card-padding;
         border-radius: $card-border-radius;
-        border: $card-border-width solid color.adjust($default-block-bdcolor, $lightness: 20%, $alpha: - 0.45);
-        transition:
-            border-color ease-out $transition-duration,
+        border: $card-border-width solid
+            color.adjust(
+                $default-block-bdcolor,
+                $lightness: 20%,
+                $alpha: - 0.45
+            );
+        transition: border-color ease-out $transition-duration,
             box-shadow ease-out math.div($transition-duration, 1.5);
-    
+
         &,
         &:hover,
         &:active,
@@ -39,61 +47,76 @@ $card-gap: 0.95em;
             color: $link-color;
             text-decoration: none;
         }
-    
+
         @media (max-width: 600px) {
             max-width: calc(100vw - 2 * (1px + $default-block-padding));
             height: 120px;
-    
+
             .link-card-inner {
                 padding: 0.65em 1.2em;
             }
         }
-    
+
         .link-card-inner {
             @include flex-center;
-    
+
             box-sizing: border-box;
             height: 100%;
             padding: 0.65em 1.4em;
-            box-shadow: inset 0 0 24px color.scale($default-block-bdcolor, $lightness: 65%, $alpha: -15%);
+            box-shadow: inset 0 0 24px
+                color.scale(
+                    $default-block-bdcolor,
+                    $lightness: 65%,
+                    $alpha: -15%
+                );
             border-radius: math.div($card-border-radius, 1.5);
             font-size: 1.15em;
             color: inherit;
             text-decoration: none;
             gap: 10px;
             transition: box-shadow ease-out $transition-duration;
-    
+
             .link-card-icon {
                 flex: 0 1 80px;
                 min-width: 60px;
                 transition: transform ease-in-out $transition-duration;
             }
-    
+
             .link-card-text {
                 flex: 1 1 210px;
             }
         }
-    
+
         &.noicon {
             .link-card-inner {
                 @include flex-center;
             }
         }
-    
+
         &:hover {
-            border-color: color.adjust($default-block-bdcolor, $lightness: 5%, $alpha: - 0.13);
-    
+            border-color: color.adjust(
+                $default-block-bdcolor,
+                $lightness: 5%,
+                $alpha: - 0.13
+            );
+
             .link-card-inner {
-                box-shadow: inset 0 0 24px 10px color.scale($default-block-bdcolor, $lightness: 64%, $alpha: -15%);
+                box-shadow: inset 0 0 24px 10px
+                    color.scale(
+                        $default-block-bdcolor,
+                        $lightness: 64%,
+                        $alpha: -15%
+                    );
             }
-    
+
             .link-card-icon {
                 transform: scale(1.14);
             }
         }
-    
+
         &:active {
-            box-shadow: 0 0 12px 2px color.scale($default-block-bdcolor, $lightness: 44%);
+            box-shadow: 0 0 12px 2px
+                color.scale($default-block-bdcolor, $lightness: 44%);
         }
     }
 }

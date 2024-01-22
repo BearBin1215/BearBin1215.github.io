@@ -1,7 +1,7 @@
-@use 'sass:color';
+@use "sass:color";
 
-@import '../../styles/common';
-@import '../common';
+@import "../../styles/common";
+@import "../common";
 
 .bearui-collapse {
     .bearui-collapse-label {
@@ -19,7 +19,7 @@
         user-select: none;
 
         &::before {
-            content: ' ';
+            content: " ";
             display: inline-block;
             width: 16px;
             height: 4px;
@@ -36,7 +36,8 @@
 
     .bearui-collapse-content {
         padding: 8px;
-        border: 1px solid color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -65%);
+        border: 1px solid
+            color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -65%);
 
         @media (max-width: 600px) {
             padding: 4px;

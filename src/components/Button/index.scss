@@ -1,6 +1,6 @@
-@use 'sass:color';
+@use "sass:color";
 
-@import '../common';
+@import "../common";
 
 .bearui-button {
     display: inline-block;
@@ -38,10 +38,8 @@
         color: $default-font-color;
         background-color: #fff;
         cursor: pointer;
-        transition:
-            color .3s linear,
-            border-color .3s linear,
-            background-color .3s linear;
+        transition: color 0.3s linear, border-color 0.3s linear,
+            background-color 0.3s linear;
 
         &:hover {
             color: $primary-color;
@@ -55,13 +53,25 @@
 
             &:hover {
                 color: #fff;
-                border-color: color.scale($primary-color, $lightness: $default-lighten-amount);
-                background-color: color.scale($primary-color, $lightness: $default-lighten-amount);
+                border-color: color.scale(
+                    $primary-color,
+                    $lightness: $default-lighten-amount
+                );
+                background-color: color.scale(
+                    $primary-color,
+                    $lightness: $default-lighten-amount
+                );
             }
 
             &:active {
-                border-color: color.scale($primary-color, $lightness: - $default-darken-amount);
-                background-color: color.scale($primary-color, $lightness: - $default-darken-amount);
+                border-color: color.scale(
+                    $primary-color,
+                    $lightness: - $default-darken-amount
+                );
+                background-color: color.scale(
+                    $primary-color,
+                    $lightness: - $default-darken-amount
+                );
             }
         }
 
@@ -72,13 +82,25 @@
 
             &:hover {
                 color: #fff;
-                border-color: color.scale($danger-color, $lightness: $default-lighten-amount);
-                background-color: color.scale($danger-color, $lightness: $default-lighten-amount);
+                border-color: color.scale(
+                    $danger-color,
+                    $lightness: $default-lighten-amount
+                );
+                background-color: color.scale(
+                    $danger-color,
+                    $lightness: $default-lighten-amount
+                );
             }
 
             &:active {
-                border-color: color.scale($danger-color, $lightness: - $default-darken-amount);
-                background-color: color.scale($danger-color, $lightness: - $default-darken-amount);
+                border-color: color.scale(
+                    $danger-color,
+                    $lightness: - $default-darken-amount
+                );
+                background-color: color.scale(
+                    $danger-color,
+                    $lightness: - $default-darken-amount
+                );
             }
         }
 
@@ -93,8 +115,14 @@
             }
 
             &:active {
-                border-color: color.scale($flat-color, $lightness: - $default-darken-amount);
-                background-color: color.scale($flat-color, $lightness: - $default-darken-amount);
+                border-color: color.scale(
+                    $flat-color,
+                    $lightness: - $default-darken-amount
+                );
+                background-color: color.scale(
+                    $flat-color,
+                    $lightness: - $default-darken-amount
+                );
             }
         }
 
@@ -109,11 +137,17 @@
             color: $link-color;
 
             &:hover {
-                color: color.scale($link-color, $lightness: $default-lighten-amount);
+                color: color.scale(
+                    $link-color,
+                    $lightness: $default-lighten-amount
+                );
             }
 
             &:active {
-                color: color.scale($link-color, $lightness: - $default-darken-amount);
+                color: color.scale(
+                    $link-color,
+                    $lightness: - $default-darken-amount
+                );
             }
         }
     }

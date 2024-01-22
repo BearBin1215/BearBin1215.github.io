@@ -1,6 +1,6 @@
-@use 'sass:color';
+@use "sass:color";
 
-@import './common';
+@import "./common";
 
 a {
     color: #2a4a8f;
@@ -15,25 +15,19 @@ a {
 }
 
 article {
-
     /* 各级标题
     ------------------------------ */
     h1 {
         display: flex;
         justify-content: center;
         align-items: flex-end;
-        margin: .2em 0 0;
+        margin: 0.2em 0 0;
         font-size: 1.75em;
         height: 40px;
         color: #1f3668;
         border-bottom: 2px inset #abb8e8;
-        font-family:
-            'Times New Roman',
-            Times,
-            '思源宋体',
-            'Source Han Serif',
-            'Source Han Serif SC',
-            sans-serif;
+        font-family: "Times New Roman", Times, "思源宋体", "Source Han Serif",
+            "Source Han Serif SC", sans-serif;
     }
 
     p {
@@ -72,7 +66,7 @@ article {
 
     code,
     pre {
-        font-family: Consolas, 'jetbrains mono', monospace;
+        font-family: Consolas, "jetbrains mono", monospace;
     }
 
     code {
@@ -80,6 +74,7 @@ article {
         padding: 0.1em 0.175em;
         border: 1px solid #bbb;
         border-radius: 0.15em;
-        box-shadow: inset 0 0 0.4em color.scale($default-button-hover-bgcolor, $lightness: 25%);
+        box-shadow: inset 0 0 0.4em
+            color.scale($default-button-hover-bgcolor, $lightness: 25%);
     }
 }
