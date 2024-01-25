@@ -16,17 +16,17 @@ interface viewPointItem extends BannerProps {
 const viewpointList: viewPointItem[] = [
   {
     key: 1,
-    text: <>爱怎么说话是自己的事，说完别人怎么看是别人的事。</>,
+    text: '爱怎么说话是自己的事，说完别人怎么看是别人的事。',
     signature: 'Jan 30th, 2023',
   },
   {
     key: 2,
-    text: <>“你不知道更好”是不告诉别人某件事情的最坏理由，拿出一幅懂的样子不说无异于摆架子。</>,
+    text: '“你不知道更好”是不告诉别人某件事情的最坏理由，拿出一幅懂的样子不说无异于摆架子。',
     signature: 'Mar 25th, 2023',
   },
   {
     key: 3,
-    text: <>不确定一件事在他人的角度是好是坏而无法决定，那就从自己的角度去决定，不要把事情复杂化。</>,
+    text: '不确定一件事在他人的角度是好是坏而无法决定，那就从自己的角度去决定，不要把事情复杂化。',
     signature: 'Mar 28th, 2023',
   },
   {
@@ -49,22 +49,22 @@ const viewpointList: viewPointItem[] = [
   },
   {
     key: 5,
-    text: <>自我放弃的人没有被拯救的条件和资格。</>,
+    text: '自我放弃的人没有被拯救的条件和资格。',
     signature: 'Apr 16th, 2023',
   },
   {
     key: 6,
-    text: <>顾虑过多的结果是寸步难行。</>,
+    text: '顾虑过多的结果是寸步难行。',
     signature: 'Apr 17th, 2023',
   },
   {
     key: 7,
-    text: <>人生不能用控制变量法，事后回想的“当初应该”未必是真应该。</>,
+    text: '人生不能用控制变量法，事后回想的“当初应该”未必是真应该。',
     signature: 'Apr 21st, 2023',
   },
   {
     key: 8,
-    text: <>逆境使人愈发觉得事事不顺，愈发觉得自己身处泥沼之中。</>,
+    text: '逆境使人愈发觉得事事不顺，愈发觉得自己身处泥沼之中。',
     signature: 'Apr 23rd, 2023',
   },
   {
@@ -87,7 +87,7 @@ const viewpointList: viewPointItem[] = [
   },
   {
     key: 10,
-    text: <>如有必要，当增实体。</>,
+    text: '如有必要，当增实体。',
     signature: 'May 10th, 2023',
   },
   {
@@ -112,7 +112,7 @@ const viewpointList: viewPointItem[] = [
   },
   {
     key: 13,
-    text: <>Make the best use of what is in your power, and take the rest as it happens.</>,
+    text: 'Make the best use of what is in your power, and take the rest as it happens.',
     source: (
       <a
         href='https://zh.wikipedia.org/wiki/%E6%84%9B%E6%AF%94%E5%85%8B%E6%B3%B0%E5%BE%B7'
@@ -126,23 +126,28 @@ const viewpointList: viewPointItem[] = [
   },
   {
     key: 14,
-    text: <>不要指望一个人在全局发挥大用，也不要忽略一个人对全局的作用。</>,
+    text: '不要指望一个人在全局发挥大用，也不要忽略一个人对全局的作用。',
     signature: 'Oct 4th, 2023',
   },
   {
     key: 15,
-    text: <>“不知道”不是错误，不值得一个劲地嘲笑。</>,
+    text: '“不知道”不是错误，不值得一个劲地嘲笑。',
     signature: 'Oct 20th, 2023',
   },
   {
     key: 16,
-    text: <>“……学得足够好就能……/在……方面干的足够顶尖就……”（即“厉害的人做什么都厉害”）是完全不负责任的唯心主义言论。</>,
+    text: '“……学得足够好就能……/在……方面干的足够顶尖就……”（即“厉害的人做什么都厉害”）是完全不负责任的唯心主义言论。',
     signature: 'Nov 27th, 2023',
   },
   {
     key: 17,
-    text: <>别把不幸当做个性。</>,
+    text: '别把不幸当做个性。',
     signature: 'Dec 22nd, 2023',
+  },
+  {
+    key: 18,
+    text: '必要的时候少想一些。',
+    signature: 'Jan 25th, 2024',
   },
 ];
 
@@ -152,12 +157,12 @@ const viewpointList: viewPointItem[] = [
 const mgpViewpointList: viewPointItem[] = [
   {
     key: 1,
-    text: <>百科是给人看的，注意他人浏览体验的编辑者才是合格的。</>,
+    text: '百科是给人看的，注意他人浏览体验的编辑者才是合格的。',
     signature: 'Dec 10th, 2022',
   },
   {
     key: 2,
-    text: <>萌娘百科的存在不是必要的；因为一个东西（编辑、内容）没有必要而否认它同样是不合理的。</>,
+    text: '萌娘百科的存在不是必要的；因为一个东西（编辑、内容）没有必要而否认它同样是不合理的。',
     signature: 'Jun 19th, 2023',
   },
 ];
@@ -169,9 +174,7 @@ const Viewpoint: React.FC = () => {
 
   return (
     <>
-      <Banner
-        type='header'
-      >
+      <Banner type='header'>
         基本上都来自于
         <a
           href='https://mzh.moegirl.org.cn/_?curid=561478'
