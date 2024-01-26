@@ -149,6 +149,11 @@ const viewpointList: viewPointItem[] = [
     text: '必要的时候少想一些。',
     signature: 'Jan 25th, 2024',
   },
+  {
+    key: 19,
+    text: '谦虚是美德，但凡尔赛不是谦虚。',
+    signature: 'Jan 26th, 2024',
+  },
 ];
 
 /**
