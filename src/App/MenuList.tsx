@@ -1,7 +1,8 @@
 import React, { HTMLAttributes, MouseEvent } from 'react';
 import { NavLink } from 'react-router-dom';
 import type { To } from 'react-router';
-import routes, { Route } from '@/config/router';
+import routes from '@/config/router';
+import type { Route } from '@/config/router';
 import { Collapse } from '@/components';
 
 interface ParentListProps extends Omit<HTMLAttributes<HTMLUListElement>, 'onClick'> {

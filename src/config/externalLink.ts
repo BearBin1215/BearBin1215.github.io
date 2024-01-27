@@ -25,5 +25,4 @@ const externalLinkList: ExternalLink[] = [
   },
 ];
 
-export { ExternalLink };
 export default externalLinkList;
