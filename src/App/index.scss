@@ -1,9 +1,10 @@
 @use "sass:math";
 @use "sass:color";
 
-@import "@/styles/common"; // 共用样式
-@import "@/styles/article"; // 内容
-@import "@/components/index"; // 组件
+@import "/src/styles/common"; // 共用样式
+@import "/src/styles/menu"; // 路由菜单
+@import "/src/styles/article"; // 内容
+@import "/src/components/index"; // 组件
 
 // 思源宋体
 @font-face {
@@ -75,76 +76,6 @@ pre,
 code,
 .code {
     font-family: "Source Code Pro", consolas, "Jetbrains mono", monospace;
-}
-
-/* 菜单链接
------------------------------- */
-.menu-list {
-    $border-radius-inner: math.div($default-border-radius, math.div(5, 3));
-    $border-radius-outer: math.div($default-border-radius, math.div(4, 3));
-
-    margin: 0;
-    padding: 0;
-    list-style: none;
-
-    a {
-        display: flex;
-        align-items: center;
-        padding: 2px 6px;
-        height: 28px;
-        text-decoration: none;
-        color: inherit;
-        border: 1px solid transparent;
-        border-radius: $border-radius-inner;
-        transition: all linear 0.32s;
-
-        &.router-link {
-            &.active {
-                background-color: color.scale(
-                    $default-button-hover-bgcolor,
-                    $lightness: 40%
-                );
-                box-shadow: inset 0 0 20px
-                    color.scale(
-                        $default-block-box-shadow-color,
-                        $lightness: 50%,
-                        $alpha: -53%
-                    );
-                pointer-events: none;
-            }
-
-            &:active {
-                background-color: color.scale(
-                    $default-button-hover-bgcolor,
-                    $lightness: 34%
-                );
-                border-color: color.scale(
-                    $default-button-active-bdcolor,
-                    $lightness: 45%
-                );
-            }
-
-            &:hover {
-                background-color: $default-button-hover-bgcolor;
-            }
-        }
-
-        &.bearui-collapse-label {
-            &:hover {
-                background-color: color.adjust($default-button-hover-bgcolor, $lightness: 5%);
-            }
-        }
-    }
-
-    ul {
-        list-style: none;
-        padding-left: 0;
-        margin-left: 1.2em;
-
-        a {
-            border-radius: 0 $border-radius-inner $border-radius-inner 0;
-        }
-    }
 }
 
 /* 顶部

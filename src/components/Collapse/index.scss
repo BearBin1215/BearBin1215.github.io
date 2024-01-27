@@ -68,7 +68,7 @@
 
     &.bearui-collapse-list {
         .bearui-collapse-content {
-            border-left: 3px solid $default-button-hover-bgcolor;
+            border-left: 3px solid color.scale($default-button-hover-bgcolor, $lightness: 10%);
         }
     }
 }
