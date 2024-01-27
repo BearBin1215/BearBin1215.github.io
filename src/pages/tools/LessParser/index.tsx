@@ -99,11 +99,6 @@ const StyleParser: React.FC = () => {
         <SyntaxHighlighter language='css' style={a11yLight}>
           {lessParseResult}
         </SyntaxHighlighter>
-        {/* <textarea
-          readOnly
-          value={lessParseResult}
-          className='code'
-        /> */}
       </div>
       本来还想搓一个scss解析器上去，结果发现scss只能在node上运行（
     </>
