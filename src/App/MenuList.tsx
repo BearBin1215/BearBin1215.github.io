@@ -20,41 +20,37 @@ interface MenuListProps extends Omit<HTMLAttributes<HTMLUListElement>, 'onClick'
   onClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
 }
 
-const LinkNode: React.FC<LinkNodeProps> = ({ onClick, path, title }) => {
-  return (
-    <NavLink
-      to={path}
-      onClick={onClick}
-      className='router-link'
-    >
-      {title}
-    </NavLink>
-  );
-};
+const LinkNode: React.FC<LinkNodeProps> = ({ onClick, path, title }) => (
+  <NavLink
+    to={path}
+    onClick={onClick}
+    className='router-link'
+  >
+    {title}
+  </NavLink>
+);
 
-const ParentList: React.FC<ParentListProps> = ({ title, childrenList, onClick }) => {
-  return (
-    <Collapse type='list' label={title}>
-      {childrenList.map((route) => {
-        if ('children' in route) {
-          return (
-            <ParentList key={route.title} title={route.title} childrenList={route.children} onClick={onClick} />
-          );
-        }
+const ParentList: React.FC<ParentListProps> = ({ title, childrenList, onClick }) => (
+  <Collapse type='list' label={title}>
+    {childrenList.map((route) => {
+      if ('children' in route) {
         return (
-          <li key={route.title}>
-            <LinkNode
-              key={route.path}
-              path={route.path}
-              title={route.title}
-              onClick={onClick}
-            />
-          </li>
+          <ParentList key={route.title} title={route.title} childrenList={route.children} onClick={onClick} />
         );
-      })}
-    </Collapse>
-  );
-};
+      }
+      return (
+        <li key={route.title}>
+          <LinkNode
+            key={route.path}
+            path={route.path}
+            title={route.title}
+            onClick={onClick}
+          />
+        </li>
+      );
+    })}
+  </Collapse>
+);
 
 const MenuList: React.FC<MenuListProps> = ({ onClick, ...props }) => {
   return (
