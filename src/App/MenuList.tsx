@@ -32,23 +32,23 @@ const LinkNode: React.FC<LinkNodeProps> = ({ onClick, path, title }) => (
 
 const ParentList: React.FC<ParentListProps> = ({ title, childrenList, onClick }) => (
   <Collapse type='list' label={title}>
-    {childrenList.map((route) => {
-      if ('children' in route) {
-        return (
-          <ParentList key={route.title} title={route.title} childrenList={route.children} onClick={onClick} />
-        );
-      }
-      return (
-        <li key={route.title}>
-          <LinkNode
-            key={route.path}
-            path={route.path}
-            title={route.title}
-            onClick={onClick}
-          />
-        </li>
-      );
-    })}
+    {childrenList.map((route) => 'path' in route ? (
+      <li key={route.title}>
+        <LinkNode
+          key={route.path}
+          path={route.path}
+          title={route.title}
+          onClick={onClick}
+        />
+      </li>
+    ) : (
+      <ParentList
+        key={route.title}
+        title={route.title}
+        childrenList={route.children}
+        onClick={onClick}
+      />
+    ))}
   </Collapse>
 );
 
@@ -65,7 +65,12 @@ const MenuList: React.FC<MenuListProps> = ({ onClick, ...props }) => {
               onClick={onClick}
             />
           ) : (
-            <ParentList title={route.title} key={route.title} childrenList={route.children} onClick={onClick} />
+            <ParentList
+              key={route.title}
+              title={route.title}
+              childrenList={route.children}
+              onClick={onClick}
+            />
           )}
         </li>
       ))}
