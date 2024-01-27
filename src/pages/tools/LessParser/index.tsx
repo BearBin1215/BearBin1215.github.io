@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { render as parseLess } from 'less';
 import debounce from 'lodash/debounce';
@@ -35,6 +36,7 @@ const StyleParser: React.FC = () => {
     parseLess(defaultLessCode).then(({ css }) => {
       setLessParseResult(css);
     });
+    SyntaxHighlighter.registerLanguage('css', css);
   }, []);
 
   /**
