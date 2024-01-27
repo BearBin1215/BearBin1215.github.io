@@ -153,13 +153,13 @@ const App: React.FC = () => {
           className='modal'
           onClick={(e) => e.stopPropagation()}
         >
-          <MenuList onClick={closeSideMenu} />
+          <MenuList onLinkClick={closeSideMenu} />
         </nav>
       </div>
       <div id='page-container'>
         <aside id='page-sidebar'>
           <nav className='modal'>
-            <MenuList onClick={closeSideMenu} />
+            <MenuList onLinkClick={closeSideMenu} />
           </nav>
           <footer>
             <a

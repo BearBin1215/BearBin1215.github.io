@@ -8,7 +8,7 @@ interface RouteBasic {
 }
 
 /**
- * 叶子路由
+ * 页面路由
  */
 interface RoutePage extends RouteBasic {
   path: string;
@@ -16,10 +16,10 @@ interface RoutePage extends RouteBasic {
 }
 
 /**
- * 路由列表
+ * 二级路由
  */
 interface RouteList extends RouteBasic {
-  children: Route[];
+  children: RoutePage[];
 }
 
 type Route = RoutePage | RouteList;
@@ -70,13 +70,12 @@ const flattenRoutes = (routes: Route[]) => {
     if ('path' in route) {
       flattened.push(route);
     } else {
-      flattened.push(...flattenRoutes(route.children));
+      flattened.push(...route.children);
     }
   }
 
   return flattened;
 };
 
-export type { Route };
 export { flattenRoutes };
 export default routes;
