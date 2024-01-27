@@ -180,8 +180,7 @@ const App: React.FC = () => {
                     <Route
                       key={path}
                       path={path}
-                      element={<Component />
-                      }
+                      element={<Component />}
                     />
                   );
                 })}
