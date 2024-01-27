@@ -12,18 +12,23 @@ interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
    */
   expanded?: boolean;
 
+  /**
+   * 折叠框类型，目前用于兼容menu
+   */
+  type?: 'normal' | 'list';
+
   children: ReactNode;
 }
 
 /**
  * 折叠组件
  */
-const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, className, ...props }) => {
+const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, className, type = 'normal', ...props }) => {
   const [isExpanded, setExpanded] = useState(expanded);
 
   const contentWrapperRef = useRef<HTMLDivElement>(null);
 
-  const contentRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement & HTMLUListElement>(null);
 
   useEffect(() => {
     if (contentWrapperRef.current && !expanded) {
@@ -43,27 +48,42 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
     setExpanded(!isExpanded);
   };
 
+  const WrapperTagName = (() => {
+    switch (type) {
+      case 'list':
+        return 'ul';
+      case 'normal':
+      default:
+        return 'div';
+    }
+  })();
+
   return (
     <div
-      className={classNames('bearui-collapse', `bearui-collapse-${isExpanded ? 'expended' : 'collapsed'}`, className)}
+      className={classNames(
+        'bearui-collapse',
+        `bearui-collapse-${isExpanded ? 'expended' : 'collapsed'}`,
+        `bearui-collapse-${type}`,
+        className
+      )}
       {...props}
     >
-      <div
+      <a
         className='bearui-collapse-label'
         onClick={handleExpand}
       >
         {label || (isExpanded ? '折叠' : '展开')}
-      </div>
+      </a>
       <div
         className='bearui-collapse-content-wrapper'
         ref={contentWrapperRef}
       >
-        <div
+        <WrapperTagName
           className='bearui-collapse-content'
           ref={contentRef}
         >
           {children}
-        </div>
+        </WrapperTagName>
       </div>
     </div>
   );

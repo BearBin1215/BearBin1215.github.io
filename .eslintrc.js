@@ -40,6 +40,13 @@ module.exports = {
     },
   },
   rules: {
+    'no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': [
+      2,
+      {
+        varsIgnorePattern: '^_',
+      },
+    ],
     'logical-assignment-operators': 2,
     'no-new-func': 2,
     'no-new-object': 2,
@@ -63,12 +70,6 @@ module.exports = {
       'always',
     ],
     'no-console': 0,
-    'no-unused-vars': [
-      1,
-      {
-        varsIgnorePattern: '^_',
-      },
-    ],
     'no-redeclare': 1,
     'no-unreachable': 1,
     'no-inner-declarations': 0,
@@ -133,7 +134,6 @@ module.exports = {
     'prefer-exponentiation-operator': 2,
     'require-await': 2,
     'arrow-parens': 2,
-    'no-use-before-define': 2,
     'prefer-destructuring': 2,
     'import/no-duplicates': 2,
     'import/order': 2,
@@ -159,6 +159,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     'jsx-a11y/no-static-element-interactions': 0,
+    'jsx-a11y/anchor-is-valid': 0,
   },
   overrides: [
     {

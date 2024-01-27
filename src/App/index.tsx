@@ -8,7 +8,7 @@ import {
 import throttle from 'lodash/throttle';
 import MenuList from './MenuList';
 import { LoadingIcon } from '@/components/SvgIcon';
-import router from '@/config/router';
+import router, { flattenRoutes } from '@/config/router';
 import externalLinkList from '@/config/externalLink';
 import './index.scss';
 
@@ -175,7 +175,7 @@ const App: React.FC = () => {
           <article id='article-base' ref={articleRef}>
             <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
               <Routes>
-                {router.map(({ path, Component }) => {
+                {flattenRoutes(router).map(({ path, Component }) => {
                   return (
                     <Route
                       key={path}

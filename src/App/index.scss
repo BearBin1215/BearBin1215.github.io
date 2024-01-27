@@ -83,67 +83,22 @@ code,
     $border-radius-inner: math.div($default-border-radius, math.div(5, 3));
     $border-radius-outer: math.div($default-border-radius, math.div(4, 3));
 
-    list-style: none;
     margin: 0;
     padding: 0;
+    list-style: none;
 
-    > li {
-        > a {
-            $horizon-padding: 8px; // 水平边距
-            $align-padding: 4px; // 垂直边距
-            $indent-padding: 6px; // hover等状态下的边距
+    a {
+        display: flex;
+        align-items: center;
+        padding: 2px 6px;
+        height: 28px;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid transparent;
+        border-radius: $border-radius-inner;
+        transition: all linear 0.32s;
 
-            @mixin before-show {
-                margin-right: $indent-padding;
-                background-color: color.scale(
-                    $default-blue-bgcolor,
-                    $blue: 24%,
-                    $alpha: 40%
-                );
-                width: $indent-padding;
-            }
-
-            display: flex;
-            align-items: center;
-            padding: $align-padding $horizon-padding;
-            height: 28px;
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid transparent;
-            border-radius: $border-radius-inner;
-            transition: all linear 0.32s;
-
-            &::before {
-                content: " ";
-                display: inline-block;
-                margin-right: 0;
-                width: 0;
-                height: 20px;
-                background-color: transparent;
-                border-radius: math.div($indent-padding, 2);
-                transition: all 0.28s ease-out;
-            }
-
-            &:hover {
-                background-color: $default-button-hover-bgcolor;
-
-                &::before {
-                    @include before-show;
-                }
-            }
-
-            &:active {
-                color: #ffdf34;
-                background-color: color.scale(
-                    $default-button-hover-bgcolor,
-                    $lightness: 34%
-                );
-                border-color: color.scale(
-                    $default-button-active-bdcolor,
-                    $lightness: 45%
-                );
-            }
-
+        &.router-link {
             &.active {
                 background-color: color.scale(
                     $default-button-hover-bgcolor,
@@ -156,11 +111,38 @@ code,
                         $alpha: -53%
                     );
                 pointer-events: none;
-
-                &::before {
-                    @include before-show;
-                }
             }
+
+            &:active {
+                background-color: color.scale(
+                    $default-button-hover-bgcolor,
+                    $lightness: 34%
+                );
+                border-color: color.scale(
+                    $default-button-active-bdcolor,
+                    $lightness: 45%
+                );
+            }
+
+            &:hover {
+                background-color: $default-button-hover-bgcolor;
+            }
+        }
+
+        &.bearui-collapse-label {
+            &:hover {
+                background-color: color.adjust($default-button-hover-bgcolor, $lightness: 5%);
+            }
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin-left: 1.2em;
+
+        a {
+            border-radius: 0 $border-radius-inner $border-radius-inner 0;
         }
     }
 }
