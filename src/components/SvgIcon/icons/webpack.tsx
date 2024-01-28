@@ -18,4 +18,3 @@ const WebpackIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 );
 
 export default WebpackIcon;
-

@@ -42,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.33.2",
     "html-webpack-plugin": "^5.5.4",
+    "mini-css-extract-plugin": "^2.7.7",
     "postcss": "^8.4.32",
     "postcss-loader": "^7.3.3",
     "sass": "^1.70.0",
