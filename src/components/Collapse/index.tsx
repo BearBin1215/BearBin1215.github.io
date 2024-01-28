@@ -8,7 +8,7 @@ interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
   label?: string;
 
   /**
-   * 默认展开
+   * 初始是否展开。默认不展开
    */
   expanded?: boolean;
 

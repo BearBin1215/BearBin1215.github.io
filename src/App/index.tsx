@@ -5,7 +5,7 @@ import {
   NavLink,
   useLocation
 } from 'react-router-dom';
-import throttle from 'lodash/throttle';
+import { throttle } from 'lodash-es';
 import MenuList from './MenuList';
 import { LoadingIcon } from '@/components/SvgIcon';
 import router, { flattenRoutes } from '@/config/router';

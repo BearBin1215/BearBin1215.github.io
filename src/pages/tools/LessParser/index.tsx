@@ -3,7 +3,7 @@ import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { render as parseLess } from 'less';
-import debounce from 'lodash/debounce';
+import { debounce } from 'lodash-es';
 import { Button } from '@/components';
 import { copyText } from '@/utils/clipboard';
 import saveFile from '@/utils/saveFile';
