@@ -1,9 +1,9 @@
 @use "sass:math";
 @use "sass:color";
 
-@import "/src/styles/common"; // 共用样式
-@import "/src/styles/menu"; // 路由菜单
-@import "/src/styles/article"; // 内容
+@import "./common"; // 共用样式
+@import "./menu"; // 路由菜单
+@import "./article"; // 内容
 @import "/src/components/index"; // 组件
 
 // 思源宋体

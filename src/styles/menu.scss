@@ -1,6 +1,8 @@
 @use "sass:math";
 @use "sass:color";
 
+@import "./common";
+
 /* 菜单链接
 ------------------------------ */
 .menu-list {
@@ -10,6 +12,16 @@
     margin: 0;
     padding: 0;
     list-style: none;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin-left: 1.2em;
+
+        a {
+            border-radius: 0 $border-radius-inner $border-radius-inner 0;
+        }
+    }
 
     a {
         display: flex;
@@ -57,21 +69,48 @@
                 background-color: $default-button-hover-bgcolor;
             }
         }
+    }
+}
 
-        &.bearui-collapse-label {
-            &:hover {
-                background-color: color.adjust($default-button-hover-bgcolor, $lightness: 5%);
-            }
+.menu-folder {
+    .menu-folder-label {
+        display: flex;
+        align-items: center;
+        column-gap: 4px;
+        cursor: pointer;
+        user-select: none;
+
+        &::before {
+            content: " ";
+            display: inline-block;
+            width: 16px;
+            height: 4px;
+            border-radius: 2px;
+            background: color.scale($default-block-bdcolor, $alpha: -36%);
+            transition: transform $default-transition-duration ease-out;
+        }
+
+        &:hover {
+            background-color: color.adjust(
+                $default-button-hover-bgcolor,
+                $lightness: 5%
+            );
         }
     }
 
-    ul {
-        list-style: none;
-        padding-left: 0;
-        margin-left: 1.2em;
-
-        a {
-            border-radius: 0 $border-radius-inner $border-radius-inner 0;
+    &.menu-folder-folded {
+        .menu-folder-label::before {
+            transform: rotate(270deg);
         }
+    }
+
+    .menu-folder-content-wrapper {
+        transition: height $default-transition-duration ease-out;
+        overflow: hidden;
+    }
+
+    .menu-folder-content {
+        border-left: 3px solid
+            color.scale($default-button-hover-bgcolor, $lightness: 10%);
     }
 }

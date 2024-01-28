@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 
-interface CollapseProps extends React.HTMLAttributes<HTMLDivElement | HTMLLIElement> {
+interface CollapseProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * 标题文字
    */
@@ -12,23 +12,18 @@ interface CollapseProps extends React.HTMLAttributes<HTMLDivElement | HTMLLIElem
    */
   expanded?: boolean;
 
-  /**
-   * 折叠框类型，目前用于兼容menu
-   */
-  type?: 'normal' | 'menu';
-
   children: React.ReactNode;
 }
 
 /**
  * 折叠组件
  */
-const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, className, type = 'normal', ...props }) => {
+const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, className, ...props }) => {
   const [isExpanded, setExpanded] = useState(expanded);
 
   const contentWrapperRef = useRef<HTMLDivElement>(null);
 
-  const contentRef = useRef<HTMLDivElement & HTMLUListElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (contentWrapperRef.current && !expanded) {
@@ -48,32 +43,11 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
     setExpanded(!isExpanded);
   };
 
-  const WrapperTagName = (() => {
-    switch (type) {
-      case 'menu':
-        return 'ul';
-      case 'normal':
-      default:
-        return 'div';
-    }
-  })();
-
-  const OuterContainerTagName = (() => {
-    switch (type) {
-      case 'menu':
-        return 'li';
-      case 'normal':
-      default:
-        return 'div';
-    }
-  })();
-
   return (
-    <OuterContainerTagName
+    <div
       className={classNames(
         'bearui-collapse',
         `bearui-collapse-${isExpanded ? 'expended' : 'collapsed'}`,
-        `bearui-collapse-${type}`,
         className
       )}
       {...props}
@@ -88,14 +62,14 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
         className='bearui-collapse-content-wrapper'
         ref={contentWrapperRef}
       >
-        <WrapperTagName
+        <div
           className='bearui-collapse-content'
           ref={contentRef}
         >
           {children}
-        </WrapperTagName>
+        </div>
       </div>
-    </OuterContainerTagName>
+    </div>
   );
 };
 

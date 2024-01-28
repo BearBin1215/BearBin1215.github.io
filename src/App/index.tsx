@@ -6,11 +6,11 @@ import {
   useLocation
 } from 'react-router-dom';
 import { throttle } from 'lodash-es';
-import MenuList from './MenuList';
+import Menu from './Menu';
 import { LoadingIcon } from '@/components/SvgIcon';
 import router, { flattenRoutes } from '@/config/router';
 import externalLinkList from '@/config/externalLink';
-import './index.scss';
+import '../styles/app.scss';
 
 const App: React.FC = () => {
   /**
@@ -153,13 +153,13 @@ const App: React.FC = () => {
           className='modal'
           onClick={(e) => e.stopPropagation()}
         >
-          <MenuList onLinkClick={closeSideMenu} />
+          <Menu onLinkClick={closeSideMenu} />
         </nav>
       </div>
       <div id='page-container'>
         <aside id='page-sidebar'>
           <nav className='modal'>
-            <MenuList onLinkClick={closeSideMenu} />
+            <Menu onLinkClick={closeSideMenu} />
           </nav>
           <footer>
             <a
