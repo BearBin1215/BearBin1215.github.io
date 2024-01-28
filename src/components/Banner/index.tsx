@@ -1,12 +1,12 @@
-import React, { ReactNode, HTMLAttributes } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-interface BannerProps extends HTMLAttributes<HTMLElement> {
+interface BannerProps extends React.HTMLAttributes<HTMLElement> {
   type?: 'default' | 'header';
   className?: string;
-  signature?: ReactNode;
-  children?: ReactNode;
-  source?: ReactNode;
+  signature?: React.ReactNode;
+  children?: React.ReactNode;
+  source?: React.ReactNode;
 }
 
 const Banner: React.FC<BannerProps> = ({ className, type, signature, source, children, ...props }) => {

@@ -1,10 +1,9 @@
-import { FC, SVGProps } from 'react';
 import { GitHubIcon, MGPIcon, BilibiliIcon } from '@/components/SvgIcon';
 
 interface ExternalLink {
   href: string;
   title: string;
-  Icon: FC<SVGProps<SVGSVGElement>>;
+  Icon: React.FC<React.SVGProps<SVGSVGElement>>;
 }
 
 const externalLinkList: ExternalLink[] = [

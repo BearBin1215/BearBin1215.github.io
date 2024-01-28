@@ -1,13 +1,13 @@
-import React, { HTMLAttributes, MouseEvent } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import routes from '@/config/router';
 import { Collapse } from '@/components';
 
-interface MenuListProps extends HTMLAttributes<HTMLUListElement> {
+interface MenuListProps extends React.HTMLAttributes<HTMLUListElement> {
   /**
    * 点击路由链接时间
    */
-  onLinkClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
+  onLinkClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 const MenuList: React.FC<MenuListProps> = ({ onLinkClick, ...props }) => {

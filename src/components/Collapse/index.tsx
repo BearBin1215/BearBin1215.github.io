@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, HTMLAttributes, ReactNode } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 
-interface CollapseProps extends HTMLAttributes<HTMLDivElement | HTMLLIElement> {
+interface CollapseProps extends React.HTMLAttributes<HTMLDivElement | HTMLLIElement> {
   /**
    * 标题文字
    */
@@ -17,7 +17,7 @@ interface CollapseProps extends HTMLAttributes<HTMLDivElement | HTMLLIElement> {
    */
   type?: 'normal' | 'menu';
 
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 /**

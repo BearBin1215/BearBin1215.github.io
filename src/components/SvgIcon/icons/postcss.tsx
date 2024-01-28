@@ -1,6 +1,6 @@
-import React, { SVGProps } from 'react';
+import React from 'react';
 
-const PostCSSIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
+const PostCSSIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 79 78'

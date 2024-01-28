@@ -1,6 +1,6 @@
-import React, { SVGProps } from 'react';
+import React from 'react';
 
-interface LoadingIconProps extends SVGProps<SVGSVGElement> {
+interface LoadingIconProps extends React.SVGProps<SVGSVGElement> {
   color?: string;
 }
 

@@ -1,7 +1,7 @@
-import React, { ReactNode, AnchorHTMLAttributes, HTMLAttributes } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface LinkCardProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * 长度等级（未使用）
    */
@@ -10,12 +10,12 @@ interface LinkCardProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * 左侧图标
    */
-  icon?: ReactNode | string;
+  icon?: React.ReactNode | string;
 
   /**
    * 右侧内容
    */
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 /**
@@ -45,8 +45,8 @@ const LinkCard: React.FC<LinkCardProps> = ({ length = 1, children, className, ic
   );
 };
 
-interface LinkCardWallProps extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode;
+interface LinkCardWallProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
 }
 
 /**

@@ -1,6 +1,6 @@
-import React, { SVGProps } from 'react';
+import React from 'react';
 
-const ReactIcon: React.FC<SVGProps<SVGSVGElement>> = (props) => (
+const ReactIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     viewBox='-10.5 -9.45 21 18.9'
     fill='none'

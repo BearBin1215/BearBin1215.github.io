@@ -1,4 +1,5 @@
-import { lazy, LazyExoticComponent, FC } from 'react';
+import { lazy } from 'react';
+import type { LazyExoticComponent, FC } from 'react';
 
 /**
  * 路由基础

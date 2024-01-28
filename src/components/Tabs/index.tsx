@@ -1,7 +1,7 @@
-import React, { useState, ReactNode, ReactElement, HTMLAttributes } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 
-interface TabProps extends HTMLAttributes<HTMLDivElement> {
+interface TabProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * 标签显示文字
    */
@@ -10,7 +10,7 @@ interface TabProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * 页签内容
    */
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 const Tab: React.FC<TabProps> = ({ children, className, ...props }) => {
@@ -23,11 +23,11 @@ const Tab: React.FC<TabProps> = ({ children, className, ...props }) => {
   );
 };
 
-interface TabsProps extends HTMLAttributes<HTMLDivElement> {
+interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Tab组成的页签
    */
-  children: ReactElement<TabProps>[];
+  children: React.ReactElement<TabProps>[];
 
   /**
    * 默认显示的页签，与Tab的label对应

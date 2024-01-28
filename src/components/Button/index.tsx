@@ -1,13 +1,13 @@
-import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * 按钮类型
    */
   buttonType?: 'normal' | 'primary' | 'danger' | 'flat' | 'link';
   className?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 /**
