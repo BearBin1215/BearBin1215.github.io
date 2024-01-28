@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, HTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 
-interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
+interface CollapseProps extends HTMLAttributes<HTMLDivElement | HTMLLIElement> {
   /**
    * 标题文字
    */
@@ -15,7 +15,7 @@ interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * 折叠框类型，目前用于兼容menu
    */
-  type?: 'normal' | 'list';
+  type?: 'normal' | 'menu';
 
   children: ReactNode;
 }
@@ -50,7 +50,7 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
 
   const WrapperTagName = (() => {
     switch (type) {
-      case 'list':
+      case 'menu':
         return 'ul';
       case 'normal':
       default:
@@ -58,8 +58,18 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
     }
   })();
 
+  const OuterContainerTagName = (() => {
+    switch (type) {
+      case 'menu':
+        return 'li';
+      case 'normal':
+      default:
+        return 'div';
+    }
+  })();
+
   return (
-    <div
+    <OuterContainerTagName
       className={classNames(
         'bearui-collapse',
         `bearui-collapse-${isExpanded ? 'expended' : 'collapsed'}`,
@@ -85,7 +95,7 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
           {children}
         </WrapperTagName>
       </div>
-    </div>
+    </OuterContainerTagName>
   );
 };
 
