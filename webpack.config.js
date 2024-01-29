@@ -33,6 +33,14 @@ module.exports = (_, argv) => {
           use: 'ts-loader',
         },
         {
+          test: /\.css$/i,
+          use: [
+            isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader, // 开发模式下使用style-loader
+            'css-loader',
+            postCssLoader,
+          ],
+        },
+        {
           test: /\.s[ac]ss$/i,
           use: [
             isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader, // 开发模式下使用style-loader
