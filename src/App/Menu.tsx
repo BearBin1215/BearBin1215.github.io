@@ -25,17 +25,47 @@ const Folder: React.FC<FolderProps> = ({ label, children }) => {
 
   const contentRef = useRef<HTMLUListElement>(null);
 
+  const [animationTimoute, setAnimationTimeout] = useState(setTimeout(() => 0));
+
   useEffect(() => {
-    contentWrapperRef.current!.style.height = '0';
+    contentWrapperRef.current!.style.display = 'none';
+
+    return () => {
+      clearTimeout(animationTimoute);
+    };
   }, []);
 
   const handleExpand = () => {
-    if (contentWrapperRef.current) {
-      // 根据折叠情况，设置高度为0或内容高度
+    if (contentWrapperRef.current && contentRef.current) {
+      clearTimeout(animationTimoute); // 每次点击时清除Timeout
+
       if (isExpanded) {
-        contentWrapperRef.current.style.height = '0';
+        // 若为展开状态，设置display无属性，然后将高度设为内容高度（初始），马上异步设置高度为0，利用transition实现动画
+        contentWrapperRef.current.style.display = '';
+        contentWrapperRef.current.style.height = `${contentRef.current.offsetHeight}px`;
+        setTimeout(() => {
+          contentWrapperRef.current!.style.height = '0';
+        });
+        // 再延时0.35s将display设为none、取消高度设置
+        setAnimationTimeout(setTimeout((() => {
+          if (contentWrapperRef.current) {
+            contentWrapperRef.current.style.height = '';
+            contentWrapperRef.current.style.display = 'none';
+          }
+        }), 350));
       } else {
-        contentWrapperRef.current.style.height = `${contentRef.current?.offsetHeight}px`;
+        // 若为折叠状态，设置display无属性，设置高度为0（初始），马上异步设置为内容高度，利用transition实现动画
+        contentWrapperRef.current.style.display = '';
+        contentWrapperRef.current.style.height = '0';
+        setTimeout(() => {
+          contentWrapperRef.current!.style.height = `${contentRef.current!.offsetHeight}px`;
+        });
+        // 再延时0.35s取消高度设置
+        setAnimationTimeout(setTimeout((() => {
+          if (contentWrapperRef.current) {
+            contentWrapperRef.current.style.height = '';
+          }
+        }), 350));
       }
     }
     setIsExpanded(!isExpanded);
