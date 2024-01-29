@@ -25,47 +25,51 @@ const Folder: React.FC<FolderProps> = ({ label, children }) => {
 
   const contentRef = useRef<HTMLUListElement>(null);
 
-  const [animationTimoute, setAnimationTimeout] = useState(setTimeout(() => 0));
+  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     contentWrapperRef.current!.style.display = 'none';
 
     return () => {
-      clearTimeout(animationTimoute);
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
     };
   }, []);
 
   const handleExpand = () => {
     if (contentWrapperRef.current && contentRef.current) {
-      clearTimeout(animationTimoute); // 每次点击时清除Timeout
+      clearTimeout(animationTimeoutRef.current!); // 每次点击时清除Timeout，用于解决动画期间连续点击问题
 
       if (isExpanded) {
-        // 若为展开状态，设置display无属性，然后将高度设为内容高度（初始），马上异步设置高度为0，利用transition实现动画
+        // 若为展开状态，设置display无属性以使contentRef.current.offsetHeight能正确获取到高度
+        // 然后将高度设为内容高度（初始），马上异步设置高度为0，利用transition实现动画
         contentWrapperRef.current.style.display = '';
         contentWrapperRef.current.style.height = `${contentRef.current.offsetHeight}px`;
         setTimeout(() => {
           contentWrapperRef.current!.style.height = '0';
         });
-        // 再延时0.35s将display设为none、取消高度设置
-        setAnimationTimeout(setTimeout((() => {
+        // 再延时0.35s取消高度设置，将display设为none保持隐藏
+        animationTimeoutRef.current = setTimeout((() => {
           if (contentWrapperRef.current) {
             contentWrapperRef.current.style.height = '';
             contentWrapperRef.current.style.display = 'none';
           }
-        }), 350));
+        }), 350);
       } else {
-        // 若为折叠状态，设置display无属性，设置高度为0（初始），马上异步设置为内容高度，利用transition实现动画
+        // 若为折叠状态，设置display无属性以使contentRef.current.offsetHeight能正确获取到高度
+        // 设置高度为0（初始），马上异步设置为内容高度，利用transition实现动画
         contentWrapperRef.current.style.display = '';
         contentWrapperRef.current.style.height = '0';
         setTimeout(() => {
           contentWrapperRef.current!.style.height = `${contentRef.current!.offsetHeight}px`;
         });
-        // 再延时0.35s取消高度设置
-        setAnimationTimeout(setTimeout((() => {
+        // 再延时0.35s取消高度设置，以便立刻重设
+        animationTimeoutRef.current = setTimeout((() => {
           if (contentWrapperRef.current) {
             contentWrapperRef.current.style.height = '';
           }
-        }), 350));
+        }), 350);
       }
     }
     setIsExpanded(!isExpanded);
