@@ -76,5 +76,5 @@ const flattenRoutes = (routes: Route[]) => {
 };
 
 export { flattenRoutes };
-export type { RoutePage };
+export type { RoutePage, RouteList, Route };
 export default routes;
