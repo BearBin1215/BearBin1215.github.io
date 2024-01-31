@@ -1,6 +1,3 @@
-import { lazy } from 'react';
-import type { LazyExoticComponent, FC } from 'react';
-
 /**
  * 路由基础
  */
@@ -13,7 +10,7 @@ interface RouteBasic {
  */
 interface RoutePage extends RouteBasic {
   path: string;
-  Component: LazyExoticComponent<FC>;
+  Component: () => Promise<{ default: React.FC }>;
 }
 
 /**
@@ -32,7 +29,7 @@ const routes: Route[] = [
   {
     title: '首页',
     path: '/',
-    Component: lazy(() => import('@/pages/home')),
+    Component: () => import('@/pages/home'),
   },
   {
     title: '牢骚',
@@ -40,7 +37,7 @@ const routes: Route[] = [
       {
         title: '个人观点',
         path: '/viewpoint',
-        Component: lazy(() => import('@/pages/viewpoint')),
+        Component: () => import('@/pages/viewpoint'),
       },
     ],
   },
@@ -50,14 +47,14 @@ const routes: Route[] = [
       {
         title: 'Less解析器',
         path: '/LessParser',
-        Component: lazy(() => import('@/pages/tools/LessParser')),
+        Component: () => import('@/pages/tools/LessParser'),
       },
     ],
   },
   {
     title: '关于',
     path: '/about',
-    Component: lazy(() => import('@/pages/about')),
+    Component: () => import('@/pages/about'),
   },
 ];
 
@@ -79,4 +76,5 @@ const flattenRoutes = (routes: Route[]) => {
 };
 
 export { flattenRoutes };
+export type { RoutePage };
 export default routes;

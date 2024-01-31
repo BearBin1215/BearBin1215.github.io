@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Suspense } from 'react';
+import React, { useEffect, useRef, Suspense, lazy } from 'react';
 import {
   Routes,
   Route,
@@ -9,8 +9,22 @@ import { throttle } from 'lodash-es';
 import Menu from './Menu';
 import { LoadingIcon } from '@/components/SvgIcon';
 import router, { flattenRoutes } from '@/config/router';
+import type { RoutePage } from '@/config/router';
 import externalLinkList from '@/config/externalLink';
 import '../styles/app.scss';
+
+/**
+ * 懒加载组件
+ */
+const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {
+  const Component = lazy(() => route.Component());
+
+  return (
+    <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
+      <Component />
+    </Suspense>
+  );
+};
 
 const App: React.FC = () => {
   /**
@@ -175,12 +189,12 @@ const App: React.FC = () => {
           <article id='article-base' ref={articleRef}>
             <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
               <Routes>
-                {flattenRoutes(router).map(({ path, Component }) => {
+                {flattenRoutes(router).map((route) => {
                   return (
                     <Route
-                      key={path}
-                      path={path}
-                      element={<Component />}
+                      key={route.path}
+                      path={route.path}
+                      element={<LazyComponent route={route} />}
                     />
                   );
                 })}
