@@ -18,7 +18,7 @@
         padding-left: 0;
         margin-left: 1.2em;
 
-        a {
+        a.router-link {
             border-radius: 0 $border-radius-inner $border-radius-inner 0;
         }
     }
@@ -75,7 +75,7 @@
         user-select: none;
 
         .menu-folder-icon {
-            transition: transform $default-transition-duration ease-out;
+            transition: transform $default-transition-duration ease-in-out;
         }
 
         &:hover {
