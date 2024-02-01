@@ -45,12 +45,6 @@
                     $default-button-hover-bgcolor,
                     $lightness: 40%
                 );
-                box-shadow: inset 0 0 20px
-                    color.scale(
-                        $default-block-box-shadow-color,
-                        $lightness: 50%,
-                        $alpha: -53%
-                    );
                 pointer-events: none;
             }
 
@@ -80,13 +74,7 @@
         cursor: pointer;
         user-select: none;
 
-        &::before {
-            content: " ";
-            display: inline-block;
-            width: 16px;
-            height: 4px;
-            border-radius: 2px;
-            background: color.scale($default-block-bdcolor, $alpha: -36%);
+        .menu-folder-icon {
             transition: transform $default-transition-duration ease-out;
         }
 
@@ -99,8 +87,8 @@
     }
 
     &.menu-folder-folded {
-        .menu-folder-label::before {
-            transform: rotate(270deg);
+        .menu-folder-icon {
+            transform: rotate(-90deg);
         }
     }
 
@@ -109,8 +97,8 @@
         overflow: hidden;
     }
 
-    .menu-folder-content {
+    .menu-folder-content > li {
         border-left: 3px solid
-            color.scale($default-button-hover-bgcolor, $lightness: 10%);
+            color.scale($default-button-hover-bgcolor, $lightness: 40%);
     }
 }
