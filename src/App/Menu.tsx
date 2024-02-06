@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { RiArrowDownSFill } from 'react-icons/ri';
+import { RiArrowDownSLine } from 'react-icons/ri';
 import routes from '@/config/router';
 
 interface FolderProps {
@@ -79,7 +79,7 @@ const Folder: React.FC<FolderProps> = ({ label, children }) => {
   return (
     <li className={`menu-folder menu-folder-${isExpanded ? 'expended' : 'folded'}`}>
       <a className='menu-folder-label' onClick={handleExpand}>
-        <RiArrowDownSFill className='menu-folder-icon' />
+        <RiArrowDownSLine className='menu-folder-icon' />
         {label || (isExpanded ? '折叠' : '展开')}
       </a>
       <div className='menu-folder-content-wrapper' ref={contentWrapperRef}>
