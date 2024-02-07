@@ -236,7 +236,7 @@ code,
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
-        flex: 0 0.4 16em;
+        flex: 0 0 16em;
         position: sticky;
         top: calc($header-height + $zone-gap);
         height: calc(100vh - $header-height - $zone-gap * 2);
@@ -301,18 +301,6 @@ code,
             min-height: calc(100vh - $header-height);
             border-width: 1px;
             border-radius: 0;
-        }
-    }
-
-    @at-root #article-base {
-        position: relative;
-        height: 100%;
-
-        .loading-icon {
-            width: 40%;
-            max-width: 540px;
-
-            @include transform-center;
         }
     }
 }

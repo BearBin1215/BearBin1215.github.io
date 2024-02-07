@@ -46,8 +46,13 @@ const routes: Route[] = [
     children: [
       {
         title: 'Less解析器',
-        path: '/LessParser',
+        path: '/lessparser',
         Component: () => import('@/pages/tools/LessParser'),
+      },
+      {
+        title: 'MW小工具',
+        path: '/mwgadgets',
+        Component: () => import('@/pages/tools/MWGadgets'),
       },
     ],
   },
