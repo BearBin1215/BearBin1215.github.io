@@ -191,6 +191,16 @@ const Viewpoint: React.FC = () => {
     document.title = '个人观点 - BearBin';
   }, []);
 
+  const bannerFactory = ({ key, signature, text: children, source }: viewPointItem) => (
+    <Banner
+      key={key}
+      signature={signature}
+      source={source}
+    >
+      {children}
+    </Banner>
+  );
+
   return (
     <>
       <Banner type='header'>
@@ -207,26 +217,10 @@ const Viewpoint: React.FC = () => {
 
       <Tabs className='viewpoint-tab'>
         <Tab label='无病呻吟'>
-          {viewpointList.map(({ key, signature, text: children, source }) => (
-            <Banner
-              key={key}
-              signature={signature}
-              source={source}
-            >
-              {children}
-            </Banner>
-          ))}
+          {viewpointList.map(bannerFactory)}
         </Tab>
         <Tab label='编辑相关'>
-          {mgpViewpointList.map(({ key, signature, text: children, source }) => (
-            <Banner
-              key={key}
-              signature={signature}
-              source={source}
-            >
-              {children}
-            </Banner>
-          ))}
+          {mgpViewpointList.map(bannerFactory)}
         </Tab>
       </Tabs>
     </>
