@@ -157,8 +157,17 @@ const viewpointList: viewPointItem[] = [
   {
     key: 20,
     text: '你有权躲在角落里继续沉默和妥协，但没资格调侃那些比你勇敢的人。',
+    source: (
+      <a
+        href='https://www.bilibili.com/video/BV1Je411Y7jV/#reply204597634672'
+        rel='noreferrer'
+        target='_blank'
+      >
+        SilentRecluse
+      </a>
+    ),
     signature: 'Feb 15th, 2024',
-  }
+  },
 ];
 
 /**
