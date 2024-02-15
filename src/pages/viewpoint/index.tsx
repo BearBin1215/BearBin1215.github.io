@@ -154,6 +154,11 @@ const viewpointList: viewPointItem[] = [
     text: '谦虚是美德，但凡尔赛不是谦虚。',
     signature: 'Jan 26th, 2024',
   },
+  {
+    key: 20,
+    text: '你有权躲在角落里继续沉默和妥协，但没资格调侃那些比你勇敢的人。',
+    signature: 'Feb 15th, 2024',
+  }
 ];
 
 /**
