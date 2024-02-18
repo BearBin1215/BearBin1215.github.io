@@ -149,7 +149,7 @@ const App: React.FC = () => {
               key={href}
               title={title}
               href={href}
-              rel='noreferrer'
+              rel='noopener noreferrer'
               target='_blank'
             >
               <Icon className='link-icon' />
@@ -178,7 +178,7 @@ const App: React.FC = () => {
           <footer>
             <a
               href='https://www.pixiv.net/artworks/104835785'
-              rel='noreferrer'
+              rel='noopener noreferrer'
               target='_blank'
             >
               BG: pixiv 104835785
