@@ -6,10 +6,22 @@ import { duotoneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Tabs } from '@/components';
 import { copyText } from '@/utils/clipboard';
 
+/**
+ * 载入代码示例
+ */
 const CodeZone: React.FC<{ gadgetName: string }> = ({ gadgetName }) => {
   useEffect(() => {
     SyntaxHighlighter.registerLanguage('javascript', js);
   }, []);
+
+  /**
+   * 代码高亮配置
+   */
+  const highlightProps = {
+    language: 'javascript',
+    style: duotoneLight,
+    className: 'gadget-codehighlight',
+  };
 
   const loaderCodeCDN = `mw.loader.load("https://cdn.jsdelivr.net/gh/BearBin1215/MoegirlPedia@master/dist/gadgets/${gadgetName}.min.js");`;
 
@@ -26,11 +38,7 @@ const CodeZone: React.FC<{ gadgetName: string }> = ({ gadgetName }) => {
           >
             <RiFileCopyLine className='copy-icon' />
           </button>
-          <SyntaxHighlighter
-            language='javascript'
-            style={duotoneLight}
-            className='gadget-codehighlight'
-          >
+          <SyntaxHighlighter {...highlightProps}>
             {loaderCodeCDN}
           </SyntaxHighlighter>
         </div>
@@ -44,11 +52,7 @@ const CodeZone: React.FC<{ gadgetName: string }> = ({ gadgetName }) => {
           >
             <RiFileCopyLine className='copy-icon' />
           </button>
-          <SyntaxHighlighter
-            language='javascript'
-            style={duotoneLight}
-            className='gadget-codehighlight'
-          >
+          <SyntaxHighlighter {...highlightProps}>
             {loaderCodeUserPage}
           </SyntaxHighlighter>
         </div>
