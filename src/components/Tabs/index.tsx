@@ -27,7 +27,7 @@ interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Tab组成的页签
    */
-  children: React.ReactElement<TabProps>[];
+  children: React.ReactElement<TabProps> | React.ReactElement<TabProps>[];
 
   /**
    * 默认显示的页签，与Tab的label对应
@@ -42,13 +42,14 @@ const Tabs: React.FC<TabsProps> & { Tab: typeof Tab } = ({ children, className, 
   /**
    * 显示的页签
    */
-  const [activeTab, setActiveTab] = useState(defaultTab || children[0].props.label);
+  const childrens = Array.isArray(children) ? children : [children]; // 确保子组件为数组
+  const [activeTab, setActiveTab] = useState(defaultTab || childrens[0].props.label);
   const classes = classnames('bearui-tabs', className);
 
   return (
     <div className={classes} {...props}>
       <div className='bearui-tabs-panel'>
-        {children.map((tab, index) => {
+        {childrens.map((tab, index) => {
           const { label } = tab.props;
           const isActive = activeTab === label;
           const buttonClasses = classnames('bearui-tabs-label', isActive ? 'bearui-tabs-label-active' : '');
@@ -65,7 +66,7 @@ const Tabs: React.FC<TabsProps> & { Tab: typeof Tab } = ({ children, className, 
         })}
       </div>
 
-      {children.find(({ props: { label } }) => label === activeTab)}
+      {childrens.find(({ props: { label } }) => label === activeTab)}
     </div>
   );
 };
