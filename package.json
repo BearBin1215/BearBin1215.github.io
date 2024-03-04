@@ -4,7 +4,7 @@
   "description": "BearBin的GitHub.io",
   "main": "./src/index.tsx",
   "scripts": {
-    "build": "rimraf dist && webpack --mode production",
+    "build": "webpack --mode production",
     "start": "webpack serve --mode development",
     "lint": "eslint \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\"",
     "lint:fix": "eslint --quiet --fix \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\""
@@ -33,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "autoprefixer": "^10.4.16",
+    "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.8.1",
     "cssnano": "^6.0.1",
     "eslint": "^8.55.0",
@@ -44,7 +45,6 @@
     "mini-css-extract-plugin": "^2.7.7",
     "postcss": "^8.4.32",
     "postcss-loader": "^7.3.3",
-    "rimraf": "^5.0.5",
     "sass": "^1.70.0",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",

@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const postCssLoader = {
   loader: 'postcss-loader',
@@ -67,6 +68,7 @@ module.exports = (_, argv) => {
         favicon: './public/favicon.ico',
       }),
       new MiniCssExtractPlugin(),
+      new CleanWebpackPlugin(),
     ],
     devServer: {
       'static': './dist',
