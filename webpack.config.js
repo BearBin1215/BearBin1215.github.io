@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const postCssLoader = {
   loader: 'postcss-loader',
@@ -69,6 +70,7 @@ module.exports = (_, argv) => {
       }),
       new MiniCssExtractPlugin(),
       new CleanWebpackPlugin(),
+      new ForkTsCheckerWebpackPlugin(),
     ],
     devServer: {
       'static': './dist',
@@ -76,7 +78,7 @@ module.exports = (_, argv) => {
       open: true,
       hot: true,
     },
-    devtool: isDevelopment ? 'source-map': false,
+    devtool: isDevelopment ? 'source-map' : false,
     optimization: {
       minimize: !isDevelopment,
       minimizer: [

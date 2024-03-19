@@ -10,11 +10,13 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
+    "sourceMap": true,
     "useDefineForClassFields": true,
     "jsx": "react",
     "lib": [
       "ESNext",
-      "dom"
+      "DOM",
+      "DOM.Iterable"
     ],
     "baseUrl": ".",
     "paths": {
