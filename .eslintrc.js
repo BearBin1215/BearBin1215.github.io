@@ -140,6 +140,7 @@ module.exports = {
     'prefer-destructuring': 2,
     'import/no-duplicates': 2,
     'import/order': 2,
+    'import/newline-after-import': 1,
     'react/jsx-indent': [2, 2],
     'react/jsx-indent-props': [2, 2],
     'react/jsx-max-props-per-line': [

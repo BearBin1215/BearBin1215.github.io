@@ -26,15 +26,19 @@ const pasteText = async (): Promise<string> => {
   if (navigator.clipboard?.readText) {
     return await navigator.clipboard.readText();
   }
-  const pasteArea = document.createElement('textarea');
-  document.body.appendChild(pasteArea);
-  pasteArea.style.position = 'absolute';
-  pasteArea.style.top = '0';
-  pasteArea.style.zIndex = '-999';
-  pasteArea.focus();
-  const text = pasteArea.value;
-  document.body.removeChild(pasteArea);
-  return text;
+  return new Promise((resolve) => {
+    const pasteArea = document.createElement('textarea');
+    document.body.appendChild(pasteArea);
+    pasteArea.style.position = 'absolute';
+    pasteArea.style.top = '0';
+    pasteArea.style.zIndex = '-999';
+    pasteArea.focus();
+    setTimeout(() => {
+      const text = pasteArea.value;
+      document.body.removeChild(pasteArea);
+      resolve(text);
+    }, 0);
+  });
 };
 
 export {
