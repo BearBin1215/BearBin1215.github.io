@@ -1,6 +1,4 @@
-/**
- * 复制文本进入剪贴板
- */
+/** 复制文本进入剪贴板 */
 const copyText = async (text = ''): Promise<void> => {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(text);
@@ -19,9 +17,7 @@ const copyText = async (text = ''): Promise<void> => {
   }
 };
 
-/**
- * 从剪贴板读取文本
- */
+/** 从剪贴板读取文本 */
 const pasteText = async (): Promise<string> => {
   if (navigator.clipboard?.readText) {
     return await navigator.clipboard.readText();

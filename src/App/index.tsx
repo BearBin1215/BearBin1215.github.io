@@ -13,9 +13,7 @@ import type { RoutePage } from '@/config/router';
 import externalLinkList from '@/config/externalLink';
 import '../styles/app.scss';
 
-/**
- * 懒加载组件
- */
+/** 懒加载组件 */
 const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {
   const Component = lazy(() => route.Component());
 
@@ -27,33 +25,23 @@ const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {
 };
 
 const App: React.FC = () => {
-  /**
-   * 侧边菜单
-   */
+  /** 侧边菜单 */
   const sideMenuRef = useRef<HTMLDivElement>(null);
 
-  /**
-   * 页眉
-   */
+  /** 页眉 */
   const headerRef = useRef<HTMLHeadElement>(null);
 
-  /**
-   * article
-   */
+  /** article */
   const articleRef = useRef<HTMLElement>(null);
 
   const location = useLocation();
 
-  /**
-   * 打开弹窗
-   */
+  /** 打开弹窗 */
   const openSideMenu = () => {
     sideMenuRef.current?.classList.replace('side-menu-close', 'side-menu-open');
   };
 
-  /**
-   * 关闭弹窗
-   */
+  /** 关闭弹窗 */
   const closeSideMenu = () => {
     sideMenuRef.current?.classList.replace('side-menu-open', 'side-menu-close');
   };
@@ -67,18 +55,14 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    /**
-     * 检测屏幕宽度缩小至1024以上时关闭弹窗
-     */
+    /** 检测屏幕宽度缩小至1024以上时关闭弹窗 */
     const closeSide = throttle(() => {
       if (window.innerWidth > 1024 && sideMenuRef.current) {
         closeSideMenu();
       }
     }, 200);
 
-    /**
-     * 页面滚动检测是否在顶部，控制header阴影
-     */
+    /** 页面滚动检测是否在顶部，控制header阴影 */
     const addHeader = throttle(() => {
       if (headerRef.current) {
         if (window.scrollY && !headerRef.current.classList.contains('shadowed')) {
@@ -189,15 +173,13 @@ const App: React.FC = () => {
           <article id='article-base' ref={articleRef}>
             <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
               <Routes>
-                {flattenRoutes(router).map((route) => {
-                  return (
-                    <Route
-                      key={route.path}
-                      path={route.path}
-                      element={<LazyComponent route={route} />}
-                    />
-                  );
-                })}
+                {flattenRoutes(router).map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<LazyComponent route={route} />}
+                  />
+                ))}
               </Routes>
             </Suspense>
           </article>

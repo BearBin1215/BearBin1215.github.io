@@ -6,17 +6,13 @@ import { duotoneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Tabs } from '@/components';
 import { copyText } from '@/utils/clipboard';
 
-/**
- * 载入代码示例
- */
+/** 载入代码示例 */
 const CodeZone: React.FC<{ gadgetName: string }> = ({ gadgetName }) => {
   useEffect(() => {
     SyntaxHighlighter.registerLanguage('javascript', js);
   }, []);
 
-  /**
-   * 代码高亮配置
-   */
+  /** 代码高亮配置 */
   const highlightProps = {
     language: 'javascript',
     style: duotoneLight,

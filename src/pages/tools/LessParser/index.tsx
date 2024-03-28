@@ -39,9 +39,7 @@ const StyleParser: React.FC = () => {
     SyntaxHighlighter.registerLanguage('css', css);
   }, []);
 
-  /**
-   * 输入框代码发生变化后若0.5s内无变化则进行解析
-   */
+  /** 输入框代码发生变化后若0.5s内无变化则进行解析 */
   const handleLessCodeChange = debounce(({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>) => {
     parseLess(value, (error, output) => {
       console.log(error, output);
@@ -55,18 +53,14 @@ const StyleParser: React.FC = () => {
     });
   }, 500);
 
-  /**
-   * 复制结果
-   */
+  /** 复制结果 */
   const handleCopy = () => {
     if (isSucess) {
       copyText(lessParseResult);
     }
   };
 
-  /**
-   * 将结果下载为css文件
-   */
+  /** 将结果下载为css文件 */
   const handleDownload = () => {
     if (isSucess) {
       saveFile(new Blob([lessParseResult]), 'output.css');
@@ -83,9 +77,6 @@ const StyleParser: React.FC = () => {
           className='code'
         />
         <div className='button-area'>
-          {/* <Button>
-            上传
-          </Button> */}
           <Button
             onClick={handleCopy}
             buttonType='primary'

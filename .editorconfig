@@ -1,11 +1,15 @@
 # http://editorconfig.org
 root = true
 
-[*.{js,jsx}]
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
+
+[*.{js,jsx,ts,tsx}]
 charset = utf-8
 
-[*.{css,scss,sass,less}]]
-indent_style = space
+[*.{css,scss}]
 indent_size = 4
