@@ -3,7 +3,7 @@ import CodeZone from './CodeZone';
 import { Banner, MGPLink } from '@/components';
 import './index.scss';
 
-const MWGadgets = () => {
+const MWGadgets: React.FC = () => {
   useEffect(() => {
     document.title = 'MW小工具';
   }, []);
@@ -19,7 +19,11 @@ const MWGadgets = () => {
       <div className='center'>本页建设中……</div>
 
       <h2>使用指南</h2>
-      直接在自己的<MGPLink page='Special:MyPage/common.js'>common.js</MGPLink>页面新增一行，加入对应的<code className='inline-code'>mw.loader.load(...)</code>代码即可。
+      直接在自己的
+      <MGPLink page='Special:MyPage/common.js'>common.js</MGPLink>
+      页面新增一行，加入对应的
+      <code className='inline-code'>mw.loader.load(...)</code>
+      代码即可。
 
 
       <h2>工具介绍</h2>
