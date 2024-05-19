@@ -29,7 +29,6 @@ const StyleParser: React.FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    document.title = 'Less解析器 - BearBin';
     if (inputRef.current) {
       inputRef.current.value = defaultLessCode;
     }

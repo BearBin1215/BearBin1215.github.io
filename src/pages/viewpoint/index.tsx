@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { viewpointList, mgpViewpointList } from './viewpoint';
 import { Banner, Tabs } from '@/components';
 import { BannerProps } from '@/components/props';
@@ -14,10 +14,6 @@ interface viewPointItem extends BannerProps {
 }
 
 const Viewpoint: React.FC = () => {
-  useEffect(() => {
-    document.title = '个人观点 - BearBin';
-  }, []);
-
   const bannerFactory = ({ key, signature, text: children, source }: viewPointItem) => (
     <Banner
       key={key}

@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Home: React.FC = () => {
-  useEffect(() => {
-    document.title = 'BearBin';
-  }, []);
 
   return (
     <>

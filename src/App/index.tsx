@@ -19,6 +19,7 @@ const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {
 
   return (
     <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
+      <title>{`${route.title} - BearBin`}</title>
       <Component />
     </Suspense>
   );

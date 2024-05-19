@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import CodeZone from './CodeZone';
 import { Banner, MGPLink } from '@/components';
 import './index.scss';
 
 const MWGadgets: React.FC = () => {
-  useEffect(() => {
-    document.title = 'MW小工具';
-  }, []);
 
   return (
     <>

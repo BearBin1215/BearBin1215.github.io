@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { LinkCardWall } from '@/components';
 import {
   ReactIcon,
@@ -14,10 +14,6 @@ import './index.scss';
 const { LinkCard } = LinkCardWall;
 
 const About: React.FC = () => {
-  useEffect(() => {
-    document.title = '关于 - BearBin';
-  }, []);
-
   return (
     <>
       <h1>关于本站</h1>
