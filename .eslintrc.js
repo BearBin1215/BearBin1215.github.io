@@ -100,6 +100,7 @@ module.exports = {
     'no-magic-numbers': 0,
     'no-multi-spaces': 2,
     'no-param-reassign': 2,
+    'no-unused-expressions': 2,
     'quotes': [
       1,
       'single',
