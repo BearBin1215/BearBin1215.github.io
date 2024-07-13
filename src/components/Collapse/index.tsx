@@ -1,24 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import classNames from 'classnames';
 
 interface CollapseProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * 标题文字
-   */
+  /** 标题文字 */
   label?: string;
 
-  /**
-   * 初始是否展开。默认不展开
-   */
+  /** 初始是否展开。默认不展开 */
   expanded?: boolean;
-
-  children: React.ReactNode;
 }
 
-/**
- * 折叠组件
- */
-const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, className, ...props }) => {
+/** 折叠组件 */
+const Collapse = forwardRef<HTMLDivElement, CollapseProps>(({
+  expanded = false,
+  label,
+  children,
+  className,
+  ...props
+}, ref) => {
   const [isExpanded, setExpanded] = useState(expanded);
 
   const contentWrapperRef = useRef<HTMLDivElement>(null);
@@ -50,6 +48,7 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
         `bearui-collapse-${isExpanded ? 'expended' : 'collapsed'}`,
         className
       )}
+      ref={ref}
       {...props}
     >
       <a
@@ -71,6 +70,8 @@ const Collapse: React.FC<CollapseProps> = ({ expanded = false, label, children, 
       </div>
     </div>
   );
-};
+});
+
+Collapse.displayName = 'Collapse';
 
 export default Collapse;

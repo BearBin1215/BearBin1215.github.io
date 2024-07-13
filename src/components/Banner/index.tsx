@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 interface BannerProps extends React.HTMLAttributes<HTMLElement> {
   type?: 'default' | 'header';
-  className?: string;
   signature?: React.ReactNode;
-  children?: React.ReactNode;
   source?: React.ReactNode;
 }
 
-const Banner: React.FC<BannerProps> = ({ className, type, signature, source, children, ...props }) => {
+const Banner = forwardRef<HTMLDivElement, BannerProps>(({
+  className,
+  type,
+  signature,
+  source,
+  children,
+  ...props
+}, ref) => {
   const classes = classNames(
     'bearui-banner',
     `bearui-banner-${type || 'default'}`,
@@ -18,6 +23,7 @@ const Banner: React.FC<BannerProps> = ({ className, type, signature, source, chi
   return (
     <div
       className={classes}
+      ref={ref}
       {...props}
     >
       <div
@@ -40,7 +46,9 @@ const Banner: React.FC<BannerProps> = ({ className, type, signature, source, chi
       </div>
     </div>
   );
-};
+});
+
+Banner.displayName = 'Banner';
 
 export default Banner;
 export { BannerProps };
