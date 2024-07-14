@@ -4,23 +4,11 @@ import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { render as parseLess } from 'less';
 import { debounce } from 'lodash-es';
+import example from './example.less' assert { type: 'string' };
 import { Button } from '@/components';
 import { copyText } from '@/utils/clipboard';
 import saveFile from '@/utils/saveFile';
 import './index.scss';
-
-const defaultLessCode = `.foo {
-  color: #000;
-
-  .bar {
-    text-decoration: underline;
-
-    &:hover {
-      color: red;
-    }
-  }
-}
-`;
 
 const StyleParser: React.FC = () => {
   const [lessParseResult, setLessParseResult] = useState('');
@@ -30,9 +18,9 @@ const StyleParser: React.FC = () => {
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.value = defaultLessCode;
+      inputRef.current.value = example;
     }
-    parseLess(defaultLessCode).then(({ css }) => {
+    parseLess(example).then(({ css }) => {
       setLessParseResult(css);
     });
     SyntaxHighlighter.registerLanguage('css', css);

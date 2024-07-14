@@ -19,6 +19,7 @@ const postCssLoader = {
   },
 };
 
+/** @returns {(import('webpack').Configuration)} */
 module.exports = (_, argv) => {
   const isDevelopment = argv.mode === 'development';
   return {
@@ -50,6 +51,11 @@ module.exports = (_, argv) => {
             postCssLoader,
             'sass-loader',
           ],
+        },
+        {
+          test: /\.less$/,
+          assert: { type: 'string' },
+          type: 'asset/source',
         },
         {
           test: /\.(png|jpe?g|gif)/,

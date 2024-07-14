@@ -18,13 +18,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     `bearui-button-${buttonType}`,
     className
   );
+
   return (
     <button
       className={classes}
       ref={ref}
       {...props}
     >
-      {children}
+      <span>{children}</span>
     </button>
   );
 });
