@@ -38,12 +38,12 @@
         }
 
         .gadget-codehighlight {
-            @include default-scrollbar;
-
             margin: 0;
             padding: 0.3em !important;
             border-radius: 3px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 12%);
+
+            @include default-scrollbar;
 
             > code {
                 white-space: pre-wrap !important;

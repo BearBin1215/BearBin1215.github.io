@@ -19,11 +19,13 @@ const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {
 
   return (
     <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
-      <title>{`${route.title} - BearBin`}</title>
+      <title>{route.title} - BearBin</title>
       <Component />
     </Suspense>
   );
 };
+
+LazyComponent.displayName = 'LazyComponent';
 
 const App: React.FC = () => {
   /** 侧边菜单 */
