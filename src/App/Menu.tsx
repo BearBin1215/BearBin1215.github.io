@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import routes from '@/config/router';
@@ -91,9 +91,15 @@ const Folder: React.FC<FolderProps> = ({ label, children }) => {
   );
 };
 
-const Menu: React.FC<MenuProps> = ({ onLinkClick, ...props }) => {
+Folder.displayName = 'Folder';
+
+const Menu = forwardRef<HTMLUListElement, MenuProps>(({ onLinkClick, ...props }, ref) => {
   return (
-    <ul className='menu-list' {...props}>
+    <ul
+      className='menu-list'
+      ref={ref}
+      {...props}
+    >
       {routes.map((route) =>
         'path' in route ? ( // 无子级，生成NavLink
           <li key={route.title}>
@@ -123,6 +129,8 @@ const Menu: React.FC<MenuProps> = ({ onLinkClick, ...props }) => {
       )}
     </ul>
   );
-};
+});
+
+Menu.displayName = 'Menu';
 
 export default Menu;
