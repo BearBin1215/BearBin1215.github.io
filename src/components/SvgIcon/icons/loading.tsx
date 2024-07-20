@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface LoadingIconProps extends React.SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-const LoadingIcon: React.FC<LoadingIconProps> = ({ color, ...props }) => (
+const LoadingIcon = forwardRef<SVGSVGElement, LoadingIconProps>(({ color, ...props }, ref) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 100 100'
     preserveAspectRatio='xMidYMid'
+    ref={ref}
     {...props}
   >
     <path
@@ -26,6 +27,8 @@ const LoadingIcon: React.FC<LoadingIconProps> = ({ color, ...props }) => (
       />
     </path>
   </svg>
-);
+));
+
+LoadingIcon.displayName = 'LoadingIcon';
 
 export default LoadingIcon;
