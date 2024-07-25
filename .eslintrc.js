@@ -33,7 +33,10 @@ module.exports = {
     'react': {
       'version': 'detect',
     },
-    'import/resolver': 'webpack',
+    'import/resolver': {
+      typescript: true,
+      node: true,
+    },
   },
   parserOptions: {
     ecmaVersion: 'latest',
