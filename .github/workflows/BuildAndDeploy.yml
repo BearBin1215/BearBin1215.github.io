@@ -1,7 +1,7 @@
 name: Build and Deploy to GitHub Pages
 on:
   push:
-    branches: 
+    branches:
       - master
     paths:
       - src/**
@@ -26,10 +26,10 @@ jobs:
           node-version: "18.x"
 
       - name: 安装依赖
-        run: yarn install
+        run: pnpm install
 
       - name: 构建
-        run: yarn run build
+        run: pnpm run build
 
       - name: 提交
         uses: actions/upload-pages-artifact@v2
