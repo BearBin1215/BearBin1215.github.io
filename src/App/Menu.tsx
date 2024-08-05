@@ -26,7 +26,7 @@ const Folder: React.FC<FolderProps> = ({ label, children }) => {
 
   const contentRef = useRef<HTMLUListElement>(null);
 
-  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const animationTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
     contentWrapperRef.current!.style.display = 'none';
@@ -40,7 +40,7 @@ const Folder: React.FC<FolderProps> = ({ label, children }) => {
 
   const handleExpand = () => {
     if (contentWrapperRef.current && contentRef.current) {
-      clearTimeout(animationTimeoutRef.current!); // 每次点击时清除Timeout，用于解决动画期间连续点击问题
+      clearTimeout(animationTimeoutRef.current); // 每次点击时清除Timeout，用于解决动画期间连续点击问题
 
       if (isExpanded) {
         // 若为展开状态，设置display无属性以使contentRef.current.offsetHeight能正确获取到高度
