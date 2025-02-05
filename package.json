@@ -4,8 +4,8 @@
   "description": "BearBin的GitHub.io",
   "main": "./src/index.tsx",
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack serve --mode development",
+    "build": "rspack build",
+    "start": "rspack serve",
     "lint": "eslint \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\"",
     "lint:fix": "eslint --quiet --fix \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\""
   },
@@ -16,7 +16,7 @@
   "keywords": [
     "GitHub Page",
     "React",
-    "webpack"
+    "Rspack"
   ],
   "author": "BearBin",
   "license": "BSD-3-Clause",
@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/BearBin1215/BearBin1215.github.io#readme",
   "devDependencies": {
+    "@rspack/cli": "^1.2.2",
+    "@rspack/core": "^1.2.2",
     "@types/less": "^3.0.7",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.17.10",
@@ -34,7 +36,6 @@
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "autoprefixer": "^10.4.20",
-    "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.11.0",
     "cssnano": "^6.1.2",
     "eslint": "^8.57.1",
@@ -43,9 +44,6 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.3",
-    "fork-ts-checker-webpack-plugin": "^9.0.2",
-    "html-webpack-plugin": "^5.6.3",
-    "mini-css-extract-plugin": "^2.9.2",
     "postcss": "^8.4.49",
     "postcss-loader": "^7.3.4",
     "sass": "^1.83.0",
@@ -55,11 +53,9 @@
     "stylelint-config-standard": "34.0.0",
     "stylelint-config-standard-scss": "^11.1.0",
     "stylelint-scss": "^5.3.2",
+    "ts-checker-rspack-plugin": "^1.1.1",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.7.2",
-    "webpack": "^5.97.1",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.2"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "classnames": "^2.5.1",
@@ -71,6 +67,7 @@
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.28.1",
     "react-syntax-highlighter": "^15.6.1",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "sass-migrator": "^2.3.1"
   }
 }

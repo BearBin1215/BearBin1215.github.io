@@ -1,6 +1,6 @@
 @use "sass:color";
 
-@import "./common";
+@use "common";
 
 a {
     color: #2a4a8f;
@@ -22,7 +22,7 @@ a {
         width: 40%;
         max-width: 540px;
 
-        @include transform-center;
+        @include common.transform-center;
     }
 
     /* 各级标题
@@ -55,7 +55,7 @@ a {
     a {
         &,
         &:visited {
-            color: $default-link-color;
+            color: common.$default-link-color;
         }
 
         &:active {

@@ -1,13 +1,13 @@
 @use "sass:math";
 @use "sass:color";
 
-@import "./common";
+@use "common";
 
 /* 菜单链接
 ------------------------------ */
 .menu-list {
-    $border-radius-inner: math.div($default-border-radius, math.div(5, 3));
-    $border-radius-outer: math.div($default-border-radius, math.div(4, 3));
+    $border-radius-inner: math.div(common.$default-border-radius, math.div(5, 3));
+    $border-radius-outer: math.div(common.$default-border-radius, math.div(4, 3));
 
     margin: 0;
     padding: 0;
@@ -42,7 +42,7 @@
         &.router-link {
             &.active {
                 background-color: color.scale(
-                    $default-button-hover-bgcolor,
+                    common.$default-button-hover-bgcolor,
                     $lightness: 40%
                 );
                 pointer-events: none;
@@ -50,17 +50,17 @@
 
             &:active {
                 background-color: color.scale(
-                    $default-button-hover-bgcolor,
+                    common.$default-button-hover-bgcolor,
                     $lightness: 34%
                 );
                 border-color: color.scale(
-                    $default-button-active-bdcolor,
+                    common.$default-button-active-bdcolor,
                     $lightness: 45%
                 );
             }
 
             &:hover {
-                background-color: $default-button-hover-bgcolor;
+                background-color: common.$default-button-hover-bgcolor;
             }
         }
     }
@@ -75,12 +75,12 @@
         user-select: none;
 
         .menu-folder-icon {
-            transition: transform $default-transition-duration ease-in-out;
+            transition: transform common.$default-transition-duration ease-in-out;
         }
 
         &:hover {
             background-color: color.adjust(
-                $default-button-hover-bgcolor,
+                common.$default-button-hover-bgcolor,
                 $lightness: 5%
             );
         }
@@ -93,12 +93,12 @@
     }
 
     .menu-folder-content-wrapper {
-        transition: height $default-transition-duration ease-out;
+        transition: height common.$default-transition-duration ease-out;
         overflow: hidden;
     }
 
     .menu-folder-content > li {
         border-left: 3px solid
-            color.scale($default-button-hover-bgcolor, $lightness: 40%);
+            color.scale(common.$default-button-hover-bgcolor, $lightness: 40%);
     }
 }

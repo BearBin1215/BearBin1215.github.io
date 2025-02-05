@@ -1,7 +1,4 @@
-@import "/src/styles/common";
-
-// 默认文字颜色
-$default-font-color: #151515;
+@use "../styles/common";
 
 // 默认边框颜色
 $default-border-color: #c5c5c5;

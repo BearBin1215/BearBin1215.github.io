@@ -1,7 +1,7 @@
 @use "sass:color";
 
-@import "../../styles/common";
-@import "../common";
+@use "../../styles/common";
+@use "../common" as common2;
 
 .bearui-collapse {
     .bearui-collapse-label {
@@ -13,8 +13,8 @@
         padding: 8px;
         background-image: linear-gradient(
             90deg,
-            color.scale($default-block-bdcolor, $alpha: -85%) 0,
-            color.scale($default-block-bdcolor, $alpha: -92%) 90%,
+            color.scale(common.$default-block-bdcolor, $alpha: -85%) 0,
+            color.scale(common.$default-block-bdcolor, $alpha: -92%) 90%,
             transparent 100%
         );
 
@@ -30,13 +30,13 @@
             width: 16px;
             height: 4px;
             border-radius: 2px;
-            background: color.scale($default-block-bdcolor, $alpha: -36%);
-            transition: transform $default-transition-duration ease-out;
+            background: color.scale(common.$default-block-bdcolor, $alpha: -36%);
+            transition: transform common.$default-transition-duration ease-out;
         }
     }
 
     .bearui-collapse-content-wrapper {
-        transition: height $default-transition-duration ease-out;
+        transition: height common.$default-transition-duration ease-out;
         overflow: hidden;
     }
 
@@ -49,7 +49,7 @@
     .bearui-collapse-content {
         padding: 8px;
         border: 1px solid
-            color.scale($default-block-bdcolor, $lightness: -25%, $alpha: -65%);
+            color.scale(common.$default-block-bdcolor, $lightness: -25%, $alpha: -65%);
 
         @media (max-width: 600px) {
             padding: 4px;

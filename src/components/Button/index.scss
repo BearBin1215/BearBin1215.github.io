@@ -1,6 +1,8 @@
 @use "sass:color";
 
-@import "../common";
+@use "../common";
+@use "../../styles/common" as common2;
+
 
 .bearui-button {
     display: inline-block;
@@ -12,94 +14,94 @@
     line-height: 1;
     user-select: none;
     white-space: nowrap;
-    border: 1px solid $default-border-color;
+    border: 1px solid common.$default-border-color;
     border-radius: 4px;
 
     &:disabled {
         color: #fff;
-        border-color: $disabled-color;
-        background-color: $disabled-color;
+        border-color: common.$disabled-color;
+        background-color: common.$disabled-color;
         cursor: not-allowed;
 
         &.bearui-button-primary {
-            border-color: $disabled-primary-color;
-            background-color: $disabled-primary-color;
+            border-color: common.$disabled-primary-color;
+            background-color: common.$disabled-primary-color;
         }
 
         &.bearui-button-link,
         &.bearui-button-flat {
             border-color: transparent;
             background-color: transparent;
-            color: $disabled-primary-color;
+            color: common.$disabled-primary-color;
         }
     }
 
     &:not(:disabled) {
-        color: $default-font-color;
+        color: common2.$default-font-color;
         background-color: #fff;
         cursor: pointer;
         transition: color 0.3s linear, border-color 0.3s linear,
             background-color 0.3s linear;
 
         &:hover {
-            color: $primary-color;
-            border-color: $primary-color;
+            color: common.$primary-color;
+            border-color: common.$primary-color;
         }
 
         &.bearui-button-primary {
             color: #fff;
-            background-color: $primary-color;
-            border-color: $primary-color;
+            background-color: common.$primary-color;
+            border-color: common.$primary-color;
 
             &:hover {
                 color: #fff;
                 border-color: color.scale(
-                    $primary-color,
-                    $lightness: $default-lighten-amount
+                    common.$primary-color,
+                    $lightness: common.$default-lighten-amount
                 );
                 background-color: color.scale(
-                    $primary-color,
-                    $lightness: $default-lighten-amount
+                    common.$primary-color,
+                    $lightness: common.$default-lighten-amount
                 );
             }
 
             &:active {
                 border-color: color.scale(
-                    $primary-color,
-                    $lightness: - $default-darken-amount
+                    common.$primary-color,
+                    $lightness: - common.$default-darken-amount
                 );
                 background-color: color.scale(
-                    $primary-color,
-                    $lightness: - $default-darken-amount
+                    common.$primary-color,
+                    $lightness: - common.$default-darken-amount
                 );
             }
         }
 
         &.bearui-button-danger {
             color: #fff;
-            background-color: $danger-color;
-            border-color: $danger-color;
+            background-color: common.$danger-color;
+            border-color: common.$danger-color;
 
             &:hover {
                 color: #fff;
                 border-color: color.scale(
-                    $danger-color,
-                    $lightness: $default-lighten-amount
+                    common.$danger-color,
+                    $lightness: common.$default-lighten-amount
                 );
                 background-color: color.scale(
-                    $danger-color,
-                    $lightness: $default-lighten-amount
+                    common.$danger-color,
+                    $lightness: common.$default-lighten-amount
                 );
             }
 
             &:active {
                 border-color: color.scale(
-                    $danger-color,
-                    $lightness: - $default-darken-amount
+                    common.$danger-color,
+                    $lightness: - common.$default-darken-amount
                 );
                 background-color: color.scale(
-                    $danger-color,
-                    $lightness: - $default-darken-amount
+                    common.$danger-color,
+                    $lightness: - common.$default-darken-amount
                 );
             }
         }
@@ -110,18 +112,18 @@
             border-color: transparent;
 
             &:hover {
-                border-color: $flat-color;
-                background-color: $flat-color;
+                border-color: common.$flat-color;
+                background-color: common.$flat-color;
             }
 
             &:active {
                 border-color: color.scale(
-                    $flat-color,
-                    $lightness: - $default-darken-amount
+                    common.$flat-color,
+                    $lightness: - common.$default-darken-amount
                 );
                 background-color: color.scale(
-                    $flat-color,
-                    $lightness: - $default-darken-amount
+                    common.$flat-color,
+                    $lightness: - common.$default-darken-amount
                 );
             }
         }
@@ -129,24 +131,24 @@
         &.bearui-button-flat {
             &:hover,
             &:active {
-                color: $default-font-color;
+                color: common2.$default-font-color;
             }
         }
 
         &.bearui-button-link {
-            color: $link-color;
+            color: common.$link-color;
 
             &:hover {
                 color: color.scale(
-                    $link-color,
-                    $lightness: $default-lighten-amount
+                    common.$link-color,
+                    $lightness: common.$default-lighten-amount
                 );
             }
 
             &:active {
                 color: color.scale(
-                    $link-color,
-                    $lightness: - $default-darken-amount
+                    common.$link-color,
+                    $lightness: - common.$default-darken-amount
                 );
             }
         }

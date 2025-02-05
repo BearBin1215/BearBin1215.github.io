@@ -26,6 +26,7 @@ module.exports = {
       }
     ],
     'scss/at-rule-no-unknown': true,
+    'scss/at-import-partial-extension': null,
     'scss/double-slash-comment-empty-line-before': null,
   },
 }

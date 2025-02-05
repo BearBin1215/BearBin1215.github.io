@@ -1,10 +1,10 @@
 @use "sass:math";
 @use "sass:color";
 
-@import "./common"; // 共用样式
-@import "./menu"; // 路由菜单
-@import "./article"; // 内容
-@import "/src/components/index"; // 组件
+@use "common.scss" as styles-common; // 共用样式
+@use "menu"; // 路由菜单
+@use "article"; // 内容
+@use "../components/index"; // 组件
 
 // 思源宋体
 @font-face {
@@ -55,7 +55,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: msYaHei, sans-serif;
-    color: $default-font-color;
+    color: styles-common.$default-font-color;
 }
 
 a {
@@ -86,20 +86,20 @@ code,
     position: sticky;
     top: 0;
     width: 100%;
-    height: $header-height;
+    height: styles-common.$header-height;
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
     padding: 0.3em 0.6em;
-    box-shadow: 0 0 12px 4px $default-block-box-shadow-color;
-    background-color: color.adjust($header-bgcolor, $alpha: -0.08);
+    box-shadow: 0 0 12px 4px styles-common.$default-block-box-shadow-color;
+    background-color: color.adjust(styles-common.$header-bgcolor, $alpha: -0.08);
     user-select: none;
     z-index: 1;
     transition: box-shadow ease-out 0.42s;
     backdrop-filter: blur(8px);
 
     .header-left {
-        @include flex-center;
+        @include styles-common.flex-center;
 
         gap: 8px;
     }
@@ -116,19 +116,19 @@ code,
         transition: all ease-out 0.5s;
 
         &:hover {
-            background-color: $default-link-bgcolor;
+            background-color: styles-common.$default-link-bgcolor;
         }
 
         &:active {
-            border-color: $default-button-active-bdcolor;
+            border-color: styles-common.$default-button-active-bdcolor;
             background-color: color.scale(
-                $default-link-bgcolor,
+                styles-common.$default-link-bgcolor,
                 $lightness: 40%
             );
         }
 
         @media (max-width: 1024px) {
-            @include flex-center;
+            @include styles-common.flex-center;
         }
     }
 
@@ -140,22 +140,22 @@ code,
         color: inherit;
 
         &:hover {
-            background-color: $default-button-hover-bgcolor;
+            background-color: styles-common.$default-button-hover-bgcolor;
         }
 
         &:active {
             background-color: color.scale(
-                $default-button-hover-bgcolor,
+                styles-common.$default-button-hover-bgcolor,
                 $lightness: 35%
             );
-            box-shadow: inset 0 0 4px $default-button-hover-bgcolor;
+            box-shadow: inset 0 0 4px styles-common.$default-button-hover-bgcolor;
         }
     }
 
     /* 头像、id链接
     ------------------------------ */
     .home-link {
-        @include flex-center;
+        @include styles-common.flex-center;
 
         gap: 8px;
         border-radius: math.div($avator-height, 2);
@@ -174,17 +174,17 @@ code,
 
         &.active {
             background-color: color.scale(
-                $default-button-hover-bgcolor,
+                styles-common.$default-button-hover-bgcolor,
                 $lightness: 35%
             );
         }
     }
 
     .header-right {
-        @include flex-center;
+        @include styles-common.flex-center;
 
         > a {
-            @include flex-center;
+            @include styles-common.flex-center;
 
             width: 40px;
             height: 40px;
@@ -199,10 +199,10 @@ code,
 
     @media (max-width: 1024px) {
         box-shadow: none;
-        background-color: $header-bgcolor;
+        background-color: styles-common.$header-bgcolor;
 
         &.shadowed {
-            box-shadow: 0 0 8px $default-block-box-shadow-color;
+            box-shadow: 0 0 8px styles-common.$default-block-box-shadow-color;
         }
     }
 }
@@ -210,18 +210,18 @@ code,
 /* 页面主体
 ------------------------------ */
 #page-container {
-    margin: $zone-gap auto;
+    margin: styles-common.$zone-gap auto;
     display: flex;
-    gap: $zone-gap;
+    gap: styles-common.$zone-gap;
     width: 92vw;
     max-width: 1600px;
-    padding: 0 $zone-gap;
+    padding: 0 styles-common.$zone-gap;
     transition: margin ease-out 0.25s;
 
     @media (max-width: 1024px) {
         width: unset;
-        margin: math.div($zone-gap, 2);
-        padding: math.div($zone-gap, 2);
+        margin: math.div(styles-common.$zone-gap, 2);
+        padding: math.div(styles-common.$zone-gap, 2);
     }
 
     @media (max-width: 600px) {
@@ -238,20 +238,20 @@ code,
         box-sizing: border-box;
         flex: 0 0 16em;
         position: sticky;
-        top: calc($header-height + $zone-gap);
-        height: calc(100vh - $header-height - $zone-gap * 2);
-        border: 2px solid color.scale($default-block-bdcolor, $alpha: -15%);
+        top: calc(styles-common.$header-height + styles-common.$zone-gap);
+        height: calc(100vh - styles-common.$header-height - styles-common.$zone-gap * 2);
+        border: 2px solid color.scale(styles-common.$default-block-bdcolor, $alpha: -15%);
         border-right: 0;
-        border-radius: $default-border-radius 0 0 $default-border-radius;
-        background-color: $default-block-bgcolor;
-        box-shadow: 0 0 12px 4px $default-block-box-shadow-color;
+        border-radius: styles-common.$default-border-radius 0 0 styles-common.$default-border-radius;
+        background-color: styles-common.$default-block-bgcolor;
+        box-shadow: 0 0 12px 4px styles-common.$default-block-box-shadow-color;
         overflow: hidden;
 
-        @include narrow-hide-pad;
+        @include styles-common.narrow-hide-pad;
 
         > nav {
             flex: 1 0;
-            padding: math.div($default-block-padding, math.div(5, 3));
+            padding: math.div(styles-common.$default-block-padding, math.div(5, 3));
             overflow: hidden;
         }
 
@@ -259,20 +259,20 @@ code,
             flex: 0 0 44px;
 
             > a {
-                @include flex-center;
+                @include styles-common.flex-center;
 
                 height: 100%;
-                border-radius: 0 0 0 $default-border-radius;
+                border-radius: 0 0 0 styles-common.$default-border-radius;
                 text-decoration: none;
-                color: $default-font-color;
+                color: styles-common.$default-font-color;
                 background-color: color.scale(
-                    $default-blue-bgcolor,
+                    styles-common.$default-blue-bgcolor,
                     $lightness: 25%
                 );
                 transition: all ease-in 0.44s;
 
                 &:hover {
-                    box-shadow: 0 0 6px 1px $default-block-box-shadow-color;
+                    box-shadow: 0 0 6px 1px styles-common.$default-block-box-shadow-color;
                     font-size: 1.02em;
                 }
             }
@@ -283,22 +283,22 @@ code,
     ------------------------------ */
     @at-root #content-base {
         flex: 1 1 80em;
-        padding: $default-block-padding;
+        padding: styles-common.$default-block-padding;
         box-sizing: border-box;
-        min-height: calc(100vh - $header-height - $zone-gap * 2);
-        border: 2px solid color.scale($default-block-bdcolor, $alpha: -15%);
+        min-height: calc(100vh - styles-common.$header-height - styles-common.$zone-gap * 2);
+        border: 2px solid color.scale(styles-common.$default-block-bdcolor, $alpha: -15%);
         border-left-width: 0;
-        border-radius: 0 $default-border-radius $default-border-radius 0;
-        background-color: $default-block-bgcolor;
-        box-shadow: 0 0 12px 4px $default-block-box-shadow-color;
+        border-radius: 0 styles-common.$default-border-radius styles-common.$default-border-radius 0;
+        background-color: styles-common.$default-block-bgcolor;
+        box-shadow: 0 0 12px 4px styles-common.$default-block-box-shadow-color;
 
         @media (max-width: 1024px) {
-            border-radius: $default-border-radius;
+            border-radius: styles-common.$default-border-radius;
             border-left-width: 2px;
         }
 
         @media (max-width: 600px) {
-            min-height: calc(100vh - $header-height);
+            min-height: calc(100vh - styles-common.$header-height);
             border-width: 1px;
             border-radius: 0;
         }
@@ -306,12 +306,12 @@ code,
 }
 
 #side-modal-wrapper {
-    $modal-margin: math.div($zone-gap, 2);
+    $modal-margin: math.div(styles-common.$zone-gap, 2);
 
     position: fixed;
-    top: $header-height;
+    top: styles-common.$header-height;
     right: 0;
-    height: calc(100vh - $header-height);
+    height: calc(100vh - styles-common.$header-height);
     left: 0;
     user-select: none;
     overflow: hidden;
@@ -338,10 +338,10 @@ code,
     > nav {
         box-sizing: border-box;
         width: 320px;
-        max-width: calc(100vw - $zone-gap - $modal-margin);
+        max-width: calc(100vw - styles-common.$zone-gap - $modal-margin);
         margin: $modal-margin;
         padding: 6px;
-        border-radius: $default-border-radius;
+        border-radius: styles-common.$default-border-radius;
         background-color: #f7f7f7;
         transition: transform ease-in-out 0.4s;
     }
@@ -364,6 +364,6 @@ code,
     background-position: 28% 40%;
 
     @media (max-width: 600px) {
-        top: $header-height;
+        top: styles-common.$header-height;
     }
 }
