@@ -1,4 +1,4 @@
-@import "../../../styles/common";
+@use "../../../styles/common";
 
 .mgpgadgets-tabs {
     @at-root .gadget-codezone {
@@ -43,7 +43,7 @@
             border-radius: 3px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 12%);
 
-            @include default-scrollbar;
+            @include common.default-scrollbar;
 
             > code {
                 white-space: pre-wrap !important;
