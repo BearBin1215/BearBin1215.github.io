@@ -4,8 +4,8 @@
   "description": "BearBin的GitHub.io",
   "main": "./src/index.tsx",
   "scripts": {
-    "build": "rspack build",
-    "start": "rspack serve",
+    "build": "rspack build --mode production",
+    "start": "rspack serve --mode development",
     "lint": "eslint \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\"",
     "lint:fix": "eslint --quiet --fix \"src/**/*.{js,jsx,tsx,ts}\" && stylelint \"src/**/*.scss\""
   },
@@ -47,7 +47,8 @@
     "postcss": "^8.4.49",
     "postcss-loader": "^7.3.4",
     "sass": "^1.83.0",
-    "sass-loader": "^13.3.3",
+    "sass-embedded": "^1.83.4",
+    "sass-loader": "^14.2.1",
     "style-loader": "^3.3.4",
     "stylelint": "15.11.0",
     "stylelint-config-standard": "34.0.0",
