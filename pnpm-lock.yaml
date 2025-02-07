@@ -35,9 +35,6 @@ dependencies:
   react-transition-group:
     specifier: ^4.4.5
     version: 4.4.5(react-dom@18.3.1)(react@18.3.1)
-  sass-migrator:
-    specifier: ^2.3.1
-    version: 2.3.1
 
 devDependencies:
   '@rspack/cli':
@@ -5442,12 +5439,6 @@ packages:
       sass-embedded: 1.83.4
       webpack: 5.97.1
     dev: true
-
-  /sass-migrator@2.3.1:
-    resolution: {integrity: sha512-JXXLZfzrnxtUWz/TS4xnbJq4g709wqYFgUb2s32FTDsEQSgPThRWrwT49vxfQK+eUbavJUzoQZ/tR5lq7fFnyA==}
-    engines: {node: '>=10.12.0'}
-    hasBin: true
-    dev: false
 
   /sass@1.83.0:
     resolution: {integrity: sha512-qsSxlayzoOjdvXMVLkzF84DJFc2HZEL/rFyGIKbbilYtAvlCxyuzUeff9LawTn4btVnLKg75Z8MMr1lxU1lfGw==}

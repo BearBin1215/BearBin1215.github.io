@@ -68,7 +68,6 @@
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.28.1",
     "react-syntax-highlighter": "^15.6.1",
-    "react-transition-group": "^4.4.5",
-    "sass-migrator": "^2.3.1"
+    "react-transition-group": "^4.4.5"
   }
 }
