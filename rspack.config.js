@@ -16,6 +16,7 @@ const postCssLoader = {
   },
 };
 
+/** @returns {import('@rspack/core').RspackOptions} */
 module.exports = (_, args) => {
   const isDevelopment = args.mode === 'development';
   return {
