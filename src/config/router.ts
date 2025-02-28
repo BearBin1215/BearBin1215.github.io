@@ -50,6 +50,11 @@ const routes: Route[] = [
         Component: () => import('@/pages/tools/LessParser'),
       },
       {
+        title: 'Sass解析器',
+        path: '/sassparser',
+        Component: () => import('@/pages/tools/SassParser'),
+      },
+      {
         title: 'MW小工具',
         path: '/mwgadgets',
         Component: () => import('@/pages/tools/MWGadgets'),

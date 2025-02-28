@@ -1,0 +1,44 @@
+.sassparser-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.4em;
+    margin: 0.4em 0;
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+    }
+
+    textarea,
+    pre {
+        font-size: 0.875rem;
+        box-sizing: border-box;
+        flex: 1 1 20em;
+        height: 40em;
+        max-height: 80vh;
+        resize: none;
+        background-color: rgba(255, 255, 255, 80%) !important;
+        margin: 0;
+        padding: 0.5em;
+        border: 1px solid #999;
+        white-space: pre-wrap;
+
+        &:focus-visible {
+            outline: unset;
+        }
+    }
+
+    .language-css {
+        white-space: pre-wrap !important;
+    }
+
+    .button-area {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.3em;
+
+        @media (max-width: 600px) {
+            flex-direction: row;
+        }
+    }
+}

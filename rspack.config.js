@@ -63,7 +63,7 @@ module.exports = (_, args) => {
           ],
         },
         {
-          test: /\.less$/,
+          test: /\.txt$/,
           assert: { type: 'string' },
           type: 'asset/source',
         },
