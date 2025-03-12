@@ -54,11 +54,6 @@ const routes: Route[] = [
         path: '/sass-parser',
         Component: () => import('@/pages/tools/sass-parser'),
       },
-      {
-        title: 'MW小工具',
-        path: '/mw-gadgets',
-        Component: () => import('@/pages/tools/mw-gadgets'),
-      },
     ],
   },
   {
