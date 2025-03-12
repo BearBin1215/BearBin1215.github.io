@@ -47,17 +47,17 @@ const routes: Route[] = [
       {
         title: 'Less解析器',
         path: '/less-parser',
-        Component: () => import('@/pages/tools/LessParser'),
+        Component: () => import('@/pages/tools/less-parser'),
       },
       {
         title: 'Sass解析器',
         path: '/sass-parser',
-        Component: () => import('@/pages/tools/SassParser'),
+        Component: () => import('@/pages/tools/sass-parser'),
       },
       {
         title: 'MW小工具',
         path: '/mw-gadgets',
-        Component: () => import('@/pages/tools/MWGadgets'),
+        Component: () => import('@/pages/tools/mw-gadgets'),
       },
     ],
   },
