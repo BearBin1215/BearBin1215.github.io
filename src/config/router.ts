@@ -54,6 +54,11 @@ const routes: Route[] = [
         path: '/sass-parser',
         Component: () => import('@/pages/tools/sass-parser'),
       },
+      {
+        title: 'JSON可视化',
+        path: '/json-view',
+        Component: () => import('@/pages/tools/json-view'),
+      },
     ],
   },
   {
