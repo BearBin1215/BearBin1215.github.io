@@ -1,5 +1,9 @@
 #json-view {
     padding: 1em 0.5em;
+
+    .string-value {
+        word-break: break-word;
+    }
 }
 
 #json-text {
