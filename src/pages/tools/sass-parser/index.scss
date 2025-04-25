@@ -8,7 +8,19 @@
         flex-direction: column;
     }
 
-    textarea,
+    .sass-editor {
+        font-size: 0.875rem;
+        box-sizing: border-box;
+        flex: 1 1 20em;
+        height: 40em;
+        max-height: 80vh;
+        border: 1px solid #999;
+
+        .cm-editor {
+            height: 100%;
+        }
+    }
+
     pre {
         font-size: 0.875rem;
         box-sizing: border-box;

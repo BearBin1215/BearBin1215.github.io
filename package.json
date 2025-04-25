@@ -60,6 +60,8 @@
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lang-less": "^6.0.2",
+    "@codemirror/lang-sass": "^6.0.2",
     "@codemirror/view": "^6.36.6",
     "@uiw/react-codemirror": "^4.23.10",
     "classnames": "^2.5.1",

@@ -1,18 +1,18 @@
-import React, { useState, useEffect, ChangeEventHandler } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactJson from 'react18-json-view';
 import CodeMirror from '@uiw/react-codemirror';
-import { json } from '@codemirror/lang-json';
 import { EditorView } from '@codemirror/view';
-import { Banner } from '@/components';
-import 'react18-json-view/src/style.css'
-import './index.scss';
+import { json } from '@codemirror/lang-json';
 import packageJson from '../../../../package.json';
+import { Banner } from '@/components';
+import 'react18-json-view/src/style.css';
+import './index.scss';
 
 const JSONView: React.FC = () => {
   const [src, setSrc] = useState(packageJson);
   const [text, setText] = useState(JSON.stringify(packageJson, null, 2));
 
-  const handleEdit = ({ src }: { src: any }) => {
+  const handleEdit = ({ src } : { src: object }) => {
     setText(JSON.stringify(src, null, 2));
   };
 

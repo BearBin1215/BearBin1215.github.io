@@ -1,7 +1,14 @@
+.mixin-example() {
+  display: flex;
+  justify-content: center;
+}
+
 .foo {
   color: #000;
 
   .bar {
+    .mixin-example();
+
     text-decoration: underline;
 
     &:hover {

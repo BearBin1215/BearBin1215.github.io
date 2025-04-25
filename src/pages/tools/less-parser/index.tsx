@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import CodeMirror from '@uiw/react-codemirror';
+import { EditorView } from '@codemirror/view';
+import { less } from '@codemirror/lang-less';
 import { render as parseLess } from 'less';
 import { debounce } from 'lodash-es';
 import example from './example.txt' assert { type: 'string' };
@@ -11,15 +14,11 @@ import saveFile from '@/utils/saveFile';
 import './index.scss';
 
 const StyleParser: React.FC = () => {
+  const [text, setText] = useState(example);
   const [lessParseResult, setLessParseResult] = useState('');
   const [isSucess, setIsSuccess] = useState(true);
 
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.value = example;
-    }
     parseLess(example).then(({ css }) => {
       setLessParseResult(css);
     });
@@ -27,8 +26,12 @@ const StyleParser: React.FC = () => {
   }, []);
 
   /** 输入框代码发生变化后若0.5s内无变化则进行解析 */
-  const handleLessCodeChange = debounce(({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>) => {
-    parseLess(value, (error, output) => {
+  const handleLessCodeChange = debounce((value: string) => {
+    setText(value);
+  }, 500);
+
+  useEffect(() => {
+    parseLess(text, (error, output) => {
       console.log(error, output);
       if (error) {
         setLessParseResult(error.message);
@@ -38,7 +41,7 @@ const StyleParser: React.FC = () => {
         setIsSuccess(true);
       }
     });
-  }, 500);
+  }, [text]);
 
   /** 复制结果 */
   const handleCopy = () => {
@@ -58,10 +61,11 @@ const StyleParser: React.FC = () => {
     <>
       <h1>Less解析器</h1>
       <div className='lessparser-wrapper'>
-        <textarea
+        <CodeMirror
+          className='less-editor'
+          value={text}
+          extensions={[less(), EditorView.lineWrapping]}
           onChange={handleLessCodeChange}
-          ref={inputRef}
-          className='code'
         />
         <div className='button-area'>
           <Button

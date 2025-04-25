@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import CodeMirror from '@uiw/react-codemirror';
+import { EditorView } from '@codemirror/view';
+import { sass } from '@codemirror/lang-sass';
 import { compileString } from 'sass';
 import { debounce } from 'lodash-es';
 import example from './example.txt' assert { type: 'string' };
@@ -11,28 +14,28 @@ import saveFile from '@/utils/saveFile';
 import './index.scss';
 
 const StyleParser: React.FC = () => {
+  const [text, setText] = useState(example);
   const [sassParseResult, setSassParseResult] = useState(compileString(example).css);
   const [isSucess, setIsSuccess] = useState(true);
 
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.value = example;
-    }
     SyntaxHighlighter.registerLanguage('css', css);
   }, []);
 
   /** 输入框代码发生变化后若0.5s内无变化则进行解析 */
-  const handleSassCodeChange = debounce(({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleSassCodeChange = debounce((value: string) => {
+    setText(value);
+  }, 500);
+
+  useEffect(() => {
     try {
-      const res = compileString(value);
+      const res = compileString(text);
       setSassParseResult(res.css);
       setIsSuccess(true);
     } catch (err) {
       setSassParseResult(`${err}`);
     }
-  }, 500);
+  }, [text]);
 
   /** 复制结果 */
   const handleCopy = () => {
@@ -52,10 +55,11 @@ const StyleParser: React.FC = () => {
     <>
       <h1>Sass解析器</h1>
       <div className='sassparser-wrapper'>
-        <textarea
+        <CodeMirror
+          className='sass-editor'
+          value={text}
+          extensions={[sass(), EditorView.lineWrapping]}
           onChange={handleSassCodeChange}
-          ref={inputRef}
-          className='code'
         />
         <div className='button-area'>
           <Button
