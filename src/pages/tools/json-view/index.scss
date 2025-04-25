@@ -1,14 +1,9 @@
 #json-view {
-    padding: 1em 0.5em;
-
-    .string-value {
-        word-break: break-word;
+    .json-view {
+        font-size: 14px;
     }
-}
 
-#json-text {
-    margin-top: 2em;
-    width: 100%;
-    resize: none;
-    height: 30em;
+    .json-editor {
+        border: 1px solid #bdbdbd;
+    }
 }
