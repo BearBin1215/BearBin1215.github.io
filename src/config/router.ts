@@ -59,6 +59,11 @@ const routes: Route[] = [
         path: '/json-view',
         Component: () => import('@/pages/tools/json-view'),
       },
+      {
+        title: 'quill',
+        path: '/quill',
+        Component: () => import('@/pages/tools/quill'),
+      },
     ],
   },
   {
