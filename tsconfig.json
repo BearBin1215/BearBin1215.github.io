@@ -2,11 +2,11 @@
   "compilerOptions": {
     "allowJs": true,
     "strict": true,
-    "target": "ES2015",
+    "target": "ESNext",
     "module": "ESNext",
     "esModuleInterop": true,
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": "./",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
@@ -26,7 +26,9 @@
     }
   },
   "include": [
-    "src"
+    "src/**/*",
+    "eslint.config.js",
+    "rspack.config.js",
   ],
   "exclude": [
     "node_modules"

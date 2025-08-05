@@ -10,7 +10,7 @@ interface RouteBasic {
  */
 interface RoutePage extends RouteBasic {
   path: string;
-  Component: () => Promise<{ default: React.FC }>;
+  Component: () => Promise<{ 'default': React.FC }>;
 }
 
 /**
@@ -76,10 +76,10 @@ const routes: Route[] = [
 /**
  * 展开嵌套路由为一维
  */
-const flattenRoutes = (routes: Route[]) => {
+const flattenRoutes = (argRoutes: Route[]) => {
   const flattened: RoutePage[] = [];
 
-  for (const route of routes) {
+  for (const route of argRoutes) {
     if ('path' in route) {
       flattened.push(route);
     } else {

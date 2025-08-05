@@ -1,129 +1,122 @@
-const path = require('path');
-const { rspack } = require('@rspack/core');
-const { TsCheckerRspackPlugin } = require('ts-checker-rspack-plugin');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { rspack } from '@rspack/core';
+import { defineConfig } from '@rspack/cli';
+import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
+import svgToMiniDataURI from 'mini-svg-data-uri';
 
-const postCssLoader = {
-  loader: 'postcss-loader',
-  options: {
-    postcssOptions: (loader) => ({
-      plugins: [
-        [
-          'autoprefixer',
-        ],
-        ...(loader.mode === 'production' ? [['cssnano', { preset: 'default' }]] : []),
-      ],
-    }),
+/** esm中模拟cjs的__dirname */
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default (_, args) => defineConfig({
+  entry: './src/index.tsx',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
   },
-};
-
-/** @returns {import('@rspack/core').RspackOptions} */
-module.exports = (_, args) => {
-  const isDevelopment = args.mode === 'development';
-  return {
-    entry: './src/index.tsx',
-    output: {
-      path: path.resolve(__dirname, 'dist'),
-    },
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
-          loader: 'builtin:swc-loader',
-          options: {
-            jsc: {
-              parser: {
-                syntax: 'typescript',
-              },
+  experiments: {
+    css: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        loader: 'builtin:swc-loader',
+        options: {
+          env: {
+            targets: '> 0.5%, not dead',
+          },
+          jsc: {
+            parser: {
+              syntax: 'typescript',
+              jsx: true,
             },
           },
-          type: 'javascript/auto',
         },
-        {
-          test: /\.jsx$/,
-          use: {
-            loader: 'builtin:swc-loader',
-            options: {
-              jsc: {
-                parser: {
-                  syntax: 'ecmascript',
-                  jsx: true,
-                },
-              },
-            },
-          },
-          type: 'javascript/auto',
-        },
-        {
-          test: /\.css$/i,
-          use: [
-            rspack.CssExtractRspackPlugin.loader,
-            'css-loader',
-            postCssLoader,
-          ],
-        },
-        {
-          test: /\.txt$/,
-          assert: { type: 'string' },
-          type: 'asset/source',
-        },
-        {
-          test: /\.s[ac]ss$/i,
-          use: [
-            rspack.CssExtractRspackPlugin.loader,
-            'css-loader',
-            postCssLoader,
-            {
-              loader: 'sass-loader',
-              options: {
-                api: 'modern-compiler',
-                implementation: require.resolve('sass-embedded'),
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(png|jpe?g|gif)/,
-          type: 'asset/resource',
-        },
-      ],
-    },
-    resolve: {
-      extensions: ['.tsx', '.ts', '.js'], // 添加 .ts 和 .tsx 扩展名
-      alias: {
-        '@': path.resolve(__dirname, 'src/'),
+        type: 'javascript/auto',
       },
-    },
-    plugins: [
-      new rspack.HtmlRspackPlugin({
-        template: './public/index.html',
-        favicon: './public/favicon.ico',
-      }),
-      new rspack.CssExtractRspackPlugin({}),
-      ...isDevelopment ? [new TsCheckerRspackPlugin()] : [],
-    ],
-    devServer: {
-      'static': './dist',
-      port: 8090,
-      open: true,
-      hot: true,
-    },
-    devtool: isDevelopment ? 'source-map' : false,
-    optimization: {
-      minimize: !isDevelopment,
-      minimizer: [
-        new rspack.SwcJsMinimizerRspackPlugin({
-          extractComments: false,
-          terserOptions: {
-            output: {
-              comments: false,
-            },
-            compress: {
-              drop_console: true,
+      {
+        test: /\.txt$/,
+        assert: { type: 'string' },
+        type: 'asset/source',
+      },
+      {
+        test: /\.(s[ac]ss|css)$/i,
+        type: 'css/auto',
+        use: [
+          {
+            loader: 'builtin:lightningcss-loader',
+            /** @type {import('@rspack/core').LightningcssLoaderOptions} */
+            options: {
+              targets: args.mode !== 'development' ? '> 0.5%, not dead' : void 0,
+              minify: args.mode !== 'development',
             },
           },
-        }),
-      ],
+          {
+            loader: 'sass-loader',
+            options: {
+              api: 'modern-compiler',
+              // implementation: require.resolve('sass-embedded'),
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        oneOf: [
+          // 在jsx中作为react组件引入
+          {
+            issuer: /\.[jt]sx$/,
+            use: ['@svgr/webpack'],
+          },
+          {
+            type: 'asset/inline',
+            generator: {
+              dataUrl: (content) => svgToMiniDataURI(content.toString()),
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif)/,
+        type: 'asset/resource',
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'], // 添加 .ts 和 .tsx 扩展名
+    alias: {
+      '@': path.resolve(__dirname, 'src/'),
     },
-  };
-};
+  },
+  plugins: [
+    new rspack.HtmlRspackPlugin({
+      template: './public/index.html',
+      favicon: './public/favicon.ico',
+    }),
+    ...(args.mode === 'development') ? [new TsCheckerRspackPlugin()] : [],
+  ],
+  devServer: {
+    'static': './dist',
+    port: 8090,
+    open: true,
+    hot: true,
+  },
+  devtool: (args.mode === 'development') ? 'source-map' : false,
+  optimization: {
+    minimize: args.mode !== 'development',
+    minimizer: [
+      new rspack.SwcJsMinimizerRspackPlugin({
+        extractComments: false,
+        minimizerOptions: {
+          compress: {
+            drop_console: true,
+          },
+        },
+      }),
+    ],
+  },
+  performance: {
+    maxAssetSize: 1024 * 1024 * 10,
+  },
+});

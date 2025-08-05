@@ -7,7 +7,7 @@ import {
   PostCSSIcon,
   GitHubIcon,
   WebpackIcon,
-  LoadingioIcon
+  LoadingioIcon,
 } from '@/components/SvgIcon';
 import './index.scss';
 

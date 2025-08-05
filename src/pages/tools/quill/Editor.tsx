@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import Quill from 'quill';
 

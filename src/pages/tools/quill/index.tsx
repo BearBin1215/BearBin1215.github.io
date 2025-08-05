@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Editor from './Editor.jsx';
+import Editor from './Editor';
 import './index.scss';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
