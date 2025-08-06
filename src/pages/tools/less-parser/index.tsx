@@ -7,10 +7,10 @@ import { EditorView } from '@codemirror/view';
 import { less } from '@codemirror/lang-less';
 import { render as parseLess } from 'less';
 import { debounce } from 'lodash-es';
-import example from './example.txt' assert { type: 'string' };
 import { Button } from '@/components';
 import { copyText } from '@/utils/clipboard';
 import saveFile from '@/utils/saveFile';
+import example from './example.txt';
 import './index.scss';
 
 const StyleParser: React.FC = () => {
@@ -19,8 +19,8 @@ const StyleParser: React.FC = () => {
   const [isSucess, setIsSuccess] = useState(true);
 
   useEffect(() => {
-    parseLess(example).then(({ css }) => {
-      setLessParseResult(css);
+    parseLess(example).then(({ css: res }) => {
+      setLessParseResult(res);
     });
     SyntaxHighlighter.registerLanguage('css', css);
   }, []);

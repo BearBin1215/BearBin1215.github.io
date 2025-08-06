@@ -12,8 +12,8 @@ const JSONView: React.FC = () => {
   const [src, setSrc] = useState(packageJson);
   const [text, setText] = useState(JSON.stringify(packageJson, null, 2));
 
-  const handleEdit = ({ src } : { src: object }) => {
-    setText(JSON.stringify(src, null, 2));
+  const handleEdit = (e : { src: object }) => {
+    setText(JSON.stringify(e.src, null, 2));
   };
 
   const handleTextChange = (value: string) => {
@@ -23,8 +23,8 @@ const JSONView: React.FC = () => {
   useEffect(() => {
     try {
       setSrc(JSON.parse(text));
-    } catch (error) {
-      console.info('JSON解析错误');
+    } catch (e) {
+      console.info('JSON解析错误', e);
     }
   }, [text]);
 

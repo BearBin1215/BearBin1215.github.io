@@ -7,10 +7,10 @@ import { EditorView } from '@codemirror/view';
 import { sass } from '@codemirror/lang-sass';
 import { compileString } from 'sass';
 import { debounce } from 'lodash-es';
-import example from './example.txt' assert { type: 'string' };
 import { Button } from '@/components';
 import { copyText } from '@/utils/clipboard';
 import saveFile from '@/utils/saveFile';
+import example from './example.txt';
 import './index.scss';
 
 const StyleParser: React.FC = () => {

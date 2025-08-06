@@ -37,7 +37,6 @@ export default (_, args) => defineConfig({
       },
       {
         test: /\.txt$/,
-        assert: { type: 'string' },
         type: 'asset/source',
       },
       {
