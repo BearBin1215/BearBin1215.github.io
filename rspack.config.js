@@ -40,23 +40,31 @@ export default (_, args) => defineConfig({
         type: 'asset/source',
       },
       {
-        test: /\.(s[ac]ss|css)$/i,
-        type: 'css/auto',
-        use: [
+        test: /\.(s[ac]ss|less|css)$/i,
+        oneOf: [
           {
-            loader: 'builtin:lightningcss-loader',
-            /** @type {import('@rspack/core').LightningcssLoaderOptions} */
-            options: {
-              targets: args.mode !== 'development' ? '> 0.5%, not dead' : void 0,
-              minify: args.mode !== 'development',
-            },
+            test: /\.inline\.(s[ac]ss|less|css)$/i,
+            type: 'asset/source',
           },
           {
-            loader: 'sass-loader',
-            options: {
-              api: 'modern-compiler',
-              // implementation: require.resolve('sass-embedded'),
-            },
+            type: 'css/auto',
+            use: [
+              {
+                loader: 'builtin:lightningcss-loader',
+                /** @type {import('@rspack/core').LightningcssLoaderOptions} */
+                options: {
+                  targets: args.mode !== 'development' ? '> 0.5%, not dead' : void 0,
+                  minify: args.mode !== 'development',
+                },
+              },
+              {
+                loader: 'sass-loader',
+                options: {
+                  api: 'modern-compiler',
+                  // implementation: require.resolve('sass-embedded'),
+                },
+              },
+            ],
           },
         ],
       },

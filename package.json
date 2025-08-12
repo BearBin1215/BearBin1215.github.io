@@ -29,7 +29,7 @@
     "@eslint/js": "^9.32.0",
     "@rspack/cli": "^1.4.10",
     "@rspack/core": "^1.4.10",
-    "@stylistic/eslint-plugin": "^5.2.2",
+    "@stylistic/eslint-plugin": "^5.2.3",
     "@svgr/webpack": "^8.1.0",
     "@types/less": "^3.0.8",
     "@types/lodash-es": "^4.17.12",
