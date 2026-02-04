@@ -10,12 +10,17 @@ const OritechCalculator = () => {
   // 勾选的插件总数
   const [selectedCount, setSelectedCount] = useState(0);
 
-  // 计算处理时间的函数
+  /** 计算处理时间 */
   const calculateTime = (speed: number, process: number) => {
-    const baseTime = 10; // 初始用时10s
-    const speedMultiplier = 1 + speed * (speedLevel * 0.5); // 每个速度插件提升350%
-    const processParallel = 1 + process; // 每个加工插件提供一个并行
-    return (baseTime / speedMultiplier / processParallel * 64).toFixed(2);
+    const baseTime = 200; // 初始用时200tick
+    /** 速度插件所提供的效率提升 */
+    const speedMultiplier = 1 + speed * (speedLevel * 0.5);
+    /** 处理单个物品所需时间，向下取整 */
+    const oneItemTick = Math.floor(baseTime / speedMultiplier);
+    /** 总并行数 */
+    const processParallel = 1 + process;
+
+    return (oneItemTick / processParallel * 64 / 20).toFixed(2);
   };
 
   return (
