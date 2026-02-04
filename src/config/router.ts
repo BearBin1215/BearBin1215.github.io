@@ -64,6 +64,11 @@ const routes: Route[] = [
         path: '/quill',
         Component: () => import('@/pages/tools/quill'),
       },
+      {
+        title: 'Oritech效率计算',
+        path: '/oritech-calculator',
+        Component: () => import('@/pages/tools/oritech-calculator'),
+      },
     ],
   },
   {
