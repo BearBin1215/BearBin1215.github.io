@@ -32,12 +32,17 @@ const OritechCalculator = () => {
       <p>点击第一列/行数字可高亮对应总数单元格。</p>
       <p>
         使用速度插件等级：
-        <input type='number' value={speedLevel} onChange={(e) => setSpeedLevel(parseInt(e.target.value))} />
+        <input
+          type='number'
+          value={speedLevel}
+          onChange={(e) => setSpeedLevel(parseInt(e.target.value))}
+          max={9}
+        />
       </p>
       <table className='oritech-calculator'>
         <tbody>
           <tr>
-            <td className='first-cell'>加工\速度</td>
+            <td className='first-cell' rowSpan={2}>加工\速度</td>
             {speedList.map((speed) => (
               <td
                 key={speed}
@@ -46,6 +51,16 @@ const OritechCalculator = () => {
                 style={{ cursor: 'pointer' }}
               >
                 {speed}
+              </td>
+            ))}
+          </tr>
+          <tr>
+            {speedList.map((speed) => (
+              <td
+                key={speed}
+                className={selectedCount === speed ? 'highlight' : ''}
+              >
+                {speedLevel * 0.5 * speed * 100}%
               </td>
             ))}
           </tr>
