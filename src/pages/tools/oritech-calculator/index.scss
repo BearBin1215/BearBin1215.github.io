@@ -5,10 +5,19 @@
         border: 1px solid #aaa;
         text-align: center;
         padding: 4px;
+        min-width: 3.5em;
+
+    &.first-cell {
+        min-width: 5em;
+    }
+
+        &.calculator-header {
+            font-weight: 500;
+        }
     }
 
     .highlight {
         background-color: rgba(127, 127, 127, 20%);
-        font-weight: bold;
+        font-weight: 500;
     }
 }

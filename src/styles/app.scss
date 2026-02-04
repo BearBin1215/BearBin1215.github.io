@@ -299,6 +299,8 @@ code,
 
         @media (max-width: 600px) {
             min-height: calc(100vh - styles-common.$header-height);
+            max-width: 100%;
+            overflow-x: auto;
             border-width: 1px;
             border-radius: 0;
         }
