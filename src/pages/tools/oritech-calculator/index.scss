@@ -6,10 +6,11 @@
         text-align: center;
         padding: 4px;
         min-width: 3.5em;
+        transition: background-color 0.2s ease-in-out;
 
-    &.first-cell {
-        min-width: 5em;
-    }
+        &.first-cell {
+            min-width: 5em;
+        }
 
         &.calculator-header {
             font-weight: 500;
@@ -17,7 +18,7 @@
     }
 
     .highlight {
-        background-color: rgba(127, 127, 127, 20%);
+        background-color: rgba(127, 127, 127, 17%);
         font-weight: 500;
     }
 }

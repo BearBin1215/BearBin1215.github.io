@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import './index.scss';
 
 const OritechCalculator = () => {
-  const speedList = [...Array(10).keys()];
-  const processList = [...Array(10).keys()];
+  /** 插件数量，即行、列数 */
+  const pluginCounts = 13;
+
+  const speedList = [...Array(pluginCounts).keys()];
+  const processList = [...Array(pluginCounts).keys()];
 
   // 速度插件等级
   const [speedLevel, setSpeedLevel] = useState(7);
@@ -25,12 +28,8 @@ const OritechCalculator = () => {
 
   return (
     <>
-      <p>
-        假定处理一个物品初始用时200tick（10s），本表计算处理64个物品所用时间（s）。
-      </p>
-      <p>
-        点击第一列/行数字可高亮对应总数单元格。
-      </p>
+      <p>假定处理一个物品初始用时200tick（10s），本表计算处理64个物品所用时间（s）。</p>
+      <p>点击第一列/行数字可高亮对应总数单元格。</p>
       <p>
         使用速度插件等级：
         <input type='number' value={speedLevel} onChange={(e) => setSpeedLevel(parseInt(e.target.value))} />
