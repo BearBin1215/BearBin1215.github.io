@@ -60,7 +60,7 @@ const OritechCalculator = () => {
                 key={speed}
                 className={selectedCount === speed ? 'highlight' : ''}
               >
-                {speedLevel * 0.5 * speed * 100}%
+                {(1 + speedLevel * 0.5 * speed) * 100}%
               </td>
             ))}
           </tr>
