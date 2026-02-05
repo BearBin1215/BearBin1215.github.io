@@ -210,25 +210,10 @@ code,
 /* 页面主体
 ------------------------------ */
 #page-container {
-    margin: styles-common.$zone-gap auto;
     display: flex;
-    gap: styles-common.$zone-gap;
-    width: 92vw;
-    max-width: 1600px;
-    padding: 0 styles-common.$zone-gap;
+    width: 100%;
+    height: calc(100vh - styles-common.$header-height);
     transition: margin ease-out 0.25s;
-
-    @media (max-width: 1024px) {
-        width: unset;
-        margin: math.div(styles-common.$zone-gap, 2);
-        padding: math.div(styles-common.$zone-gap, 2);
-    }
-
-    @media (max-width: 600px) {
-        width: unset;
-        margin: 0;
-        padding: 0;
-    }
 
     /* 侧边栏
     ------------------------------ */
@@ -238,13 +223,11 @@ code,
         box-sizing: border-box;
         flex: 0 0 16em;
         position: sticky;
-        top: calc(styles-common.$header-height + styles-common.$zone-gap);
-        height: calc(100vh - styles-common.$header-height - styles-common.$zone-gap * 2);
+        top: 0;
+        height: calc(100vh - styles-common.$header-height);
         border: 2px solid color.scale(styles-common.$default-block-bdcolor, $alpha: -15%);
         border-right: 0;
-        border-radius: styles-common.$default-border-radius 0 0 styles-common.$default-border-radius;
         background-color: styles-common.$default-block-bgcolor;
-        box-shadow: 0 0 12px 4px styles-common.$default-block-box-shadow-color;
         overflow: hidden;
 
         @include styles-common.narrow-hide-pad;
@@ -262,7 +245,6 @@ code,
                 @include styles-common.flex-center;
 
                 height: 100%;
-                border-radius: 0 0 0 styles-common.$default-border-radius;
                 text-decoration: none;
                 color: styles-common.$default-font-color;
                 background-color: color.scale(
@@ -285,15 +267,13 @@ code,
         flex: 1 1 80em;
         padding: styles-common.$default-block-padding;
         box-sizing: border-box;
-        min-height: calc(100vh - styles-common.$header-height - styles-common.$zone-gap * 2);
+        height: 100%;
+        overflow-y: auto;
         border: 2px solid color.scale(styles-common.$default-block-bdcolor, $alpha: -15%);
-        border-left-width: 0;
-        border-radius: 0 styles-common.$default-border-radius styles-common.$default-border-radius 0;
         background-color: styles-common.$default-block-bgcolor;
         box-shadow: 0 0 12px 4px styles-common.$default-block-box-shadow-color;
 
         @media (max-width: 1024px) {
-            border-radius: styles-common.$default-border-radius;
             border-left-width: 2px;
         }
 
@@ -302,7 +282,6 @@ code,
             max-width: 100%;
             overflow-x: auto;
             border-width: 1px;
-            border-radius: 0;
         }
     }
 }
