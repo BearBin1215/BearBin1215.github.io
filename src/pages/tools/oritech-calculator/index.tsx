@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 
 const OritechCalculator = () => {
@@ -12,6 +12,8 @@ const OritechCalculator = () => {
   const [speedLevel, setSpeedLevel] = useState(7);
   // 勾选的插件总数
   const [selectedCount, setSelectedCount] = useState(0);
+  // 当前勾选高亮斜线上的最小时间及其位置
+  const [minTimeInfo, setMinTimeInfo] = useState({ time: Infinity, speed: -1, process: -1 });
 
   /** 计算处理时间 */
   const calculateTime = (speed: number, process: number) => {
@@ -25,6 +27,28 @@ const OritechCalculator = () => {
 
     return (oneItemTick / processParallel * 64 / 20).toFixed(2);
   };
+
+  // 计算当前选中斜线上的最小时间
+  useEffect(() => {
+    let minTime = Infinity;
+    let minSpeed = -1;
+    let minProcess = -1;
+
+    // 只计算当前选中总数对应的斜线
+    for (let i = 0; i <= Math.min(selectedCount, pluginCounts - 1); i++) {
+      const j = selectedCount - i;
+      if (j >= 0 && j < pluginCounts) {
+        const time = parseFloat(calculateTime(i, j));
+        if (time < minTime) {
+          minTime = time;
+          minSpeed = i;
+          minProcess = j;
+        }
+      }
+    }
+
+    setMinTimeInfo({ time: minTime, speed: minSpeed, process: minProcess });
+  }, [speedLevel, selectedCount]);
 
   return (
     <>
@@ -73,14 +97,18 @@ const OritechCalculator = () => {
               >
                 {process}
               </td>
-              {speedList.map((speed) => (
-                <td
-                  key={`${process}-${speed}`}
-                  className={process + speed === selectedCount ? 'highlight' : ''}
-                >
-                  {calculateTime(speed, process)}
-                </td>
-              ))}
+              {speedList.map((speed) => {
+                const time = calculateTime(speed, process);
+                const isMinTime = speed === minTimeInfo.speed && process === minTimeInfo.process;
+                return (
+                  <td
+                    key={`${process}-${speed}`}
+                    className={`${process + speed === selectedCount ? 'highlight' : ''} ${isMinTime ? 'min-time' : ''}`}
+                  >
+                    {time}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
