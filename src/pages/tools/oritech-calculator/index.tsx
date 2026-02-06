@@ -25,7 +25,7 @@ const OritechCalculator = () => {
     /** 总并行数 */
     const processParallel = 1 + process;
 
-    return (oneItemTick / processParallel * 64 / 20).toFixed(2);
+    return oneItemTick / processParallel * 64 / 20;
   };
 
   // 计算当前选中斜线上的最小时间
@@ -38,7 +38,7 @@ const OritechCalculator = () => {
     for (let i = 0; i <= Math.min(selectedCount, pluginCounts - 1); i++) {
       const j = selectedCount - i;
       if (j >= 0 && j < pluginCounts) {
-        const time = parseFloat(calculateTime(i, j));
+        const time = calculateTime(i, j);
         if (time < minTime) {
           minTime = time;
           minSpeed = i;
@@ -98,14 +98,13 @@ const OritechCalculator = () => {
                 {process}
               </td>
               {speedList.map((speed) => {
-                const time = calculateTime(speed, process);
                 const isMinTime = speed === minTimeInfo.speed && process === minTimeInfo.process;
                 return (
                   <td
                     key={`${process}-${speed}`}
                     className={`${process + speed === selectedCount ? 'highlight' : ''} ${isMinTime ? 'min-time' : ''}`}
                   >
-                    {time}
+                    {calculateTime(speed, process).toFixed(2)}
                   </td>
                 );
               })}
