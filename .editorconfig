@@ -10,6 +10,3 @@ indent_size = 2
 
 [*.{js,jsx,ts,tsx}]
 charset = utf-8
-
-[*.{css,scss}]
-indent_size = 4

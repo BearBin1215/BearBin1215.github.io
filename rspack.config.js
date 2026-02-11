@@ -57,13 +57,7 @@ export default (_, args) => defineConfig({
                   minify: args.mode !== 'development',
                 },
               },
-              {
-                loader: 'sass-loader',
-                options: {
-                  api: 'modern-compiler',
-                  // implementation: require.resolve('sass-embedded'),
-                },
-              },
+              'less-loader',
             ],
           },
         ],

@@ -1,0 +1,55 @@
+@import url("../../styles/common.less");
+
+.bearui-banner {
+  padding: 0.37em;
+  margin: auto;
+  font-weight: 500;
+
+  .bearui-banner-inner {
+    padding: 0.75em 0.85em;
+
+    .bearui-banner-text {
+      margin: 0 2em;
+
+      @media (max-width: 600px) {
+        margin: 0 1.2em;
+      }
+    }
+
+    .bearui-banner-signature {
+      text-align: right;
+      font-size: 0.875em;
+      font-family: monospace;
+    }
+  }
+
+  .bearui-banner-source {
+    text-indent: 2em;
+  }
+
+  &+& {
+    margin-top: 0.625em;
+  }
+
+  &.bearui-banner-default {
+    border: 2px solid fade(lighten(@default-block-bdcolor, 55%), 53%);
+    // font-family: @default-serif-family;
+    max-width: 94%;
+
+    @media (max-width: 600px) {
+      max-width: 100%;
+    }
+
+    .bearui-banner-inner {
+      box-shadow: inset 0 0 1em fade(@default-blue-bgcolor, 65%);
+      border-radius: 0.35em;
+    }
+  }
+
+  &.bearui-banner-header {
+    border-width: 0 4px;
+    border-style: solid;
+    border-color: fade(darken(@default-block-bdcolor, 25%), 65%);
+    background-color: fade(lighten(@default-blue-bgcolor, 27%), 72%);
+  }
+}

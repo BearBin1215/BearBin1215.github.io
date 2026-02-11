@@ -1,0 +1,95 @@
+@import url("../../styles/common.less");
+
+@card-gap: 0.95em;
+
+.link-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: @card-gap;
+
+  +.link-card-list {
+    margin-top: @card-gap;
+  }
+
+  .link-card {
+    @card-border-radius: 16px;
+    @card-border-width: 2px;
+    @card-padding: @card-border-radius / 1.5;
+    @transition-duration: 0.6s;
+    @link-color: lighten(@default-block-bdcolor, 20%);
+
+    box-sizing: border-box;
+    display: block;
+    width: 380px;
+    height: 158px;
+    padding: @card-padding;
+    border-radius: @card-border-radius;
+    border: @card-border-width solid fade(lighten(@default-block-bdcolor, 20%), 55%);
+    transition: border-color ease-out @transition-duration,
+      box-shadow ease-out (@transition-duration / 1.5);
+
+    &,
+    &:hover,
+    &:active,
+    &:visited {
+      color: @link-color;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      max-width: calc(100vw - 2 * (1px + @default-block-padding));
+      height: 120px;
+
+      .link-card-inner {
+        padding: 0.65em 1.2em;
+      }
+    }
+
+    .link-card-inner {
+      .flex-center();
+
+      box-sizing: border-box;
+      height: 100%;
+      padding: 0.65em 1.4em;
+      box-shadow: inset 0 0 24px fade(lighten(@default-block-bdcolor, 65%), 85%);
+      border-radius: @card-border-radius / 1.5;
+      font-size: 1.15em;
+      color: inherit;
+      text-decoration: none;
+      gap: 10px;
+      transition: box-shadow ease-out @transition-duration;
+
+      .link-card-icon {
+        flex: 0 1 80px;
+        min-width: 60px;
+        transition: transform ease-in-out @transition-duration;
+      }
+
+      .link-card-text {
+        flex: 1 1 210px;
+      }
+    }
+
+    &.noicon {
+      .link-card-inner {
+        .flex-center();
+      }
+    }
+
+    &:hover {
+      border-color: fade(lighten(@default-block-bdcolor, 5%), 87%);
+
+      .link-card-inner {
+        box-shadow: inset 0 0 24px 10px fade(lighten(@default-block-bdcolor, 64%), 85%);
+      }
+
+      .link-card-icon {
+        transform: scale(1.14);
+      }
+    }
+
+    &:active {
+      box-shadow: 0 0 12px 2px lighten(@default-block-bdcolor, 44%);
+    }
+  }
+}

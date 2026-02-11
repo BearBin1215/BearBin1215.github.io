@@ -1,10 +1,10 @@
 import React from 'react';
-import { viewpointList, mgpViewpointList } from './viewpoint';
 import { Banner, Tabs } from '@/components';
 import { BannerProps } from '@/components/props';
+import { viewpointList, mgpViewpointList } from './viewpoint';
+import './index.less';
 
 const { Tab } = Tabs;
-import './index.scss';
 
 interface viewPointItem extends BannerProps {
   /** 用于map生成react节点 */

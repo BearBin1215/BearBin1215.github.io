@@ -1,0 +1,117 @@
+@import url("../common.less");
+@import url("../../styles/common.less");
+
+.bearui-button {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  user-select: none;
+  white-space: nowrap;
+  border: 1px solid @default-border-color;
+  border-radius: 4px;
+
+  &:disabled {
+    color: #fff;
+    border-color: @disabled-color;
+    background-color: @disabled-color;
+    cursor: not-allowed;
+
+    &.bearui-button-primary {
+      border-color: @disabled-primary-color;
+      background-color: @disabled-primary-color;
+    }
+
+    &.bearui-button-link,
+    &.bearui-button-flat {
+      border-color: transparent;
+      background-color: transparent;
+      color: @disabled-primary-color;
+    }
+  }
+
+  &:not(:disabled) {
+    color: @default-font-color;
+    background-color: #fff;
+    cursor: pointer;
+    transition: color 0.3s linear, border-color 0.3s linear,
+      background-color 0.3s linear;
+
+    &:hover {
+      color: @primary-color;
+      border-color: @primary-color;
+    }
+
+    &.bearui-button-primary {
+      color: #fff;
+      background-color: @primary-color;
+      border-color: @primary-color;
+
+      &:hover {
+        color: #fff;
+        border-color: lighten(@primary-color, @default-lighten-amount);
+        background-color: lighten(@primary-color, @default-lighten-amount);
+      }
+
+      &:active {
+        border-color: darken(@primary-color, @default-darken-amount);
+        background-color: darken(@primary-color, @default-darken-amount);
+      }
+    }
+
+    &.bearui-button-danger {
+      color: #fff;
+      background-color: @danger-color;
+      border-color: @danger-color;
+
+      &:hover {
+        color: #fff;
+        border-color: lighten(@danger-color, @default-lighten-amount);
+        background-color: lighten(@danger-color, @default-lighten-amount);
+      }
+
+      &:active {
+        border-color: darken(@danger-color, @default-darken-amount);
+        background-color: darken(@danger-color, @default-darken-amount);
+      }
+    }
+
+    &.bearui-button-flat,
+    &.bearui-button-link {
+      background-color: transparent;
+      border-color: transparent;
+
+      &:hover {
+        border-color: @flat-color;
+        background-color: @flat-color;
+      }
+
+      &:active {
+        border-color: darken(@flat-color, @default-darken-amount);
+        background-color: darken(@flat-color, @default-darken-amount);
+      }
+    }
+
+    &.bearui-button-flat {
+      &:hover,
+      &:active {
+        color: @default-font-color;
+      }
+    }
+
+    &.bearui-button-link {
+      color: @link-color;
+
+      &:hover {
+        color: lighten(@link-color, @default-lighten-amount);
+      }
+
+      &:active {
+        color: darken(@link-color, @default-darken-amount);
+      }
+    }
+  }
+}

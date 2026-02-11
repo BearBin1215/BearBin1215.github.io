@@ -6,7 +6,7 @@ import { json } from '@codemirror/lang-json';
 import packageJson from '../../../../package.json';
 import { Banner } from '@/components';
 import 'react18-json-view/src/style.css';
-import './index.scss';
+import './index.less';
 
 const JSONView: React.FC = () => {
   const [src, setSrc] = useState(packageJson);

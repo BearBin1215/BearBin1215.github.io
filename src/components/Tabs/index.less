@@ -1,0 +1,52 @@
+@import url("../../styles/common.less");
+@import url("../common.less");
+
+.bearui-tabs {
+  .bearui-tabs-panel {
+    display: flex;
+    border-bottom: 1px solid #e2e2e2;
+    user-select: none;
+
+    .bearui-tabs-label {
+      .flex-center();
+
+      position: relative;
+      min-width: 3em;
+      height: 40px;
+      padding: 0 8px;
+      cursor: pointer;
+      color: darken(@default-link-color, 35%);
+      font-weight: 500;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: fade(@default-block-bdcolor, 64%);
+        transition: all @default-transition-duration cubic-bezier(0.175, 0.885, 0.32, 1.125);
+      }
+
+      &.bearui-tabs-label-active {
+        background-image: linear-gradient(0deg,
+            fade(@default-block-bdcolor, 9%) 0,
+            transparent 100%);
+
+        &::after {
+          left: 0%;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .bearui-tabs-content {
+    padding: 1em;
+
+    @media (max-width: 600px) {
+      padding: 0.4em;
+    }
+  }
+}

@@ -9,7 +9,7 @@ import {
   WebpackIcon,
   LoadingioIcon,
 } from '@/components/SvgIcon';
-import './index.scss';
+import './index.less';
 
 const { LinkCard } = LinkCardWall;
 

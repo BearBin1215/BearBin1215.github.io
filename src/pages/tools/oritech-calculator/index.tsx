@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
+import './index.less';
 
 const OritechCalculator = () => {
   /** 插件数量，即行、列数 */

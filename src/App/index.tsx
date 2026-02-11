@@ -3,15 +3,15 @@ import {
   Routes,
   Route,
   NavLink,
-  useLocation
+  useLocation,
 } from 'react-router-dom';
 import { throttle } from 'lodash-es';
-import Menu from './Menu';
 import { LoadingIcon } from '@/components/SvgIcon';
 import router, { flattenRoutes } from '@/config/router';
 import type { RoutePage } from '@/config/router';
 import externalLinkList from '@/config/externalLink';
-import '../styles/app.scss';
+import Menu from './Menu';
+import '../styles/app.less';
 
 /** 懒加载组件 */
 const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {

@@ -1,0 +1,53 @@
+@import url("../../styles/common.less");
+@import url("../common.less");
+
+.bearui-collapse {
+  .bearui-collapse-label {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+    cursor: pointer;
+    user-select: none;
+    padding: 8px;
+    background-image: linear-gradient(90deg,
+        fade(@default-block-bdcolor, 15%) 0,
+        fade(@default-block-bdcolor, 8%) 90%,
+        transparent 100%);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: inherit;
+    }
+
+    &::before {
+      content: " ";
+      display: inline-block;
+      width: 16px;
+      height: 4px;
+      border-radius: 2px;
+      background: fade(@default-block-bdcolor, 64%);
+      transition: transform @default-transition-duration ease-out;
+    }
+  }
+
+  .bearui-collapse-content-wrapper {
+    transition: height @default-transition-duration ease-out;
+    overflow: hidden;
+  }
+
+  &.bearui-collapse-collapsed {
+    .bearui-collapse-label::before {
+      transform: rotate(270deg);
+    }
+  }
+
+  .bearui-collapse-content {
+    padding: 8px;
+    border: 1px solid fade(darken(@default-block-bdcolor, 25%), 35%);
+
+    @media (max-width: 600px) {
+      padding: 4px;
+    }
+  }
+}

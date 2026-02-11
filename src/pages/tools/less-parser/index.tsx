@@ -11,7 +11,7 @@ import { Button } from '@/components';
 import { copyText } from '@/utils/clipboard';
 import saveFile from '@/utils/saveFile';
 import example from './example.inline.less';
-import './index.scss';
+import './index.less';
 
 const StyleParser: React.FC = () => {
   const [text, setText] = useState(example);
