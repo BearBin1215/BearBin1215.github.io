@@ -50,11 +50,6 @@ const routes: Route[] = [
         Component: () => import('@/pages/tools/less-parser'),
       },
       {
-        title: 'Sass解析器',
-        path: '/sass-parser',
-        Component: () => import('@/pages/tools/sass-parser'),
-      },
-      {
         title: 'JSON可视化',
         path: '/json-view',
         Component: () => import('@/pages/tools/json-view'),
