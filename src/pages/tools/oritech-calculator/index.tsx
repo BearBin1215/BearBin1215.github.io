@@ -25,8 +25,10 @@ const OritechCalculator = () => {
     const oneItemTick = Math.floor(baseTime / speedMultiplier);
     /** 总并行数 */
     const processParallel = 1 + process * pluginLevel;
+    /** 总处理轮数 */
+    const processRounds = Math.ceil(64 / processParallel);
     // 结果为总执行轮数*单配方耗时
-    return Math.ceil(64 / processParallel) * (oneItemTick / 20);
+    return processRounds * oneItemTick / 20;
   };
 
   // 计算当前选中斜线上的最小时间
