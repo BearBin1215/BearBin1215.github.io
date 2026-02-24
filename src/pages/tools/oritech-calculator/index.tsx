@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import './index.less';
 
 const OritechCalculator = () => {
+  /** 配方用时 */
+  const baseTime = 400;
   /** 插件数量，即行、列数 */
   const pluginCounts = 13;
 
   const speedList = [...Array(pluginCounts).keys()];
   const processList = [...Array(pluginCounts).keys()];
 
-  // 速度插件等级
-  const [speedLevel, setSpeedLevel] = useState(7);
+  // 插件等级
+  const [pluginLevel, setPluginLevel] = useState(7);
   // 勾选的插件总数
   const [selectedCount, setSelectedCount] = useState(0);
   // 当前勾选高亮斜线上的最小时间及其位置
@@ -17,15 +19,14 @@ const OritechCalculator = () => {
 
   /** 计算处理时间 */
   const calculateTime = (speed: number, process: number) => {
-    const baseTime = 200; // 初始用时200tick
     /** 速度插件所提供的效率提升 */
-    const speedMultiplier = 1 + speed * (speedLevel * 0.5);
-    /** 处理单个物品所需时间，向下取整 */
+    const speedMultiplier = 1 + speed * (pluginLevel * 0.5);
+    /** 单配方耗时，向下取整 */
     const oneItemTick = Math.floor(baseTime / speedMultiplier);
     /** 总并行数 */
-    const processParallel = 1 + process;
-
-    return oneItemTick / processParallel * 64 / 20;
+    const processParallel = 1 + process * pluginLevel;
+    // 结果为总执行轮数*单配方耗时
+    return Math.ceil(64 / processParallel) * (oneItemTick / 20);
   };
 
   // 计算当前选中斜线上的最小时间
@@ -48,25 +49,31 @@ const OritechCalculator = () => {
     }
 
     setMinTimeInfo({ time: minTime, speed: minSpeed, process: minProcess });
-  }, [speedLevel, selectedCount]);
+  }, [pluginLevel, selectedCount]);
 
   return (
     <>
-      <p>假定处理一个物品初始用时200tick（10s），本表计算处理64个物品所用时间（s）。</p>
+      <p>假定处理一个物品初始用时{baseTime}tick（{baseTime / 20}s），本表计算处理64个物品所用时间（s）。</p>
       <p>点击第一列/行数字可高亮对应总数单元格。</p>
       <p>
-        使用速度插件等级：
+        使用插件等级（速度插件、加工室插件）：
         <input
           type='number'
-          value={speedLevel}
-          onChange={(e) => setSpeedLevel(parseInt(e.target.value))}
+          value={pluginLevel}
+          onChange={(e) => setPluginLevel(parseInt(e.target.value))}
           max={9}
         />
       </p>
       <table className='oritech-calculator'>
         <tbody>
           <tr>
-            <td className='first-cell' rowSpan={2}>加工\速度</td>
+            <td
+              className='first-cell'
+              rowSpan={2}
+              colSpan={2}
+            >
+              加工\速度
+            </td>
             {speedList.map((speed) => (
               <td
                 key={speed}
@@ -82,9 +89,11 @@ const OritechCalculator = () => {
             {speedList.map((speed) => (
               <td
                 key={speed}
-                className={selectedCount === speed ? 'highlight' : ''}
+                className={selectedCount === speed ? 'highlight remark' : 'remark'}
               >
-                {(1 + speedLevel * 0.5 * speed) * 100}%
+                {(1 + pluginLevel * 0.5 * speed) * 100}%
+                <br />
+                耗时{Math.floor(baseTime / (1 + speed * (pluginLevel * 0.5)))}t
               </td>
             ))}
           </tr>
@@ -96,6 +105,13 @@ const OritechCalculator = () => {
                 style={{ cursor: 'pointer' }}
               >
                 {process}
+              </td>
+              <td
+                className={selectedCount === process ? 'highlight remark' : 'remark'}
+              >
+                {1 + process * pluginLevel}并行
+                <br />
+                {Math.ceil(64 / (1 + process * pluginLevel))}轮
               </td>
               {speedList.map((speed) => {
                 const isMinTime = speed === minTimeInfo.speed && process === minTimeInfo.process;
