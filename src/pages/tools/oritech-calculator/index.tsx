@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+} from '@mui/joy';
 import './index.less';
 
 const OritechCalculator = () => {
@@ -10,8 +15,10 @@ const OritechCalculator = () => {
   const speedList = [...Array(pluginCounts).keys()];
   const processList = [...Array(pluginCounts).keys()];
 
-  // 插件等级
-  const [pluginLevel, setPluginLevel] = useState(7);
+  // 速度插件等级
+  const [speedLevel, setSpeedLevel] = useState(7);
+  // 加工室插件等级
+  const [processLevel, setProcessLevel] = useState(7);
   // 勾选的插件总数
   const [selectedCount, setSelectedCount] = useState(0);
   // 当前勾选高亮斜线上的最小时间及其位置
@@ -20,11 +27,11 @@ const OritechCalculator = () => {
   /** 计算处理时间 */
   const calculateTime = (speed: number, process: number) => {
     /** 速度插件所提供的效率提升 */
-    const speedMultiplier = 1 + speed * (pluginLevel * 0.5);
+    const speedMultiplier = 1 + speed * (speedLevel * 0.5);
     /** 单配方耗时，向下取整 */
     const oneItemTick = Math.floor(baseTime / speedMultiplier);
     /** 总并行数 */
-    const processParallel = 1 + process * pluginLevel;
+    const processParallel = 1 + process * processLevel;
     /** 总处理轮数 */
     const processRounds = Math.ceil(64 / processParallel);
     // 结果为总执行轮数*单配方耗时
@@ -51,7 +58,7 @@ const OritechCalculator = () => {
     }
 
     setMinTimeInfo({ time: minTime, speed: minSpeed, process: minProcess });
-  }, [pluginLevel, selectedCount]);
+  }, [speedLevel, processLevel, selectedCount]);
 
   return (
     <>
@@ -59,13 +66,35 @@ const OritechCalculator = () => {
       <p>点击第一列/行数字可高亮对应总数单元格。</p>
       <p>
         使用插件等级（速度插件、加工室插件）：
-        <input
-          type='number'
-          value={pluginLevel}
-          onChange={(e) => setPluginLevel(parseInt(e.target.value))}
-          max={9}
-        />
       </p>
+      <FormControl style={{ maxWidth: '15em', margin: '0.5em 0' }}>
+        <FormLabel>速度插件等级</FormLabel>
+        <Input
+          size='sm'
+          type='number'
+          value={speedLevel}
+          onChange={(e) => setSpeedLevel(parseInt(e.target.value))}
+          slotProps={{
+            input: {
+              max: 9,
+              step: 1,
+            },
+          }}
+        />
+        <FormLabel>加工室插件等级</FormLabel>
+        <Input
+          size='sm'
+          type='number'
+          value={processLevel}
+          onChange={(e) => setProcessLevel(parseInt(e.target.value))}
+          slotProps={{
+            input: {
+              max: 9,
+              step: 1,
+            },
+          }}
+        />
+      </FormControl>
       <table className='oritech-calculator'>
         <tbody>
           <tr>
@@ -93,9 +122,9 @@ const OritechCalculator = () => {
                 key={speed}
                 className={selectedCount === speed ? 'highlight remark' : 'remark'}
               >
-                {(1 + pluginLevel * 0.5 * speed) * 100}%
+                {(1 + speedLevel * 0.5 * speed) * 100}%
                 <br />
-                耗时{Math.floor(baseTime / (1 + speed * (pluginLevel * 0.5)))}t
+                耗时{Math.floor(baseTime / (1 + speed * (speedLevel * 0.5)))}t
               </td>
             ))}
           </tr>
@@ -111,9 +140,9 @@ const OritechCalculator = () => {
               <td
                 className={selectedCount === process ? 'highlight remark' : 'remark'}
               >
-                {1 + process * pluginLevel}并行
+                {1 + process * processLevel}并行
                 <br />
-                {Math.ceil(64 / (1 + process * pluginLevel))}轮
+                {Math.ceil(64 / (1 + process * processLevel))}轮
               </td>
               {speedList.map((speed) => {
                 const isMinTime = speed === minTimeInfo.speed && process === minTimeInfo.process;
