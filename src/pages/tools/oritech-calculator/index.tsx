@@ -30,10 +30,12 @@ const OritechCalculator = () => {
     const speedMultiplier = 1 + speed * (speedLevel * 0.5);
     /** 单配方耗时，向下取整 */
     const oneItemTick = Math.floor(baseTime / speedMultiplier);
+
     /** 总并行数 */
     const processParallel = 1 + process * processLevel;
     /** 总处理轮数 */
     const processRounds = Math.ceil(64 / processParallel);
+
     // 结果为总执行轮数*单配方耗时
     return processRounds * oneItemTick / 20;
   };
@@ -63,7 +65,7 @@ const OritechCalculator = () => {
   return (
     <>
       <p>假定处理一个物品初始用时{baseTime}tick（{baseTime / 20}s），本表计算处理64个物品所用时间（s）。</p>
-      <p>点击第一列/行数字可高亮对应总数单元格。</p>
+      <p>点击可高亮对应插件总数的单元格。</p>
       <p>
         使用插件等级（速度插件、加工室插件）：
       </p>
@@ -73,7 +75,7 @@ const OritechCalculator = () => {
           size='sm'
           type='number'
           value={speedLevel}
-          onChange={(e) => setSpeedLevel(parseInt(e.target.value))}
+          onChange={(e) => setSpeedLevel(Math.min(parseInt(e.target.value), 9))}
           slotProps={{
             input: {
               max: 9,
@@ -86,7 +88,7 @@ const OritechCalculator = () => {
           size='sm'
           type='number'
           value={processLevel}
-          onChange={(e) => setProcessLevel(parseInt(e.target.value))}
+          onChange={(e) => setProcessLevel(Math.min(parseInt(e.target.value), 9))}
           slotProps={{
             input: {
               max: 9,
@@ -110,7 +112,6 @@ const OritechCalculator = () => {
                 key={speed}
                 className={selectedCount === speed ? 'highlight calculator-header' : 'calculator-header'}
                 onClick={() => setSelectedCount(speed)}
-                style={{ cursor: 'pointer' }}
               >
                 {speed}
               </td>
@@ -121,6 +122,7 @@ const OritechCalculator = () => {
               <td
                 key={speed}
                 className={selectedCount === speed ? 'highlight remark' : 'remark'}
+                onClick={() => setSelectedCount(speed)}
               >
                 {(1 + speedLevel * 0.5 * speed) * 100}%
                 <br />
@@ -133,12 +135,12 @@ const OritechCalculator = () => {
               <td
                 className={selectedCount === process ? 'highlight calculator-header' : 'calculator-header'}
                 onClick={() => setSelectedCount(process)}
-                style={{ cursor: 'pointer' }}
               >
                 {process}
               </td>
               <td
                 className={selectedCount === process ? 'highlight remark' : 'remark'}
+                onClick={() => setSelectedCount(process)}
               >
                 {1 + process * processLevel}并行
                 <br />
@@ -150,6 +152,7 @@ const OritechCalculator = () => {
                   <td
                     key={`${process}-${speed}`}
                     className={`${process + speed === selectedCount ? 'highlight' : ''} ${isMinTime ? 'min-time' : ''}`}
+                    onClick={() => setSelectedCount(process + speed)}
                   >
                     {calculateTime(speed, process).toFixed(2)}
                   </td>

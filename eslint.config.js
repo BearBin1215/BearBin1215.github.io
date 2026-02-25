@@ -34,7 +34,6 @@ export default defineConfig(
     plugins: {
       '@stylistic': stylistic,
       'react': reactPlugin,
-      // 'jsx-a11y': jsxA11y,
     },
     settings: {
       react: {
