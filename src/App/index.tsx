@@ -164,11 +164,11 @@ const App: React.FC = () => {
           </nav>
           <footer>
             <a
-              href='https://www.pixiv.net/artworks/104835785'
+              href='https://x.com/roro046/status/2001238104209076417'
               rel='noopener noreferrer'
               target='_blank'
             >
-              BG: pixiv 104835785
+              背景画师: アシマ
             </a>
           </footer>
         </aside>

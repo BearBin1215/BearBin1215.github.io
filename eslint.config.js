@@ -1,13 +1,12 @@
-import { globalIgnores } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
 
-export default tseslint.config(
+export default defineConfig(
   globalIgnores([
     '**/node_modules/', // 依赖文件
     '**/dist/', // 输出文件
@@ -17,7 +16,6 @@ export default tseslint.config(
   eslint.configs.recommended,
   importPlugin.flatConfigs.recommended,
   tseslint.configs.recommended,
-  jsxA11y.flatConfigs.recommended,
   // #endregion
 
   // #region 通用配置
