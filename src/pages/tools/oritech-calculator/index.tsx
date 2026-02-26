@@ -12,8 +12,7 @@ const OritechCalculator = () => {
   /** 插件数量，即行、列数 */
   const pluginCounts = 13;
 
-  const speedList = [...Array(pluginCounts).keys()];
-  const processList = [...Array(pluginCounts).keys()];
+  const pluginList = [...Array(pluginCounts).keys()];
 
   // 速度插件等级
   const [speedLevel, setSpeedLevel] = useState(7);
@@ -107,7 +106,7 @@ const OritechCalculator = () => {
             >
               加工\速度
             </td>
-            {speedList.map((speed) => (
+            {pluginList.map((speed) => (
               <td
                 key={speed}
                 className={selectedCount === speed ? 'highlight calculator-header' : 'calculator-header'}
@@ -118,7 +117,7 @@ const OritechCalculator = () => {
             ))}
           </tr>
           <tr>
-            {speedList.map((speed) => (
+            {pluginList.map((speed) => (
               <td
                 key={speed}
                 className={selectedCount === speed ? 'highlight remark' : 'remark'}
@@ -130,7 +129,7 @@ const OritechCalculator = () => {
               </td>
             ))}
           </tr>
-          {processList.map((process) => (
+          {pluginList.map((process) => (
             <tr key={process}>
               <td
                 className={selectedCount === process ? 'highlight calculator-header' : 'calculator-header'}
@@ -146,7 +145,7 @@ const OritechCalculator = () => {
                 <br />
                 {Math.ceil(64 / (1 + process * processLevel))}轮
               </td>
-              {speedList.map((speed) => {
+              {pluginList.map((speed) => {
                 const isMinTime = speed === minTimeInfo.speed && process === minTimeInfo.process;
                 return (
                   <td
