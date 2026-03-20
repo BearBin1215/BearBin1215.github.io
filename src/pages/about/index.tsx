@@ -1,14 +1,11 @@
 import React from 'react';
 import { LinkCardWall } from '@/components';
-import {
-  ReactIcon,
-  TypeScriptIcon,
-  SassIcon,
-  PostCSSIcon,
-  GitHubIcon,
-  WebpackIcon,
-  LoadingioIcon,
-} from '@/components/SvgIcon';
+import ReactIcon from '@/components/SvgIcon/icons/react.svg?react';
+import TypeScriptIcon from '@/components/SvgIcon/icons/typescript.svg?react';
+import GitHubIcon from '@/components/SvgIcon/sites/GitHub';
+import LoadingioIcon from '@/components/SvgIcon/sites/Loadingio';
+import ViteIcon from '@/components/SvgIcon/icons/vite.svg?react';
+import lessLogo from '@/assets/less_logo.png';
 import './index.less';
 
 const { LinkCard } = LinkCardWall;
@@ -31,22 +28,16 @@ const About: React.FC = () => {
           语言：TypeScript
         </LinkCard>
         <LinkCard
-          href='https://sass-lang.com/'
-          icon={<SassIcon />}
+          href='https://lesscss.org/'
+          icon={<img src={lessLogo} />}
         >
-          CSS预处理器：Sass
+          CSS预处理器：Less
         </LinkCard>
         <LinkCard
-          href='https://postcss.org/'
-          icon={<PostCSSIcon />}
+          href='https://vite.dev/'
+          icon={<ViteIcon />}
         >
-          CSS转换：PostCSS
-        </LinkCard>
-        <LinkCard
-          href='https://webpack.js.org/'
-          icon={<WebpackIcon />}
-        >
-          构建工具：webpack
+          构建工具：Vite
         </LinkCard>
       </LinkCardWall>
       <LinkCardWall>

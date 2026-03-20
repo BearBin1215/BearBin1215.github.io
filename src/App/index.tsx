@@ -6,7 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { throttle } from 'lodash-es';
-import { LoadingIcon } from '@/components/SvgIcon';
+import LoadingIcon from '@/components/SvgIcon/icons/loading.svg?react';
 import router, { flattenRoutes } from '@/config/router';
 import type { RoutePage } from '@/config/router';
 import externalLinkList from '@/config/externalLink';
@@ -18,7 +18,7 @@ const LazyComponent: React.FC<{ route: RoutePage }> = ({ route }) => {
   const Component = lazy(() => route.Component());
 
   return (
-    <Suspense fallback={<LoadingIcon className='loading-icon' color='#7171df' />}>
+    <Suspense fallback={<LoadingIcon className='loading-icon' />}>
       <title>{route.title} - BearBin</title>
       <Component />
     </Suspense>

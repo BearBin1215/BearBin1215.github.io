@@ -15,8 +15,6 @@ export default defineConfig(({ mode }) => {
       react(),
       svgr({
         svgrOptions: {
-          exportType: 'named',
-          namedExport: 'ReactComponent',
           plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
         },
       }),

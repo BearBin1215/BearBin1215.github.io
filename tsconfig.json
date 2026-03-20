@@ -5,6 +5,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "esModuleInterop": true,
+    "isolatedModules": true,
     "outDir": "dist",
     "rootDir": "./",
     "moduleResolution": "bundler",
@@ -27,7 +28,6 @@
   "include": [
     "src/**/*",
     "eslint.config.js",
-    "rspack.config.js",
     "vite.config.ts",
   ],
   "exclude": [

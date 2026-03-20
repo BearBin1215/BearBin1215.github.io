@@ -24,7 +24,7 @@ const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(({
     'link-card',
     `link-card-length-${length}`,
     icon ? '' : 'noicon',
-    className
+    className,
   );
   return (
     <a
@@ -33,9 +33,11 @@ const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(({
       {...props}
     >
       <div className='link-card-inner'>
-        {icon && <div className='link-card-icon'>
-          {icon}
-        </div>}
+        {icon && (
+          <div className='link-card-icon'>
+            {icon}
+          </div>
+        )}
         <div className='link-card-text'>
           {children}
         </div>
