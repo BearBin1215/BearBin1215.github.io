@@ -29,6 +29,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@stylistic/eslint-plugin": "^5.8.0",
+    "@svgr/plugin-svgo": "^8.1.0",
     "@types/less": "^3.0.8",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.19.33",
