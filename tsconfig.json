@@ -7,8 +7,7 @@
     "esModuleInterop": true,
     "outDir": "dist",
     "rootDir": "./",
-    "ignoreDeprecations": "6.0",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -19,10 +18,9 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ]
     }
   },
@@ -30,8 +28,9 @@
     "src/**/*",
     "eslint.config.js",
     "rspack.config.js",
+    "vite.config.ts",
   ],
   "exclude": [
-    "node_modules"
+    "dist"
   ]
 }

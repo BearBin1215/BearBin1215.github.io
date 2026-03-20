@@ -10,7 +10,7 @@ import { debounce } from 'lodash-es';
 import { Button } from '@/components';
 import { copyText } from '@/utils/clipboard';
 import saveFile from '@/utils/saveFile';
-import example from './example.inline.less';
+import example from './example.inline.less?raw';
 import './index.less';
 
 const StyleParser: React.FC = () => {

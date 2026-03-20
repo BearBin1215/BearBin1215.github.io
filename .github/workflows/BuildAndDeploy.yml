@@ -7,10 +7,16 @@ on:
       - src/**
   workflow_dispatch:
 
+# TOKEN权限
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# 允许并发部署
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
@@ -19,9 +25,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: "20.x"
 
@@ -32,7 +38,7 @@ jobs:
         run: pnpm run build
 
       - name: 提交
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: './dist'
 
