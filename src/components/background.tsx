@@ -22,13 +22,13 @@ const backgrounds: BackgroundItem[] = [
   },
   {
     src: bg2,
-    position: "64% 45%",
-    source: "https://x.com/roro046/status/1983491023604212009",
+    position: "33% 45%",
+    source: "https://pixiv.net/artworks/147092236",
   },
   {
     src: bg3,
-    position: "33% 45%",
-    source: "https://pixiv.net/artworks/147092236",
+    position: "64% 45%",
+    source: "https://x.com/roro046/status/1983491023604212009",
   },
 ];
 
@@ -135,7 +135,7 @@ function Background() {
         ))}
       </div>
       {/* 背景图层上的全局覆层，为所有内容提供半透明背景色 */}
-      <div className="fixed inset-0 -z-10 bg-background/94" aria-hidden="true" />
+      <div className="fixed inset-0 -z-10 bg-background/83" aria-hidden="true" />
     </>
   );
 }
