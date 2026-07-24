@@ -1,0 +1,87 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "import", "vitest"],
+  "env": {
+    "browser": true,
+    "es2024": true
+  },
+  "categories": {
+    "correctness": "warn"
+  },
+  "rules": {
+    "curly": "error",
+    "dot-notation": "error",
+    "eqeqeq": "error",
+    "logical-assignment-operators": "error",
+    "no-else-return": "error",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-extra-bind": "error",
+    "no-labels": "error",
+    "no-lone-blocks": "error",
+    "no-loop-func": "error",
+    "no-magic-numbers": "off",
+    "no-misleading-character-class": "error",
+    "no-console": "off",
+    "no-inner-declarations": "off",
+    "no-new-func": "error",
+    "no-new-wrappers": "error",
+    "no-object-constructor": "error",
+    "no-param-reassign": "error",
+    "no-nested-ternary": "error",
+    "no-redeclare": "warn",
+    "no-template-curly-in-string": "error",
+    "no-unneeded-ternary": "error",
+    "no-unreachable": "warn",
+    "no-unused-expressions": "error",
+    "no-useless-rename": "error",
+    "no-useless-return": "error",
+    "no-var": "error",
+    "object-shorthand": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-destructuring": "off",
+    "prefer-exponentiation-operator": "error",
+    "prefer-rest-params": "error",
+    "prefer-spread": "error",
+    "prefer-template": "error",
+    "require-await": "error",
+    "yoda": "error",
+
+    "typescript/no-shadow": "error",
+    "typescript/ban-ts-comment": "off",
+    "typescript/no-explicit-any": "off",
+    "typescript/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
+
+    "react/jsx-no-useless-fragment": "warn",
+    "react-hooks/exhaustive-deps": "off",
+
+    "import/newline-after-import": ["error", { "considerComments": true }],
+    "import/no-duplicates": ["error", { "preferInline": true }]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+      "rules": {
+        "vitest/no-identical-title": "error",
+        "vitest/no-duplicate-hooks": "warn",
+        "vitest/consistent-test-it": ["error", { "fn": "it" }],
+        "vitest/max-nested-describe": ["warn", { "max": 5 }],
+        "vitest/consistent-test-filename": [
+          "error",
+          {
+            "pattern": "^.+\\.(test|spec)\\.(ts|tsx)$",
+            "allTestPattern": "\\.(test|spec)\\.(ts|tsx)$"
+          }
+        ]
+      }
+    }
+  ],
+  "ignorePatterns": ["**/node_modules/", "dist"]
+}

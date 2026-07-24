@@ -1,0 +1,367 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/noto-sans";
+@import "highlight.js/styles/github.css";
+
+@custom-variant dark (&:is(.dark *));
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+  --primary: oklch(0.52 0.105 223.128);
+  --primary-foreground: oklch(0.984 0.019 200.873);
+  --secondary: oklch(0.934 0.003 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+  --chart-1: oklch(0.828 0.111 230.318);
+  --chart-2: oklch(0.685 0.169 237.323);
+  --chart-3: oklch(0.588 0.158 241.966);
+  --chart-4: oklch(0.5 0.134 242.749);
+  --chart-5: oklch(0.443 0.11 240.79);
+  --radius: 0.625rem;
+  /* 顶栏高度，侧边栏 sticky 偏移与限高派生自此 */
+  --header-height: 3.5rem;
+  /* 顶栏底边位置（高度 + 1px border），供 sticky 偏移与限高引用 */
+  --header-offset: calc(var(--header-height) + 1px);
+}
+
+.dark {
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.61 0.11 224.1);
+  --primary-foreground: oklch(0.984 0.019 200.873);
+  --secondary: oklch(0.314 0.01 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+  --chart-1: oklch(0.828 0.111 230.318);
+  --chart-2: oklch(0.685 0.169 237.323);
+  --chart-3: oklch(0.588 0.158 241.966);
+  --chart-4: oklch(0.5 0.134 242.749);
+  --chart-5: oklch(0.443 0.11 240.79);
+}
+
+@theme inline {
+  --font-sans: ui-sans-serif, system-ui, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Inter Variable', sans-serif;
+  --font-heading: var(--font-sans);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* 统计卡片左侧图标在 hover 时周期性晃动 */
+  --animate-icon-wobble: icon-wobble 2.1s ease-in-out infinite;
+
+  @keyframes icon-wobble {
+    0%, 25%, 100% { transform: rotate(0deg); }
+    5% { transform: rotate(-8deg); }
+    12% { transform: rotate(4deg); }
+    18% { transform: rotate(-2deg); }
+  }
+
+  /* 顶部导航进度条：indeterminate 横向移动循环 */
+  --animate-navigation-progress: navigation-progress 1s ease-in-out infinite;
+
+  @keyframes navigation-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(300%); }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--muted-foreground) 40%, transparent) transparent;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+      border-radius: 4px;
+
+      &:hover {
+        background-color: color-mix(in oklch, var(--muted-foreground) 60%, transparent);
+      }
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+.tech-badge-bg {
+  background: linear-gradient(
+    to bottom left,
+    oklch(1 0 0 / 0.7) 30%,
+    oklch(0.8 0.12 225 / 0.7) 80%
+  )
+  fixed;
+
+  .dark & {
+    background: linear-gradient(
+      to bottom left,
+      oklch(0.3 0.06 225 / 0.8) 30%,
+      oklch(0.5 0.14 225 / 0.8) 80%
+    )
+    fixed;
+  }
+}
+
+.prose {
+  max-width: 90ch;
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--primary);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--muted-foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--muted);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+
+  del {
+    color: var(--muted-foreground);
+  }
+
+  /* 锚点跳转时留出 sticky header 的空间，避免标题与脚注被遮挡 */
+  h2, h3, h4,
+  .footnotes li[id],
+  [data-footnote-ref] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* 脚注引用上标两侧加方括号，与 GitHub 风格一致 */
+  [data-footnote-ref]::before {
+    content: "[";
+  }
+  [data-footnote-ref]::after {
+    content: "]";
+  }
+
+  /* 脚注引用上标不显示链接下划线，靠颜色区分可点击 */
+  [data-footnote-ref] {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  /* 行内代码：加边框与浅底，避免与正文混淆 */
+  :where(:not(pre) > code) {
+    background: color-mix(in oklch, var(--secondary) 58%, transparent);
+    border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+    padding: 0.125em 0.375em;
+    border-radius: 0.375em;
+    font-size: 0.875em;
+  }
+
+  /*
+   * 代码块：使用 highlight.js 着色，浅色 github.css 主题（@import 引入），
+   * 深色模式通过下方 .dark 作用域覆盖为 github-dark 配色。
+   * 背景色按 67% 透明度混合，以透出页面背景图。
+   */
+  pre {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0;
+    border-radius: var(--radius-sm);
+    border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+    background-color: color-mix(in oklch, #ffffff 67%, transparent);
+
+    code {
+      display: block;
+      padding: 0.75rem;
+      overflow-x: auto;
+      background: transparent;
+      border-radius: var(--radius-sm);
+    }
+
+    .dark & {
+      background-color: color-mix(in oklch, #0d1117 67%, transparent);
+    }
+  }
+}
+
+/*
+ * highlight.js 深色主题：覆盖上方浅色 github.css，仅在 .dark 作用域生效。
+ * 颜色值直接取自 highlight.js/styles/github-dark.css
+ */
+.dark {
+  .hljs {
+    color: #c9d1d9;
+    background: transparent;
+  }
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-meta .hljs-keyword,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-variable.language_ {
+    color: #ff7b72;
+  }
+  .hljs-title,
+  .hljs-title.class_,
+  .hljs-title.class_.inherited__,
+  .hljs-title.function_ {
+    color: #d2a8ff;
+  }
+  .hljs-attr,
+  .hljs-attribute,
+  .hljs-literal,
+  .hljs-meta,
+  .hljs-number,
+  .hljs-operator,
+  .hljs-variable,
+  .hljs-selector-attr,
+  .hljs-selector-class,
+  .hljs-selector-id {
+    color: #79c0ff;
+  }
+  .hljs-regexp,
+  .hljs-string,
+  .hljs-meta .hljs-string {
+    color: #a5d6ff;
+  }
+  .hljs-built_in,
+  .hljs-symbol {
+    color: #ffa657;
+  }
+  .hljs-comment,
+  .hljs-code,
+  .hljs-formula {
+    color: #8b949e;
+  }
+  .hljs-name,
+  .hljs-quote,
+  .hljs-selector-tag,
+  .hljs-selector-pseudo {
+    color: #7ee787;
+  }
+  .hljs-subst {
+    color: #c9d1d9;
+  }
+  .hljs-section {
+    color: #1f6feb;
+    font-weight: bold;
+  }
+  .hljs-bullet {
+    color: #f2cc60;
+  }
+  .hljs-emphasis {
+    color: #c9d1d9;
+    font-style: italic;
+  }
+  .hljs-strong {
+    color: #c9d1d9;
+    font-weight: bold;
+  }
+  .hljs-addition {
+    color: #aff5b4;
+    background-color: #033a16;
+  }
+  .hljs-deletion {
+    color: #ffdcd7;
+    background-color: #67060c;
+  }
+}
+
+/* 文本溢出时的左右滚动动画：停留-左滚-停留-右滚循环 */
+@keyframes marquee {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  40%,
+  50% {
+    transform: translateX(var(--marquee-distance, 0));
+  }
+  90%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 12s ease-in-out infinite;
+}

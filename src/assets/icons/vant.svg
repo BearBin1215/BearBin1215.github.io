@@ -1,0 +1,6 @@
+<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="500 0 500 287 315 394 78 251" fill="#1eb99c"/>
+  <polygon points="78 251 315 394 315 605 500 713 251 854 75 745" fill="#35d0b8"/>
+  <polygon points="500 713 500 1000 923 751 685 606" fill="#338ed1"/>
+  <polygon points="685 606 923 751 923 257 749 148 500 287 685 395" fill="#20b0f9"/>
+</svg>
