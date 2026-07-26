@@ -95,7 +95,15 @@ export function CopyScreenshotButton({ targetRef, filename }: CopyScreenshotButt
         backgroundColor: getThemeBackground(),
         width,
         height,
-        style: { padding: `${SCREENSHOT_PADDING}px` },
+        style: {
+          padding: `${SCREENSHOT_PADDING}px`,
+          // 移除 mx-auto 的大 margin（宽屏下基于原始父容器计算可达数百 px，
+          // 导致克隆节点在 canvas 中偏移、右侧被裁剪）
+          margin: "0",
+          // 移除 max-width 限制让节点撑满 canvas；
+          // 经计算 canvas 内容区 = 原始内容宽度，排版不变
+          maxWidth: "none",
+        },
         // 排除按钮自身，避免出现在截图中
         filter: (el) =>
           !(buttonNode !== null && (buttonNode === el || buttonNode.contains(el))),

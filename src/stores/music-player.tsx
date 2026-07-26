@@ -17,6 +17,13 @@ interface Track {
   cover: string;
   /** 音频文件 URL */
   src: string;
+  /**
+   * 音频总时长（秒），用于初始显示。
+   * 移动端浏览器在用户交互前不会主动加载 media metadata（即使设置了 preload="metadata"），
+   * 导致 loadedmetadata 事件不触发、duration 显示 0。硬编码时长作为兜底，
+   * 当 loadedmetadata 触发时会被实际值覆盖校准。
+   */
+  duration: number;
   /** 歌曲详情页链接（可选） */
   songUrl?: string;
   /** 专辑详情页链接（可选） */
@@ -33,6 +40,7 @@ const tracks: Track[] = [
     album: "Necromance ～散りゆく桜花と屍者の国～",
     cover: coverUrl,
     src: songUrl,
+    duration: 231, // 3:51，loadedmetadata 触发时会被实际值校准
     songUrl: "https://music.163.com/song?id=3370855400",
     albumUrl: "https://music.163.com/album?id=371363015",
     comment: (
@@ -40,7 +48,7 @@ const tracks: Track[] = [
         26春
         <ExternalLink
           href="https://zh.moegirl.org.cn/Music_Media-Mix_Market"
-          className="text-inherit underline decoration-dotted underline-offset-2 transition-colors hover:decoration-foreground"
+          className="text-inherit"
         >
           M3
         </ExternalLink>
@@ -87,8 +95,6 @@ interface MusicPlayerState {
   toggleMute: () => void;
   /** AudioController 专用：上报当前播放时间 */
   reportTimeUpdate: (time: number) => void;
-  /** AudioController 专用：上报总时长 */
-  reportDuration: (duration: number) => void;
   /** AudioController 专用：当前曲目播放结束，自动切到下一首（仅多曲目时） */
   reportEnded: () => void;
 }
@@ -100,33 +106,42 @@ export const useMusicPlayerStore = create<MusicPlayerState>()(
       currentIndex: 0,
       isPlaying: false,
       currentTime: 0,
-      duration: 0,
+      duration: tracks[0]!.duration,
       volume: 1,
       muted: false,
       play: () => set({ isPlaying: true }),
       pause: () => set({ isPlaying: false }),
       toggle: () => set((s) => ({ isPlaying: !s.isPlaying })),
       next: () =>
-        set((s) => ({
-          currentIndex: (s.currentIndex + 1) % s.tracks.length,
-          currentTime: 0,
-        })),
+        set((s) => {
+          const newIndex = (s.currentIndex + 1) % s.tracks.length;
+          return {
+            currentIndex: newIndex,
+            currentTime: 0,
+            duration: s.tracks[newIndex]!.duration,
+          };
+        }),
       prev: () =>
-        set((s) => ({
-          currentIndex: (s.currentIndex - 1 + s.tracks.length) % s.tracks.length,
-          currentTime: 0,
-        })),
+        set((s) => {
+          const newIndex = (s.currentIndex - 1 + s.tracks.length) % s.tracks.length;
+          return {
+            currentIndex: newIndex,
+            currentTime: 0,
+            duration: s.tracks[newIndex]!.duration,
+          };
+        }),
       seek: (time) => set({ currentTime: time }),
       setVolume: (v) => set((s) => ({ volume: v, muted: v > 0 ? false : s.muted })),
       toggleMute: () => set((s) => ({ muted: !s.muted })),
       reportTimeUpdate: (time) => set({ currentTime: time }),
-      reportDuration: (duration) => set({ duration }),
       reportEnded: () => {
         const state = get();
         if (state.tracks.length > 1) {
+          const newIndex = (state.currentIndex + 1) % state.tracks.length;
           set({
-            currentIndex: (state.currentIndex + 1) % state.tracks.length,
+            currentIndex: newIndex,
             currentTime: 0,
+            duration: state.tracks[newIndex]!.duration,
           });
         } else {
           set({ isPlaying: false, currentTime: 0 });

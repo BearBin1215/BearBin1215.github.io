@@ -1,4 +1,5 @@
 import { useLocation } from "react-router";
+import { ExternalLink } from "@/components/external-link";
 import { backgrounds, useBackgroundStore } from "@/stores/background";
 import { cn } from "@/lib/utils";
 
@@ -17,29 +18,30 @@ function Footer() {
 
   return (
     <footer className="border-t">
-      <div className="mx-auto flex h-14 items-center justify-end gap-2 bg-background/24 px-6 text-xs text-muted-foreground">
+      {/* 移动端两行（免责声明上、图源下），桌面端单行 */}
+      <div className="mx-auto flex flex-col justify-center gap-1 bg-background/24 px-4 py-2 text-xs text-muted-foreground md:h-14 md:flex-row md:items-center md:justify-end md:gap-2 md:px-6 md:py-0">
         {showDisclaimer && (
-          <span className="mr-auto min-w-0 truncate">
+          <span className="min-w-0 md:mr-auto md:truncate">
             文章内容仅代表个人观点，不构成任何专业建议
           </span>
         )}
-        <span>背景图源：</span>
-        {sources.map((item, i) => (
-          <span key={item.index} className="flex items-center gap-2">
-            {i > 0 && <span>·</span>}
-            <a
-              href={item.source}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                "transition-colors hover:text-foreground",
-                item.index - 1 === currentIndex && "font-bold text-foreground",
-              )}
-            >
-              {item.index}
-            </a>
-          </span>
-        ))}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span>背景图源：</span>
+          {sources.map((item, i) => (
+            <span key={item.index} className="flex items-center gap-1.5">
+              {i > 0 && <span>·</span>}
+              <ExternalLink
+                href={item.source}
+                className={cn(
+                  "transition-colors hover:text-foreground",
+                  item.index - 1 === currentIndex && "font-bold text-foreground",
+                )}
+              >
+                {item.index}
+              </ExternalLink>
+            </span>
+          ))}
+        </div>
       </div>
     </footer>
   );

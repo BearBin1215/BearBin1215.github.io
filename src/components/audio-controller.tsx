@@ -4,7 +4,8 @@ import { useMusicPlayerStore, useCurrentTrack } from "@/stores/music-player";
 /**
  * 全局音频控制器：在布局层挂载唯一一个 <audio> 元素。
  * - 将 store 中的 isPlaying/currentIndex/volume/muted 同步到 audio 元素
- * - 将 audio 事件（timeupdate、loadedmetadata、ended）回传到 store
+ * - 将 audio 事件（timeupdate、ended）回传到 store
+ * - duration 由 Track 数据硬编码，不依赖 loadedmetadata
  */
 function AudioController() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -14,23 +15,10 @@ function AudioController() {
   const volume = useMusicPlayerStore((s) => s.volume);
   const muted = useMusicPlayerStore((s) => s.muted);
   const reportTimeUpdate = useMusicPlayerStore((s) => s.reportTimeUpdate);
-  const reportDuration = useMusicPlayerStore((s) => s.reportDuration);
   const reportEnded = useMusicPlayerStore((s) => s.reportEnded);
 
   const track = useCurrentTrack();
   const effectiveVolume = muted ? 0 : volume;
-
-  // 挂载时若 duration 已就绪（缓存命中/StrictMode 重挂载），主动上报
-  // 避免 loadedmetadata 一次性事件在事件绑定前触发而丢失，导致 duration 显示 0
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) {
-      return;
-    }
-    if (Number.isFinite(audio.duration) && audio.duration > 0) {
-      reportDuration(audio.duration);
-    }
-  }, [reportDuration]);
 
   // 播放/暂停控制
   useEffect(() => {
@@ -90,7 +78,6 @@ function AudioController() {
       src={track.src}
       preload="metadata"
       onTimeUpdate={(e) => reportTimeUpdate(e.currentTarget.currentTime)}
-      onLoadedMetadata={(e) => reportDuration(e.currentTarget.duration)}
       onEnded={reportEnded}
       hidden
     />

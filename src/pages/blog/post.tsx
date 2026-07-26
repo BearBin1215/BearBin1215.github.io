@@ -390,7 +390,7 @@ function PostContent({ post }: { post: BlogPost }) {
 
   return (
     <>
-      <article ref={articleRef} className="mx-auto max-w-4xl px-1 py-6">
+      <article ref={articleRef} className="mx-auto max-w-4xl px-1">
         <header className="mb-8 border-b pb-4">
           <div className="flex items-center justify-between gap-3">
             <h1 className="text-2xl font-semibold md:text-3xl">{post.title}</h1>

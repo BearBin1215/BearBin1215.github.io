@@ -267,7 +267,7 @@ function Blog() {
       </aside>
 
       {/* 中间文章内容 */}
-      <main className="min-w-0 flex-1 px-6 py-2">
+      <main className="min-w-0 flex-1 p-6">
         <Outlet context={context} />
       </main>
 

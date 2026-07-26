@@ -94,7 +94,7 @@ function BlogOverview() {
   /** 文章为空时的友好提示 */
   if (posts.length === 0) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center">
+      <div className="mx-auto max-w-4xl py-16 text-center">
         <p className="text-muted-foreground">还没有文章，敬请期待。</p>
       </div>
     );
@@ -104,7 +104,7 @@ function BlogOverview() {
   const recentPosts = posts.slice(0, RECENT_POSTS_LIMIT);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
+    <div className="mx-auto max-w-4xl space-y-8">
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold">杂记</h1>
       </header>
