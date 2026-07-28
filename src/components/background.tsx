@@ -59,7 +59,10 @@ function Background() {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+      <div
+        className="pointer-events-none fixed top-0 bottom-0 left-0 -z-10 w-screen"
+        aria-hidden="true"
+      >
         {backgrounds.map((item, i) => (
           <img
             key={item.src}
@@ -75,7 +78,10 @@ function Background() {
         ))}
       </div>
       {/* 背景图层上的全局覆层，为所有内容提供半透明背景色 */}
-      <div className="fixed inset-0 -z-10 bg-background/83" aria-hidden="true" />
+      <div
+        className="fixed top-0 bottom-0 left-0 -z-10 w-screen bg-background/83"
+        aria-hidden="true"
+      />
     </>
   );
 }

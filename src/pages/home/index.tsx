@@ -151,7 +151,13 @@ function Home() {
             <p>
               现居福建厦门，<del>不自信又</del>普通的社畜。
             </p>
-            <p>爱好方面以游戏、视频为主。目前对同人音乐比较感兴趣，每届 <ExternalLink href="https://zh.moegirl.org.cn/Music_Media-Mix_Market">M3</ExternalLink> 会买几张碟的样子。</p>
+            <p>
+              爱好方面以游戏、视频为主。目前对同人音乐比较感兴趣，每届{" "}
+              <ExternalLink href="https://zh.moegirl.org.cn/Music_Media-Mix_Market">
+                M3
+              </ExternalLink>{" "}
+              会买几张碟的样子。
+            </p>
             <p>
               大学期间做过一阵子明日方舟攻略视频，后来随着毕业临近就停了。停更的时候微博和B站加起来应该有个4万多的粉丝，现在也是掉下来了。
             </p>

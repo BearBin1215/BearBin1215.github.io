@@ -116,7 +116,7 @@ function CodeBlock({
         aria-label={copied ? "已复制" : "复制代码"}
         className={cn(
           buttonVariants({ variant: "ghost", size: "icon-xs" }),
-          "absolute right-1.5 top-1.5 z-10 bg-background/70 text-muted-foreground backdrop-blur hover:bg-background/90 hover:text-foreground md:opacity-0 md:group-hover:opacity-100",
+          "absolute top-1.5 right-1.5 z-10 bg-background/70 text-muted-foreground backdrop-blur hover:bg-background/90 hover:text-foreground md:opacity-0 md:group-hover:opacity-100",
         )}
       >
         {copied ? <Check className="text-emerald-500" /> : <Copy />}
@@ -351,7 +351,7 @@ function PostContent({ post }: { post: BlogPost }) {
           <a
             {...props}
             aria-label="返回引用处"
-            className="ms-0.5 inline-flex size-3.5 items-center align-middle text-muted-foreground decoration-none transition-colors hover:text-primary"
+            className="decoration-none ms-0.5 inline-flex size-3.5 items-center align-middle text-muted-foreground transition-colors hover:text-primary"
           >
             <CornerUpLeft className="size-full" />
           </a>
@@ -413,10 +413,10 @@ function PostContent({ post }: { post: BlogPost }) {
         </header>
         <div className="prose prose-sm max-w-none md:prose-base">
           <MarkdownHooks
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeHighlight]}
-          remarkRehypeOptions={{ footnoteLabel: "参考文献" }}
-          components={components}
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight]}
+            remarkRehypeOptions={{ footnoteLabel: "参考文献" }}
+            components={components}
             fallback={<LoadingPlaceholder spinnerSize="size-6" className="py-8" />}
           >
             {post.content}

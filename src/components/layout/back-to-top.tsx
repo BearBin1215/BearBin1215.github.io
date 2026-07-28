@@ -33,10 +33,8 @@ function BackToTop() {
       aria-label="返回顶部"
       className={cn(
         buttonVariants({ variant: "outline", size: "icon" }),
-        "fixed bottom-6 right-6 z-40 rounded-full bg-background/80 shadow-lg backdrop-blur transition-all duration-200 hover:bg-background/95",
-        visible
-          ? "opacity-100"
-          : "pointer-events-none translate-y-2 opacity-0",
+        "fixed right-6 bottom-6 z-40 rounded-full bg-background/80 shadow-lg backdrop-blur transition-all duration-200 hover:bg-background/95",
+        visible ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
       )}
     >
       <ArrowUp className="size-5" />

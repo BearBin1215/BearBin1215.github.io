@@ -150,6 +150,8 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+    /* 裁剪文档流中的水平溢出（如宽表格），避免产生 html 水平滚动条 */
+    overflow-x: clip;
 
     @media (prefers-reduced-motion: reduce) {
       scroll-behavior: auto;

@@ -45,7 +45,7 @@ function Header() {
     );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b">
+    <header className="sticky top-0 z-50 w-screen border-b">
       <div
         className={cn(
           "mx-auto flex h-(--header-height) items-center justify-between px-5",
