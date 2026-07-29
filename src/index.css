@@ -66,7 +66,9 @@
 }
 
 @theme inline {
-  --font-sans: ui-sans-serif, system-ui, 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'Inter Variable', sans-serif;
+  --font-sans:
+    ui-sans-serif, system-ui, "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji", "Inter Variable", sans-serif;
   --font-heading: var(--font-sans);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
@@ -103,18 +105,32 @@
   --animate-icon-wobble: icon-wobble 2.1s ease-in-out infinite;
 
   @keyframes icon-wobble {
-    0%, 25%, 100% { transform: rotate(0deg); }
-    5% { transform: rotate(-8deg); }
-    12% { transform: rotate(4deg); }
-    18% { transform: rotate(-2deg); }
+    0%,
+    25%,
+    100% {
+      transform: rotate(0deg);
+    }
+    5% {
+      transform: rotate(-8deg);
+    }
+    12% {
+      transform: rotate(4deg);
+    }
+    18% {
+      transform: rotate(-2deg);
+    }
   }
 
   /* 顶部导航进度条：indeterminate 横向移动循环 */
   --animate-navigation-progress: navigation-progress 1s ease-in-out infinite;
 
   @keyframes navigation-progress {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(300%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(300%);
+    }
   }
 }
 
@@ -122,7 +138,12 @@
   * {
     @apply border-border outline-ring/50;
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in oklch, var(--muted-foreground) 40%, transparent) transparent;
+    scrollbar-color: color-mix(
+        in oklch,
+        var(--muted-foreground) 40%,
+        transparent
+      )
+      transparent;
 
     &::-webkit-scrollbar {
       width: 8px;
@@ -134,11 +155,19 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+      background-color: color-mix(
+        in oklch,
+        var(--muted-foreground) 40%,
+        transparent
+      );
       border-radius: 4px;
 
       &:hover {
-        background-color: color-mix(in oklch, var(--muted-foreground) 60%, transparent);
+        background-color: color-mix(
+          in oklch,
+          var(--muted-foreground) 60%,
+          transparent
+        );
       }
     }
   }
@@ -165,19 +194,19 @@
 
 .tech-badge-bg {
   background: linear-gradient(
-    to bottom left,
-    oklch(1 0 0 / 0.7) 30%,
-    oklch(0.8 0.12 225 / 0.7) 80%
-  )
-  fixed;
+      to bottom left,
+      oklch(1 0 0 / 0.7) 30%,
+      oklch(0.8 0.12 225 / 0.7) 80%
+    )
+    fixed;
 
   .dark & {
     background: linear-gradient(
-      to bottom left,
-      oklch(0.3 0.06 225 / 0.8) 30%,
-      oklch(0.5 0.14 225 / 0.8) 80%
-    )
-    fixed;
+        to bottom left,
+        oklch(0.3 0.06 225 / 0.8) 30%,
+        oklch(0.5 0.14 225 / 0.8) 80%
+      )
+      fixed;
   }
 }
 
@@ -206,11 +235,18 @@
 
   /* 正文链接：默认点状下划线，hover 切虚线，颜色与正文一致（不用 primary 蓝） */
   a {
+    font-weight: inherit;
     text-decoration-line: underline;
     text-decoration-style: dotted;
-    text-decoration-color: color-mix(in oklch, var(--foreground) 60%, transparent);
+    text-decoration-color: color-mix(
+      in oklch,
+      var(--foreground) 60%,
+      transparent
+    );
     text-underline-offset: 2px;
-    transition: text-decoration-style 0.15s, text-decoration-color 0.15s;
+    transition:
+      text-decoration-style 0.15s,
+      text-decoration-color 0.15s;
 
     &:hover {
       text-decoration-style: dashed;
@@ -219,7 +255,9 @@
   }
 
   /* 锚点跳转时留出 sticky header 的空间，避免标题与脚注被遮挡 */
-  h2, h3, h4,
+  h2,
+  h3,
+  h4,
   .footnotes li[id],
   [data-footnote-ref] {
     scroll-margin-top: 5rem;
@@ -275,6 +313,10 @@
     .dark & {
       background-color: color-mix(in oklch, #0d1117 67%, transparent);
     }
+  }
+
+  blockquote {
+    quotes: "\300C" "\300D" "\300E" "\300F";
   }
 }
 
