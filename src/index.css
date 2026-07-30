@@ -318,6 +318,11 @@
   blockquote {
     quotes: "\300C" "\300D" "\300E" "\300F";
   }
+
+  hr {
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+  }
 }
 
 /*
