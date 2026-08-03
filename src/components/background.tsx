@@ -58,31 +58,26 @@ function Background() {
   }, [initialIndex, setCurrentIndex]);
 
   return (
-    <>
-      <div
-        className="pointer-events-none fixed top-0 bottom-0 left-0 -z-10 w-screen"
-        aria-hidden="true"
-      >
-        {backgrounds.map((item, i) => (
-          <img
-            key={item.src}
-            ref={(el) => {
-              imgRef.current[i] = el;
-            }}
-            src={item.src}
-            alt=""
-            loading={i === initialIndex ? "eager" : "lazy"}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ opacity: 0, objectPosition: item.position ?? "center" }}
-          />
-        ))}
-      </div>
+    <div
+      className="pointer-events-none fixed top-0 bottom-0 left-0 -z-10 w-screen"
+      aria-hidden="true"
+    >
+      {backgrounds.map((item, i) => (
+        <img
+          key={item.src}
+          ref={(el) => {
+            imgRef.current[i] = el;
+          }}
+          src={item.src}
+          alt=""
+          loading={i === initialIndex ? "eager" : "lazy"}
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ opacity: 0, objectPosition: item.position ?? "center" }}
+        />
+      ))}
       {/* 背景图层上的全局覆层，为所有内容提供半透明背景色 */}
-      <div
-        className="fixed top-0 bottom-0 left-0 -z-10 w-screen bg-background/83"
-        aria-hidden="true"
-      />
-    </>
+      <div className="absolute inset-0 bg-background/83" />
+    </div>
   );
 }
 

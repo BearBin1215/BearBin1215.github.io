@@ -154,88 +154,86 @@ function OritechCalculator() {
         </p>
       )}
 
-      <div className="overflow-x-auto">
-        <Table className="border-collapse bg-card/24">
-          <TableHeader>
-            <TableRow>
-              <TableHead rowSpan={2} colSpan={2} className="bg-muted/40 text-center">
-                加工\速度
+      <Table className="border-collapse bg-card/24">
+        <TableHeader>
+          <TableRow>
+            <TableHead rowSpan={2} colSpan={2} className="bg-muted/40 text-center">
+              加工\速度
+            </TableHead>
+            {pluginList.map((speed) => (
+              <TableHead
+                key={speed}
+                onClick={() => setSelectedCount(speed)}
+                className={cn(
+                  "cursor-pointer bg-muted/40 text-center",
+                  selectedCount === speed && "bg-secondary/80",
+                )}
+              >
+                {speed}
               </TableHead>
-              {pluginList.map((speed) => (
-                <TableHead
-                  key={speed}
-                  onClick={() => setSelectedCount(speed)}
-                  className={cn(
-                    "cursor-pointer bg-muted/40 text-center",
-                    selectedCount === speed && "bg-secondary/80",
-                  )}
-                >
-                  {speed}
-                </TableHead>
-              ))}
-            </TableRow>
-            <TableRow>
-              {pluginList.map((speed) => (
-                <TableHead
-                  key={speed}
-                  onClick={() => setSelectedCount(speed)}
-                  className={cn(
-                    "cursor-pointer bg-muted/40 text-center text-xs leading-tight font-normal",
-                    selectedCount === speed && "bg-secondary/80",
-                  )}
-                >
-                  {(1 + speedLevel * 0.5 * speed) * 100}%
-                  <br />
-                  耗时{Math.floor(BASE_TIME / (1 + speed * (speedLevel * 0.5)))}t
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {pluginList.map((process) => (
-              <TableRow key={process}>
-                <TableCell
-                  onClick={() => setSelectedCount(process)}
-                  className={cn(
-                    "cursor-pointer bg-muted/40 text-center font-medium",
-                    selectedCount === process && "bg-secondary/80",
-                  )}
-                >
-                  {process}
-                </TableCell>
-                <TableCell
-                  onClick={() => setSelectedCount(process)}
-                  className={cn(
-                    "cursor-pointer bg-muted/40 text-center text-xs leading-tight",
-                    selectedCount === process && "bg-secondary/80",
-                  )}
-                >
-                  {1 + process * processLevel}并行
-                  <br />
-                  {Math.ceil(ITEM_COUNT / (1 + process * processLevel))}轮
-                </TableCell>
-                {pluginList.map((speed) => {
-                  const isMinTime =
-                    speed === minTimeInfo.speed && process === minTimeInfo.process;
-                  return (
-                    <TableCell
-                      key={`${process}-${speed}`}
-                      onClick={() => setSelectedCount(process + speed)}
-                      className={cn(
-                        "cursor-pointer text-center tabular-nums",
-                        process + speed === selectedCount && "bg-secondary/84",
-                        isMinTime && "bg-yellow-200/90 font-bold dark:bg-yellow-900/80",
-                      )}
-                    >
-                      {calculateTime(speed, process, speedLevel, processLevel).toFixed(2)}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
             ))}
-          </TableBody>
-        </Table>
-      </div>
+          </TableRow>
+          <TableRow>
+            {pluginList.map((speed) => (
+              <TableHead
+                key={speed}
+                onClick={() => setSelectedCount(speed)}
+                className={cn(
+                  "cursor-pointer bg-muted/40 text-center text-xs leading-tight font-normal",
+                  selectedCount === speed && "bg-secondary/80",
+                )}
+              >
+                {(1 + speedLevel * 0.5 * speed) * 100}%
+                <br />
+                耗时{Math.floor(BASE_TIME / (1 + speed * (speedLevel * 0.5)))}t
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {pluginList.map((process) => (
+            <TableRow key={process}>
+              <TableCell
+                onClick={() => setSelectedCount(process)}
+                className={cn(
+                  "cursor-pointer bg-muted/40 text-center font-medium",
+                  selectedCount === process && "bg-secondary/80",
+                )}
+              >
+                {process}
+              </TableCell>
+              <TableCell
+                onClick={() => setSelectedCount(process)}
+                className={cn(
+                  "cursor-pointer bg-muted/40 text-center text-xs leading-tight",
+                  selectedCount === process && "bg-secondary/80",
+                )}
+              >
+                {1 + process * processLevel}并行
+                <br />
+                {Math.ceil(ITEM_COUNT / (1 + process * processLevel))}轮
+              </TableCell>
+              {pluginList.map((speed) => {
+                const isMinTime =
+                  speed === minTimeInfo.speed && process === minTimeInfo.process;
+                return (
+                  <TableCell
+                    key={`${process}-${speed}`}
+                    onClick={() => setSelectedCount(process + speed)}
+                    className={cn(
+                      "cursor-pointer text-center tabular-nums",
+                      process + speed === selectedCount && "bg-secondary/84",
+                      isMinTime && "bg-yellow-200/90 font-bold dark:bg-yellow-900/80",
+                    )}
+                  >
+                    {calculateTime(speed, process, speedLevel, processLevel).toFixed(2)}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

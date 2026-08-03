@@ -142,7 +142,7 @@ function Blog() {
     <div className="flex flex-1 flex-col md:flex-row">
       {/* 左侧菜单：移动端可折叠，桌面端 sticky */}
       <aside className="md:w-72 md:shrink-0 md:border-r">
-        <div className="md:sticky md:top-(--header-offset) md:max-h-[calc(100vh-var(--header-offset))] md:overflow-y-auto">
+        <div className="md:sticky md:top-(--header-offset) md:max-h-(--sticky-viewport-height) md:overflow-y-auto">
           <button
             type="button"
             onClick={() => setMobileMenuOpen((v) => !v)}
@@ -273,7 +273,7 @@ function Blog() {
 
       {/* 右侧 TOC：仅桌面端显示 */}
       <aside className="hidden lg:block lg:w-72 lg:shrink-0 lg:border-l">
-        <div className="lg:sticky lg:top-(--header-offset) lg:max-h-[calc(100vh-var(--header-offset))] lg:overflow-y-auto lg:py-6">
+        <div className="lg:sticky lg:top-(--header-offset) lg:max-h-(--sticky-viewport-height) lg:overflow-y-auto lg:py-6">
           <div className="mb-2 flex items-center justify-between px-4">
             <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
               目录

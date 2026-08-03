@@ -33,10 +33,28 @@
   --chart-4: oklch(0.5 0.134 242.749);
   --chart-5: oklch(0.443 0.11 240.79);
   --radius: 0.625rem;
+
+  /* 全局滚动条外观 */
+  --scrollbar-size: 8px;
+  --scrollbar-thumb: color-mix(
+    in oklch,
+    var(--muted-foreground) 40%,
+    transparent
+  );
+  --scrollbar-thumb-hover: color-mix(
+    in oklch,
+    var(--muted-foreground) 60%,
+    transparent
+  );
+
   /* 顶栏高度，侧边栏 sticky 偏移与限高派生自此 */
   --header-height: 3.5rem;
   /* 顶栏底边位置（高度 + 1px border），供 sticky 偏移与限高引用 */
   --header-offset: calc(var(--header-height) + 1px);
+  /* 顶栏下方的视口可用高度，供内部可滚动的 sticky 侧栏使用 */
+  --sticky-viewport-height: calc(100vh - var(--header-offset));
+  /* 锚点跳转时额外留出呼吸空间，避免标题紧贴顶栏 */
+  --anchor-scroll-offset: calc(var(--header-height) + 1.5rem);
 }
 
 .dark {
@@ -137,17 +155,16 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+
+  /* 所有原生滚动容器共用外观 */
+  * {
     scrollbar-width: thin;
-    scrollbar-color: color-mix(
-        in oklch,
-        var(--muted-foreground) 40%,
-        transparent
-      )
-      transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 
     &::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: var(--scrollbar-size);
+      height: var(--scrollbar-size);
     }
 
     &::-webkit-scrollbar-track {
@@ -155,19 +172,11 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: color-mix(
-        in oklch,
-        var(--muted-foreground) 40%,
-        transparent
-      );
-      border-radius: 4px;
+      background-color: var(--scrollbar-thumb);
+      border-radius: calc(var(--scrollbar-size) / 2);
 
       &:hover {
-        background-color: color-mix(
-          in oklch,
-          var(--muted-foreground) 60%,
-          transparent
-        );
+        background-color: var(--scrollbar-thumb-hover);
       }
     }
   }
@@ -260,7 +269,7 @@
   h4,
   .footnotes li[id],
   [data-footnote-ref] {
-    scroll-margin-top: 5rem;
+    scroll-margin-top: var(--anchor-scroll-offset);
   }
 
   /* 脚注引用上标两侧加方括号，与 GitHub 风格一致 */

@@ -30,7 +30,7 @@ function Toys() {
           className={cn(
             "flex gap-2 overflow-x-auto p-4",
             "md:sticky md:top-(--header-offset) md:flex-col md:gap-1",
-            "md:max-h-[calc(100vh-var(--header-offset))] md:overflow-x-visible md:overflow-y-auto",
+            "md:max-h-(--sticky-viewport-height) md:overflow-x-visible md:overflow-y-auto",
             "md:pb-(--header-offset)",
           )}
         >
