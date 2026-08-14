@@ -127,8 +127,8 @@ export default function OritechCalculator() {
         的场景，有更高级的插件。如果没有安装，将插件等级均设为1即可。
       </p>
       <p className="text-sm">
-        假设配方初始用时 {BASE_TIME} tick（{BASE_TIME / 20}s），本表计算处理{" "}
-        {ITEM_COUNT} 个物品所用时间（s）。
+        假设配方初始用时 {BASE_TIME} tick（{BASE_TIME / 20}s），本表计算处理 {ITEM_COUNT}{" "}
+        个物品所用时间（s）。
       </p>
       <p className="text-sm">点击可高亮对应插件总数的单元格。</p>
 
