@@ -8,14 +8,7 @@ import { type ComponentProps } from "react";
  * 其他属性（href、children 等）与普通 `<a>` 一致。
  */
 function ExternalLink({ ...props }: ComponentProps<"a">) {
-  return (
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className="link"
-      {...props}
-    />
-  );
+  return <a target="_blank" rel="noopener noreferrer" className="link" {...props} />;
 }
 
 export { ExternalLink };
