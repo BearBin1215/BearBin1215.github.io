@@ -242,27 +242,6 @@
     color: var(--muted-foreground);
   }
 
-  /* 正文链接：默认点状下划线，hover 切虚线，颜色与正文一致（不用 primary 蓝） */
-  a {
-    font-weight: inherit;
-    text-decoration-line: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: color-mix(
-      in oklch,
-      var(--foreground) 60%,
-      transparent
-    );
-    text-underline-offset: 2px;
-    transition:
-      text-decoration-style 0.15s,
-      text-decoration-color 0.15s;
-
-    &:hover {
-      text-decoration-style: dashed;
-      text-decoration-color: var(--foreground);
-    }
-  }
-
   /* 锚点跳转时留出 sticky header 的空间，避免标题与脚注被遮挡 */
   h2,
   h3,
@@ -333,6 +312,37 @@
     margin-bottom: 1.2em;
   }
 }
+
+/*
+ * 链接通用样式：默认点状下划线，悬浮变成虚线，颜色与正文一致
+ * 同时作用于 .prose 内的链接与 ExternalLink 组件
+ */
+.link,
+.prose a {
+  font-weight: inherit;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: color-mix(
+    in oklch,
+    var(--foreground) 60%,
+    transparent
+  );
+  text-underline-offset: 2px;
+  transition:
+    text-decoration-style 0.15s,
+    text-decoration-color 0.15s;
+
+  &:hover {
+    text-decoration-style: dashed;
+    text-decoration-color: var(--foreground);
+  }
+}
+
+/* ExternalLink 组件使用：非 prose 上下文需显式指定前景色，否则回退到浏览器默认链接蓝 */
+.link {
+  color: var(--foreground);
+}
+
 
 /*
  * highlight.js 深色主题：覆盖上方浅色 github.css，仅在 .dark 作用域生效。

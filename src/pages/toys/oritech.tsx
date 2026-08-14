@@ -114,20 +114,14 @@ export default function OritechCalculator() {
       <h1 className="text-2xl font-semibold">Oritech 效率计算</h1>
       <p className="text-sm">
         计算 Minecraft Mod{" "}
-        <ExternalLink
-          href="https://www.curseforge.com/minecraft/mc-mods/oritech"
-          className="text-primary hover:underline"
-        >
+        <ExternalLink href="https://www.curseforge.com/minecraft/mc-mods/oritech">
           Oritech
         </ExternalLink>{" "}
         在固定速度插件、加工室插件总数下的最优配置。
       </p>
       <p className="text-sm">
         基于安装有附属模组{" "}
-        <ExternalLink
-          href="https://www.curseforge.com/minecraft/mc-mods/oritech-things"
-          className="text-primary hover:underline"
-        >
+        <ExternalLink href="https://www.curseforge.com/minecraft/mc-mods/oritech-things">
           Oritech Things
         </ExternalLink>{" "}
         的场景，有更高级的插件。如果没有安装，将插件等级均设为1即可。
