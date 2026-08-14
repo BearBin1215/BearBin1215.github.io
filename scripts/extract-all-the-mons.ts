@@ -7,7 +7,7 @@
  * 数据来源（默认）：
  *   ../cobblemon/cobblemon/common/src/main/resources/data/cobblemon
  * 并自动合并 All The Mons 整合包覆盖（../cobblemon/All the Mons/overrides/kubejs/data/cobblemon）：
- *   材料（spawn_bait_effects / seasonings）、出生池（spawn_pool_world）
+ *   材料（spawn_bait_effects / seasonings）、生成池（spawn_pool_world）
  * 可通过环境变量覆盖：
  *   COBBLEMON_DATA_DIR     基础数据目录（默认为上面的 Cobblemon 源码路径）
  *   COBBLEMON_OVERRIDES_DIR 可选的数据包覆盖目录（如 All the Mons 的
@@ -19,7 +19,7 @@
  *   bait-effects.json  baitId -> { item, effects[] }
  *   materials.json     可选材料列表（含 category 分类与 detail 子类别）
  *   species.json       [{ id, name, nameZh, types[], eggGroups[], evYield{} }]
- *   spawn-pool.json    世界出生池条目（已合并 All The Mons 覆盖）
+ *   spawn-pool.json    世界生成池条目（已合并 All The Mons 覆盖）
  *   biome-tags-reverse.json  群系 id -> 所属标签列表（含原版/Common 标签与神兽刷新标签）
  *   meta.json          生成时间、版本号与统计信息
  */
@@ -35,7 +35,7 @@ const DEFAULT_DATA_DIR = resolve(
 );
 const DEFAULT_OVERRIDES_DIR = resolve(
   PROJECT_ROOT,
-  "../cobblemon/All the Mons/overrides/kubejs/data/cobblemon",
+  "../cobblemon/All-the-Mons/kubejs/data/cobblemon",
 );
 
 const DATA_DIR = resolve(process.env.COBBLEMON_DATA_DIR ?? DEFAULT_DATA_DIR);
@@ -48,7 +48,12 @@ const LANG_FILE = process.env.COBBLEMON_LANG_FILE
 const OUT_DIR = resolve(PROJECT_ROOT, "public/data/all-the-mons");
 
 /** All The Mons 整合包 manifest（版本信息） */
-const ATM_MANIFEST = resolve(PROJECT_ROOT, "../cobblemon/All the Mons/manifest.json");
+const ATM_MANIFEST = resolve(
+  PROJECT_ROOT,
+  "../cobblemon/All-the-Mons/manifest.json",
+);
+/** All The Mons 源码仓库 CHANGELOG.md（manifest.json 缺失时解析最新版本号） */
+const ATM_CHANGELOG = resolve(PROJECT_ROOT, "../cobblemon/All-the-Mons/CHANGELOG.md");
 /** Cobblemon 模组 gradle.properties（mod_version） */
 const COBBLEMON_GRADLE_PROPERTIES = resolve(
   PROJECT_ROOT,
@@ -92,7 +97,7 @@ interface SpeciesRaw {
   evYield: Record<string, number>;
 }
 
-/** 出生池条目 */
+/** 生成池条目 */
 interface PoolEntryRaw {
   p: string;
   bucket: string;
@@ -227,7 +232,7 @@ const V_OVERWORLD: string[] = [
  * 外部数据包（原版 Minecraft 与 Common taglib）生物群系标签的硬编码成员。
  * 这些标签的定义在游戏运行时 / 其他模组数据里，不在本仓库内；
  * 若缺失，原版群系（如 minecraft:desert）无法解析出 is_overworld 等标签，
- * 会导致出生池漏掉大量通用条目、概率严重失真。故在此补全。
+ * 会导致生成池漏掉大量通用条目、概率严重失真。故在此补全。
  */
 const VANILLA_TAG_BIOMES: Record<string, string[]> = {
   "#minecraft:is_overworld": V_OVERWORLD,
@@ -567,6 +572,18 @@ function loadVersions(): { allTheMons: string | null; cobblemon: string | null }
       allTheMons = version.trim();
     }
   }
+  // manifest 缺失时从 CHANGELOG.md 解析最新的「## [版本号]」标题
+  if (!allTheMons && existsSync(ATM_CHANGELOG)) {
+    try {
+      const text = readFileSync(ATM_CHANGELOG, "utf8");
+      const match = text.match(/^##\s+.*?\[([^\]]+)\]/m);
+      if (match && match[1] && match[1].trim() !== "") {
+        allTheMons = match[1].trim();
+      }
+    } catch {
+      // 忽略读取失败
+    }
+  }
   let cobblemon: string | null = null;
   if (existsSync(COBBLEMON_GRADLE_PROPERTIES)) {
     try {
@@ -805,7 +822,7 @@ function loadSpecies(
   return map;
 }
 
-/** 读取世界出生池条目（跳过 herds 子目录），合并基础数据与覆盖数据（覆盖同名文件） */
+/** 读取世界生成池条目（跳过 herds 子目录），合并基础数据与覆盖数据（覆盖同名文件） */
 function loadSpawnPool(dataDir: string, overridesDir: string | null): PoolEntryRaw[] {
   // 按相对路径收集文件，覆盖数据（后处理）优先
   const filesByKey = new Map<string, string>();

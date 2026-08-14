@@ -59,7 +59,7 @@ describe("真实数据管线冒烟测试", () => {
     }
   });
 
-  it("神兽刷新标签（legendary_spawns_ccc）已纳入出生池与反查映射", () => {
+  it("神兽刷新标签（legendary_spawns_ccc）已纳入生成池与反查映射", () => {
     const legendaryInPool = data.spawnPool.filter((e) =>
       e.biomes.some((b) => b.startsWith("#legendary_spawns_ccc:")),
     );
@@ -100,7 +100,7 @@ describe("真实数据管线冒烟测试", () => {
     expect(pool.length).toBeGreaterThan(0);
   });
 
-  it("原版群系解析出 is_overworld，沙漠黑夜出生池规模与概率合理", () => {
+  it("原版群系解析出 is_overworld，沙漠黑夜生成池规模与概率合理", () => {
     const poolTags = new Set<string>();
     for (const e of data.spawnPool) {
       for (const b of e.biomes) {
@@ -121,7 +121,7 @@ describe("真实数据管线冒烟测试", () => {
       posTypes: ["grounded", "surface", "submerged", "seafloor"],
     } as const;
     const pool = filterScenarioPool(data, scenario);
-    // 修复前仅约 25 条 / 19 物种，Landorus 被顶到 1.375%
+    // 原版群系应解析出 is_overworld 标签，涵盖大量通用条目
     expect(pool.length).toBeGreaterThan(100);
     const impact = computeImpact(data, scenario, []);
     const landorus = impact.species.find((s) => s.id === "landorus");

@@ -7,7 +7,7 @@
 export interface BaitEffect {
   /** 效果类型，如 cobblemon:typing、cobblemon:egg_group、cobblemon:ev */
   type: string;
-  /** 子类别（类型名/生蛋组/属性名等），可为空 */
+  /** 子类别（类型名/蛋群/属性名等），可为空 */
   subcategory: string | null;
   /** 触发概率（0~1） */
   chance: number;
@@ -47,7 +47,7 @@ export interface MaterialInfo {
 
 /** 物种信息（精简自 species JSON） */
 export interface SpeciesInfo {
-  /** 物种 id，如 pecha_berry 对应 species id */
+  /** 物种 id，如 charmander */
   id: string;
   /** 英文显示名，如 Pikachu */
   name: string;
@@ -55,7 +55,7 @@ export interface SpeciesInfo {
   nameZh?: string | null;
   /** 属性列表 */
   types: string[];
-  /** 生蛋组列表 */
+  /** 蛋群列表 */
   eggGroups: string[];
   /** EV 产量（仅非 0 项），键为属性名如 special_attack */
   evYield: Record<string, number>;
@@ -76,7 +76,7 @@ export interface WeightMultiplier {
   anticondition: WeightMultiplierCondition;
 }
 
-/** 世界出生池条目（精简自 spawn_pool_world） */
+/** 世界生成池条目（精简自 spawn_pool_world） */
 export interface PoolEntry {
   /** 物种 id */
   p: string;

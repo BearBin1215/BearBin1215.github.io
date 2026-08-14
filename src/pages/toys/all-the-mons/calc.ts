@@ -17,7 +17,7 @@ import type {
   WeightMultiplier,
 } from "./types";
 
-/** 宝点心出生池配置（best-spawner-config.json 的 pokeSnackBuckets） */
+/** 宝点心生成池配置（best-spawner-config.json 的 pokeSnackBuckets） */
 export const POKE_SNACK_BUCKETS: Record<string, number> = {
   common: 83.25,
   uncommon: 11.25,
@@ -85,7 +85,7 @@ export function mergeEffects(effects: BaitEffect[]): BaitEffect[] {
  * @param data 聚合数据
  * @returns 该材料对应的原始效果列表（可能为空）
  */
-export function getMaterialEffects(
+function getMaterialEffects(
   material: MaterialInfo,
   data: AllTheMonsData,
 ): BaitEffect[] {
@@ -182,18 +182,14 @@ export function resolveLure(materialIds: string[], data: AllTheMonsData): LureSu
 
 /** 单物种的权重影响结果 */
 export interface SpeciesWeightResult {
-  /** 权重乘数（1 = 无变化；>1 = 被吸引加成） */
-  multiplier: number;
   /** 最终权重（0 = 被 ev 条件过滤掉） */
   weight: number;
   /** 命中的属性（首个 typing 效果对应的属性，若命中） */
   matchedTyping: string | null;
-  /** 命中的生蛋组 */
+  /** 命中的蛋群 */
   matchedEggGroups: string[];
   /** 因 EV 产量不匹配被过滤的属性（null = 未被过滤） */
   blockedByEv: string | null;
-  /** 是否受 ev 效果影响 */
-  hasEvEffect: boolean;
 }
 
 /**
@@ -226,12 +222,10 @@ export function computeSpeciesWeight(
 ): SpeciesWeightResult {
   if (!species) {
     return {
-      multiplier: 1,
       weight: 1,
       matchedTyping: null,
       matchedEggGroups: [],
       blockedByEv: null,
-      hasEvEffect: false,
     };
   }
 
@@ -242,23 +236,19 @@ export function computeSpeciesWeight(
 
   if (!hasRelevant) {
     return {
-      multiplier: 1,
       weight: 1,
       matchedTyping: null,
       matchedEggGroups: [],
       blockedByEv: null,
-      hasEvEffect: false,
     };
   }
 
   let weight = 1;
   let blockedByEv: string | null = null;
-  let hasEvEffect = false;
 
   // EV：源码取原始列表首个 ev 效果；物种对应能力产量为 0 时权重归 0
   if (merged.some((e) => e.type === EFFECT.EV)) {
     const evEffect = raw.find((e) => e.type === EFFECT.EV);
-    hasEvEffect = true;
     if (evEffect?.subcategory) {
       const stat = evEffect.subcategory;
       const evYieldValue = species.evYield[EV_STAT_KEYS[stat] ?? stat] ?? 0;
@@ -295,12 +285,10 @@ export function computeSpeciesWeight(
   }
 
   return {
-    multiplier: weight === 0 ? 0 : weight,
     weight,
     matchedTyping,
     matchedEggGroups,
     blockedByEv,
-    hasEvEffect,
   };
 }
 
@@ -317,7 +305,7 @@ function lightCompatible(entry: PoolEntry, light: LightRange): boolean {
 }
 
 /**
- * 过滤出指定场景下的出生池条目（宝点心场景）。
+ * 过滤出指定场景下的生成池条目（宝点心场景）。
  * 固定排除垂钓位置与仅垂钓（minLureLevel）条目——宝点心无法触发。
  * 群系匹配取并集：条目条件生物群系命中任一选中标签即纳入，
  * 反向条件生物群系命中任一选中标签即排除。
@@ -450,7 +438,7 @@ export interface SpeciesImpact {
 }
 
 /** 场景条目（含物种信息与权重计算中间值） */
-export interface ScenarioEntry {
+interface ScenarioEntry {
   entry: PoolEntry;
   species: SpeciesInfo | null;
   baseWeight: number;
@@ -460,8 +448,6 @@ export interface ScenarioEntry {
 
 /** 计算结果 */
 export interface ImpactResult {
-  /** 场景池条目 */
-  entries: ScenarioEntry[];
   /** 按物种汇总后的影响列表（按 pAfter 降序） */
   species: SpeciesImpact[];
   /** 基础桶权重 */
@@ -507,10 +493,10 @@ export function computeImpact(
   const entries: ScenarioEntry[] = pool.map((entry) => {
     const species = data.species[entry.p] ?? null;
     const result = computeSpeciesWeight(species, raw, merged);
-    const baseWeight = entry.weight;
-    // 基础权重 × 吸引影响 × 场景权重倍率（天气 / 时间 / 群系）
-    const afterWeight =
-      result.weight * baseWeight * weightMultiplierProduct(entry, scenario);
+    // 基础权重 × 场景权重倍率（天气 / 时间 / 群系）——场景条件同样作用于基础概率
+    const baseWeight = entry.weight * weightMultiplierProduct(entry, scenario);
+    // 基础权重 × 吸引影响
+    const afterWeight = result.weight * baseWeight;
     return { entry, species, baseWeight, afterWeight, result };
   });
 
@@ -651,7 +637,6 @@ export function computeImpact(
   };
 
   return {
-    entries,
     species: speciesImpacts,
     bucketBefore,
     bucketAfter,

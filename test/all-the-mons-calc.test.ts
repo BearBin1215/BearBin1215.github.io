@@ -287,7 +287,7 @@ describe("computeSpeciesWeight", () => {
 
   it("未知物种不产生变化", () => {
     const result = computeSpeciesWeight(null, [], []);
-    expect(result.multiplier).toBe(1);
+    expect(result.weight).toBe(1);
     expect(result.weight).toBe(1);
   });
 
@@ -571,6 +571,35 @@ describe("computeImpact", () => {
     const charmander = impact.species.find((s) => s.id === "charmander")!;
     // common 桶权重归一化后约为 95.28%，桶内 3 个同权重条目 → 各占约 31.76%
     expect(charmander.pBefore).toBeCloseTo(100 * (83.25 / 87.375) * (10 / 30), 4);
+  });
+
+  it("场景权重倍率作用于基础概率：未选材料时变化仍为 0", () => {
+    const dataWithWm = makeData({
+      spawnPool: [
+        {
+          ...data.spawnPool[0]!,
+          weightMultipliers: [
+            { multiplier: 5, condition: { isThundering: true }, anticondition: {} },
+          ],
+        },
+        ...data.spawnPool.slice(1),
+      ],
+    });
+    const impact = computeImpact(
+      dataWithWm,
+      { ...baseScenario, weather: "thunder" },
+      [],
+    );
+    // 倍率在雷暴下生效，但未选材料时场景倍率只影响基础概率，不应产生变化
+    expect(impact.species.every((s) => s.delta === 0)).toBe(true);
+    expect(impact.species.every((s) => s.ratio === 1)).toBe(true);
+    expect(impact.summary.boosted).toBe(0);
+    expect(impact.summary.reduced).toBe(0);
+    // 倍率已计入基础概率：雷暴下受倍率影响的物种基础概率更高
+    const clearImpact = computeImpact(dataWithWm, baseScenario, []);
+    const thunderCharmander = impact.species.find((s) => s.id === "charmander")!;
+    const clearCharmander = clearImpact.species.find((s) => s.id === "charmander")!;
+    expect(thunderCharmander.pBefore).toBeGreaterThan(clearCharmander.pBefore);
   });
 
   it("属性吸引提升对应物种概率", () => {

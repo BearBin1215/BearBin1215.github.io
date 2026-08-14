@@ -26,7 +26,6 @@ import { cn } from "@/lib/utils";
 import {
   computeImpact,
   EV_STAT_KEYS,
-  filterScenarioPool,
   resolveLure,
   type ImpactResult,
   type LightRange,
@@ -251,28 +250,39 @@ function MaterialSelector({
   );
 }
 
-/** 群系单选器（按真实群系筛选，自动解析其所属标签） */
+/** 群系单选器（按真实群系筛选，自动解析其所属标签；支持 #标签 搜索） */
 function BiomeSelector({
   biomes,
   selected,
   onSelect,
+  tagsByBiome,
 }: {
   biomes: string[];
   selected: string;
   onSelect: (biome: string) => void;
+  /** 群系 id -> 标签列表，用于以 # 开头的标签搜索 */
+  tagsByBiome: Record<string, string[]>;
 }) {
   const [search, setSearch] = useState("");
   const keyword = search.trim().toLowerCase();
 
-  const filtered = useMemo(
-    () => biomes.filter((b) => !keyword || b.toLowerCase().includes(keyword)),
-    [biomes, keyword],
-  );
+  const filtered = useMemo(() => {
+    if (!keyword) {
+      return biomes;
+    }
+    if (keyword.startsWith("#")) {
+      const tagKw = keyword.slice(1);
+      return biomes.filter((b) =>
+        (tagsByBiome[b] ?? []).some((t) => t.toLowerCase().includes(tagKw)),
+      );
+    }
+    return biomes.filter((b) => b.toLowerCase().includes(keyword));
+  }, [biomes, keyword, tagsByBiome]);
 
   return (
     <div className="space-y-2">
       <Input
-        placeholder="搜索群系 id…（如 plains / jungle / wythers）"
+        placeholder="搜索群系 id 或 #标签…（如 plains / #is_forest）"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="h-8"
@@ -301,8 +311,7 @@ function BiomeSelector({
         )}
       </div>
       <p className="text-xs text-muted-foreground">
-        共 {biomes.length}{" "}
-        个可解析群系（模组群系与部分原版群系；未直接列出的群系无法解析）。
+        共 {biomes.length} 个可解析群系。
       </p>
     </div>
   );
@@ -390,7 +399,7 @@ function LureSummaryCard({ lure }: { lure: ReturnType<typeof resolveLure> }) {
           </div>
         )}
         {renderGroup("属性吸引", lure.typingEffects)}
-        {renderGroup("生蛋组吸引", lure.eggGroupEffects)}
+        {renderGroup("蛋群吸引", lure.eggGroupEffects)}
         {renderGroup(
           "EV 筛选",
           lure.evEffects,
@@ -521,9 +530,9 @@ function ImpactTable({
         <CardDescription>
           场景内共 {impact.summary.totalSpecies} 种宝可梦
           {selectedCount === 0 ? "（未选择材料，以下为基础刷新概率）" : ""}。 上升{" "}
-          {impact.summary.boosted}，下降 {impact.summary.reduced}， 被 EV 过滤{" "}
-          {impact.summary.blocked}，未知物种 {impact.summary.unknown}。
-        </CardDescription>
+           {impact.summary.boosted}，下降 {impact.summary.reduced}， 被 EV 过滤{" "}
+           {impact.summary.blocked}。
+         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex flex-wrap items-center gap-3">
@@ -687,7 +696,7 @@ export default function AllTheMonsCalculator() {
       );
   }, [reloadKey]);
 
-  /** 出生池条件中出现过的所有标签（用于判断群系解析出的标签是否影响刷新） */
+  /** 生成池条件中出现过的所有标签（用于判断群系解析出的标签是否影响刷新） */
   const poolTagSet = useMemo(() => {
     const set = new Set<string>();
     if (!data) {
@@ -704,7 +713,7 @@ export default function AllTheMonsCalculator() {
     return set;
   }, [data]);
 
-  /** 选中群系解析出的、与刷新相关的标签（仅保留出生池中用到的） */
+  /** 选中群系解析出的、与刷新相关的标签（仅保留生成池中用到的） */
   const resolvedBiomeTags = useMemo(() => {
     if (!data) {
       return [];
@@ -726,11 +735,6 @@ export default function AllTheMonsCalculator() {
   const scenario: Scenario = useMemo(
     () => ({ biomeTags: resolvedBiomeTags, light, weather, posTypes }),
     [resolvedBiomeTags, light, weather, posTypes],
-  );
-
-  const poolCount = useMemo(
-    () => (data ? filterScenarioPool(data, scenario).length : 0),
-    [data, scenario],
   );
 
   const lure = useMemo(
@@ -802,20 +806,24 @@ export default function AllTheMonsCalculator() {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">All The Mons 宝点心吸引计算</h1>
       <p className="text-sm">
-        计算 All The Mons 整合包中，不同树果 /
-        材料搭配（宝点心材料）在指定场景下对宝可梦刷新的影响：
-        属性与生蛋组吸引提高对应宝可梦权重、EV
-        筛选保留特定能力、稀有度层级拉平稀有度桶、个体质量加成等。 数据基于{" "}
-        <ExternalLink href="https://github.com/AllTheMods/All-the-Mons">
+        计算 All The Mons 整合包中，不同树果 / 材料搭配（宝点心材料）在指定场景下对宝可梦刷新的影响：属性与蛋群吸引提高对应宝可梦权重、EV 筛保留特定能力、稀有度层级拉平稀有度桶、个体质量加成等。
+      </p>
+      <p className="text-sm">
+        数据基于{" "}
+        <ExternalLink href="https://www.curseforge.com/minecraft/modpacks/all-the-mons">
           All The Mons
         </ExternalLink>{" "}
-        整合包（含其数据包覆盖）。
+        整合包，计算逻辑复刻自{" "}
+        <ExternalLink href="https://www.curseforge.com/minecraft/mc-mods/cobblemon">
+          Cobblemon
+        </ExternalLink>{" "}
+        模组。
       </p>
       <p className="text-xs text-muted-foreground">
         数据快照生成于 {new Date(data.meta.generatedAt).toLocaleString()}
-        {versionText}，已合并 All The Mons 的 材料与出生池覆盖（如
-        ATM苹果、ATM胡萝卜、神话桃桃果及传说/幻兽出生条目）。 共{" "}
-        {data.meta.counts.species} 种宝可梦、{data.meta.counts.spawnPool} 条出生池条目、
+        {versionText}，已合并 All The Mons 的 材料与生成池覆盖（如
+        ATM苹果、ATM胡萝卜及神兽/幻兽生成条目）。 共{" "}
+        {data.meta.counts.species} 种宝可梦、{data.meta.counts.spawnPool} 条生成池条目、
         {data.meta.counts.materials} 种材料。
       </p>
 
@@ -845,9 +853,7 @@ export default function AllTheMonsCalculator() {
             <CardHeader>
               <CardTitle>场景设置</CardTitle>
               <CardDescription>
-                选择你所在的真实群系（如 minecraft:plains
-                或模组群系），工具会自动解析该群系所属的
-                刷新标签并过滤出生池，无需手动确认标签。
+                选择所在群系，可通过名字或 #标签 筛选。
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -857,11 +863,12 @@ export default function AllTheMonsCalculator() {
                   biomes={biomeOptions}
                   selected={biomeId}
                   onSelect={setBiomeId}
+                  tagsByBiome={data?.biomeTagReverse ?? {}}
                 />
                 {resolvedBiomeTags.length > 0 ? (
                   <div className="space-y-1">
                     <p className="text-xs text-muted-foreground">
-                      已自动解析为刷新相关标签（{resolvedBiomeTags.length} 个）：
+                      解析出 {resolvedBiomeTags.length} 个群系标签：
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {resolvedBiomeTags.map((tag) => (
@@ -931,10 +938,6 @@ export default function AllTheMonsCalculator() {
                   })}
                 </div>
               </div>
-
-              <p className="text-xs text-muted-foreground">
-                场景匹配出生条目 {poolCount} 条（固定排除垂钓与仅垂钓条目）。
-              </p>
             </CardContent>
           </Card>
         </div>
@@ -970,7 +973,7 @@ export default function AllTheMonsCalculator() {
             drops 在本工具中未纳入。
           </p>
           <p>
-            数据合并自 Cobblemon 源码与 All The Mons 数据包覆盖（材料与出生池）；
+            数据合并自 Cobblemon 源码与 All The Mons 数据包覆盖（材料与生成池）；
             结果反映的是相对刷新概率变化，未模拟实际的生成频率（每区块数量、生成周期等）。
           </p>
         </CardContent>

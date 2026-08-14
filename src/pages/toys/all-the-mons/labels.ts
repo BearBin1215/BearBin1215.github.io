@@ -46,7 +46,7 @@ export const TYPE_COLORS: Record<string, string> = {
   fairy: "#D685AD",
 };
 
-/** 生蛋组中文名 */
+/** 蛋群中文名 */
 export const EGG_GROUP_LABELS: Record<string, string> = {
   monster: "怪兽",
   water_1: "水中1",
@@ -93,16 +93,6 @@ export const RARITY_FILTER_OPTIONS = [
   { value: "common", label: "普通" },
 ] as const;
 
-/** 口味中文名 */
-export const FLAVOUR_LABELS: Record<string, string> = {
-  SPICY: "辣",
-  DRY: "涩",
-  SWEET: "甜",
-  BITTER: "苦",
-  SOUR: "酸",
-  MILD: "清淡",
-};
-
 /** 稀有度桶中文名 */
 export const BUCKET_LABELS: Record<string, string> = {
   common: "普通",
@@ -132,19 +122,10 @@ export const MATERIAL_CATEGORY_LABELS: Record<string, string> = {
 /** 材料显示分类展示顺序 */
 export const MATERIAL_CATEGORY_ORDER = ["typing", "egg_group", "ev", "other"] as const;
 
-/** 生成位置类型中文名 */
-export const POS_LABELS: Record<string, string> = {
-  grounded: "地面",
-  surface: "水面",
-  submerged: "水下",
-  seafloor: "海底",
-  fishing: "垂钓",
-};
-
 /** 效果类型说明 */
 export const EFFECT_LABELS: Record<string, string> = {
   "cobblemon:typing": "属性吸引",
-  "cobblemon:egg_group": "生蛋组吸引",
+  "cobblemon:egg_group": "蛋群吸引",
   "cobblemon:ev": "EV 筛选",
   "cobblemon:rarity_bucket": "稀有度提升",
   "cobblemon:bite_time": "刷新间隔",
@@ -163,10 +144,10 @@ export const EFFECT_LABELS: Record<string, string> = {
 
 /** 生成位置类型可选项（宝点心场景，不含垂钓） */
 export const POSITION_OPTIONS = [
-  { value: "grounded", label: POS_LABELS.grounded },
-  { value: "surface", label: POS_LABELS.surface },
-  { value: "submerged", label: POS_LABELS.submerged },
-  { value: "seafloor", label: POS_LABELS.seafloor },
+  { value: "grounded", label: "地面" },
+  { value: "surface", label: "水面" },
+  { value: "submerged", label: "水下" },
+  { value: "seafloor", label: "海底" },
 ] as const;
 
 /** 光照范围选项（白天 / 夜晚互斥） */
