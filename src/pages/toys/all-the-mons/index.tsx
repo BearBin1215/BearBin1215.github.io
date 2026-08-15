@@ -37,20 +37,27 @@ import {
   BUCKET_LABELS,
   BUCKET_RARITY_INDEX,
   EFFECT_LABELS,
-  EGG_GROUP_LABELS,
   EV_STAT_ORDER,
   LIGHT_OPTIONS,
   MATERIAL_CATEGORY_LABELS,
   MATERIAL_CATEGORY_ORDER,
   POSITION_OPTIONS,
   RARITY_FILTER_OPTIONS,
-  STAT_LABELS,
   TYPE_COLORS,
-  TYPE_LABELS,
   WEATHER_OPTIONS,
 } from "./labels";
 import { loadAllTheMonsData } from "./loader";
 import type { AllTheMonsData, MaterialInfo } from "./types";
+
+/** 界面显示用的中文标签映射（由数据文件派生） */
+interface UiLabels {
+  /** 属性 id -> 中文名 */
+  types: Record<string, string>;
+  /** 能力值 id -> 中文名 */
+  stats: Record<string, string>;
+  /** 蛋群 id -> 中文名 */
+  eggGroups: Record<string, string>;
+}
 
 const MAX_MATERIALS = 3;
 
@@ -68,48 +75,51 @@ function fmtRatio(ratio: number | null): string {
   return `${ratio.toFixed(2)}×`;
 }
 
-function subLabel(effect: { type: string; subcategory: string | null }): string {
+function subLabel(
+  effect: { type: string; subcategory: string | null },
+  labels: UiLabels,
+): string {
   const sub = effect.subcategory ?? "";
   const type = effect.type;
   const path = sub.includes("/") ? sub.split("/").pop()! : sub;
   if (type === "cobblemon:typing") {
-    return TYPE_LABELS[path] ?? path;
+    return labels.types[path] ?? path;
   }
   if (type === "cobblemon:egg_group") {
-    return EGG_GROUP_LABELS[path] ?? path;
+    return labels.eggGroups[path] ?? path;
   }
   if (type === "cobblemon:ev") {
     const statKey = EV_STAT_KEYS[path] ?? path;
-    return STAT_LABELS[statKey] ?? statKey;
+    return labels.stats[statKey] ?? statKey;
   }
   return path;
 }
 
-function materialSuffix(material: MaterialInfo): string {
+function materialSuffix(material: MaterialInfo, labels: UiLabels): string {
   const items = material.detail.map((d) => {
     if (material.category === "typing") {
-      return TYPE_LABELS[d] ?? d;
+      return labels.types[d] ?? d;
     }
     if (material.category === "egg_group") {
-      return EGG_GROUP_LABELS[d] ?? d;
+      return labels.eggGroups[d] ?? d;
     }
     if (material.category === "ev") {
       const statKey = EV_STAT_KEYS[d] ?? d;
-      return STAT_LABELS[statKey] ?? statKey;
+      return labels.stats[statKey] ?? statKey;
     }
     return "";
   });
   return items.filter(Boolean).join("/");
 }
 
-function TypeChip({ type }: { type: string }) {
+function TypeChip({ type, labels }: { type: string; labels: UiLabels }) {
   const color = TYPE_COLORS[type] ?? "#999999";
   return (
     <span
       className="inline-flex items-center rounded-sm px-1.5 py-0.5 text-[0.65rem] font-medium text-white"
       style={{ backgroundColor: color }}
     >
-      {TYPE_LABELS[type] ?? type}
+      {labels.types[type] ?? type}
     </span>
   );
 }
@@ -118,6 +128,7 @@ function MaterialSelector({
   materials,
   selected,
   maxCount,
+  labels,
   onAdd,
   onRemoveAt,
   onClear,
@@ -125,6 +136,8 @@ function MaterialSelector({
   materials: MaterialInfo[];
   selected: string[];
   maxCount: number;
+  /** 界面中文标签映射（来自数据文件） */
+  labels: UiLabels;
   onAdd: (id: string) => void;
   onRemoveAt: (index: number) => void;
   onClear: () => void;
@@ -136,7 +149,7 @@ function MaterialSelector({
     const result: Record<string, MaterialInfo[]> = {};
     for (const m of materials) {
       const haystack =
-        `${m.label} ${m.id} ${m.flavours ? Object.keys(m.flavours).join(" ") : ""}`.toLowerCase();
+        `${m.names.zh} ${m.names.en} ${m.id} ${m.flavours ? Object.keys(m.flavours).join(" ") : ""}`.toLowerCase();
       if (keyword && !haystack.includes(keyword)) {
         continue;
       }
@@ -174,11 +187,11 @@ function MaterialSelector({
                   : "border-dashed border-muted-foreground/40 text-muted-foreground",
               )}
             >
-              {material ? material.label : `空槽位 ${index + 1}`}
+              {material ? material.names.zh : `空槽位 ${index + 1}`}
               {id && (
                 <button
                   type="button"
-                  aria-label={`移除 ${material?.label ?? ""}`}
+                  aria-label={`移除 ${material?.names.zh ?? ""}`}
                   onClick={() => onRemoveAt(index)}
                   className="text-muted-foreground hover:text-foreground"
                 >
@@ -216,7 +229,7 @@ function MaterialSelector({
                 const count = selected.filter((id) => id === m.id).length;
                 const active = count > 0;
                 const full = selected.length >= maxCount;
-                const suffix = materialSuffix(m);
+                const suffix = materialSuffix(m, labels);
                 let chipClass =
                   "border-border bg-card/40 text-muted-foreground hover:bg-secondary/50 hover:text-foreground";
                 if (active) {
@@ -236,7 +249,7 @@ function MaterialSelector({
                       chipClass,
                     )}
                   >
-                    {m.label}
+                    {m.names.zh}
                     {suffix && <span className="text-muted-foreground">·{suffix}</span>}
                     {count > 1 && ` ×${count}`}
                   </button>
@@ -310,14 +323,19 @@ function BiomeSelector({
           <p className="text-xs text-muted-foreground">无匹配群系</p>
         )}
       </div>
-      <p className="text-xs text-muted-foreground">
-        共 {biomes.length} 个可解析群系。
-      </p>
+      <p className="text-xs text-muted-foreground">共 {biomes.length} 个可解析群系。</p>
     </div>
   );
 }
 
-function LureSummaryCard({ lure }: { lure: ReturnType<typeof resolveLure> }) {
+function LureSummaryCard({
+  lure,
+  labels,
+}: {
+  lure: ReturnType<typeof resolveLure>;
+  /** 界面中文标签映射（来自数据文件） */
+  labels: UiLabels;
+}) {
   const hasAny = lure.merged.length > 0 || lure.rarityTier > 0;
 
   if (!hasAny) {
@@ -351,7 +369,7 @@ function LureSummaryCard({ lure }: { lure: ReturnType<typeof resolveLure> }) {
                 {EFFECT_LABELS[effect.type] ?? effect.type}
               </Badge>
               <span>
-                {subLabel(effect)}
+                {subLabel(effect, labels)}
                 {effect.value > 0 && ` ×${effect.value}`}
                 {effect.chance < 1 && `（触发 ${(effect.chance * 100).toFixed(0)}%）`}
               </span>
@@ -390,8 +408,10 @@ function LureSummaryCard({ lure }: { lure: ReturnType<typeof resolveLure> }) {
             </div>
             <p className="text-sm">
               仅首个属性效果生效：{" "}
-              <span className="font-medium">{subLabel(lure.activeTypingEffect)}</span> ×
-              {lure.activeTypingEffect.value}
+              <span className="font-medium">
+                {subLabel(lure.activeTypingEffect, labels)}
+              </span>{" "}
+              ×{lure.activeTypingEffect.value}
               <span className="text-muted-foreground">
                 （源码行为：属性吸引只取第一个效果）
               </span>
@@ -463,11 +483,14 @@ function ImpactTable({
   scenario,
   selectedCount,
   biomeName,
+  labels,
 }: {
   impact: ImpactResult;
   scenario: Scenario;
   selectedCount: number;
   biomeName: string;
+  /** 界面中文标签映射（来自数据文件） */
+  labels: UiLabels;
 }) {
   const [nameQuery, setNameQuery] = useState("");
   const [rarityFilter, setRarityFilter] = useState<string[]>(
@@ -534,9 +557,9 @@ function ImpactTable({
         <CardDescription>
           场景内共 {impact.summary.totalSpecies} 种宝可梦
           {selectedCount === 0 ? "（未选择材料，以下为基础刷新概率）" : ""}。 上升{" "}
-           {impact.summary.boosted}，下降 {impact.summary.reduced}， 被 EV 过滤{" "}
-           {impact.summary.blocked}。
-         </CardDescription>
+          {impact.summary.boosted}，下降 {impact.summary.reduced}， 被 EV 过滤{" "}
+          {impact.summary.blocked}。
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex flex-wrap items-center gap-3">
@@ -628,7 +651,7 @@ function ImpactTable({
                       <TableCell className="whitespace-nowrap">
                         <span className="flex gap-1">
                           {s.types.map((t) => (
-                            <TypeChip key={t} type={t} />
+                            <TypeChip key={t} type={t} labels={labels} />
                           ))}
                         </span>
                       </TableCell>
@@ -655,11 +678,11 @@ function ImpactTable({
                       <TableCell className="min-w-40">
                         <div className="flex flex-wrap gap-1">
                           {s.matchedTyping.map((t) => (
-                            <TypeChip key={t} type={t} />
+                            <TypeChip key={t} type={t} labels={labels} />
                           ))}
                           {s.matchedEggGroups.map((g) => (
                             <Badge key={g} variant="outline">
-                              {EGG_GROUP_LABELS[g] ?? g}
+                              {labels.eggGroups[g] ?? g}
                             </Badge>
                           ))}
                           {s.matchedTyping.length === 0 &&
@@ -794,6 +817,13 @@ export default function AllTheMonsCalculator() {
     );
   }
 
+  /** 界面中文标签映射（由数据文件派生，替代硬编码标签） */
+  const labels: UiLabels = {
+    types: data.labels.types.zh,
+    stats: data.labels.stats.zh,
+    eggGroups: data.labels.eggGroups.zh,
+  };
+
   const addMaterial = (id: string) => {
     setSelected((prev) => {
       if (prev.length >= MAX_MATERIALS) {
@@ -817,7 +847,9 @@ export default function AllTheMonsCalculator() {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">All The Mons 宝点心吸引计算</h1>
       <p className="text-sm">
-        计算 All The Mons 整合包中，不同树果 / 材料搭配（宝点心材料）在指定场景下对宝可梦刷新的影响：属性与蛋群吸引提高对应宝可梦权重、EV 筛保留特定能力、稀有度层级拉平稀有度桶、个体质量加成等。
+        计算 All The Mons 整合包中，不同树果 /
+        材料搭配（宝点心材料）在指定场景下对宝可梦刷新的影响：属性与蛋群吸引提高对应宝可梦权重、EV
+        筛保留特定能力、稀有度层级拉平稀有度桶、个体质量加成等。
       </p>
       <p className="text-sm">
         数据基于{" "}
@@ -833,8 +865,8 @@ export default function AllTheMonsCalculator() {
       <p className="text-xs text-muted-foreground">
         数据快照生成于 {new Date(data.meta.generatedAt).toLocaleString()}
         {versionText}，已合并 All The Mons 的 材料与生成池覆盖（如
-        ATM苹果、ATM胡萝卜及神兽/幻兽生成条目）。 共{" "}
-        {data.meta.counts.species} 种宝可梦、{data.meta.counts.spawnPool} 条生成池条目、
+        ATM苹果、ATM胡萝卜及神兽/幻兽生成条目）。 共 {data.meta.counts.species} 种宝可梦、
+        {data.meta.counts.spawnPool} 条生成池条目、
         {data.meta.counts.materials} 种材料。
       </p>
 
@@ -852,6 +884,7 @@ export default function AllTheMonsCalculator() {
               materials={data.materials}
               selected={selected}
               maxCount={MAX_MATERIALS}
+              labels={labels}
               onAdd={addMaterial}
               onRemoveAt={removeSlot}
               onClear={() => setSelected([])}
@@ -863,9 +896,7 @@ export default function AllTheMonsCalculator() {
           <Card>
             <CardHeader>
               <CardTitle>场景设置</CardTitle>
-              <CardDescription>
-                选择所在群系，可通过名字或 #标签 筛选。
-              </CardDescription>
+              <CardDescription>选择所在群系，可通过名字或 #标签 筛选。</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
@@ -954,13 +985,14 @@ export default function AllTheMonsCalculator() {
         </div>
       </div>
 
-      <LureSummaryCard lure={lure} />
+      <LureSummaryCard lure={lure} labels={labels} />
 
       <ImpactTable
         impact={impact}
         scenario={scenario}
         selectedCount={selected.length}
         biomeName={biomeId}
+        labels={labels}
       />
 
       <Card>

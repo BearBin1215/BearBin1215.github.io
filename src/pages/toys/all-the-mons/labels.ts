@@ -2,28 +2,6 @@
  * All The Mons 宝点心页面的中文标签与展示辅助。
  */
 
-/** 宝可梦属性中文名 */
-export const TYPE_LABELS: Record<string, string> = {
-  normal: "一般",
-  fire: "火",
-  water: "水",
-  electric: "电",
-  grass: "草",
-  ice: "冰",
-  fighting: "格斗",
-  poison: "毒",
-  ground: "地面",
-  flying: "飞行",
-  psychic: "超能力",
-  bug: "虫",
-  rock: "岩石",
-  ghost: "幽灵",
-  dragon: "龙",
-  dark: "恶",
-  steel: "钢",
-  fairy: "妖精",
-};
-
 /** 属性徽章颜色（背景） */
 export const TYPE_COLORS: Record<string, string> = {
   normal: "#A8A77A",
@@ -44,35 +22,6 @@ export const TYPE_COLORS: Record<string, string> = {
   dark: "#705746",
   steel: "#B7B7CE",
   fairy: "#D685AD",
-};
-
-/** 蛋群中文名 */
-export const EGG_GROUP_LABELS: Record<string, string> = {
-  monster: "怪兽",
-  water_1: "水中1",
-  bug: "虫",
-  flying: "飞行",
-  field: "陆上",
-  fairy: "妖精",
-  grass: "植物",
-  human_like: "人形",
-  water_3: "水中3",
-  mineral: "矿物",
-  amorphous: "不定形",
-  water_2: "水中2",
-  ditto: "百变怪",
-  dragon: "龙",
-  undiscovered: "未发现",
-};
-
-/** 能力中文名 */
-export const STAT_LABELS: Record<string, string> = {
-  hp: "HP",
-  attack: "攻击",
-  defence: "防御",
-  special_attack: "特攻",
-  special_defence: "特防",
-  speed: "速度",
 };
 
 /** 基础点数材料展示顺序（按玩家常用 HP、攻击、防御、特攻、特防、速度 排序） */

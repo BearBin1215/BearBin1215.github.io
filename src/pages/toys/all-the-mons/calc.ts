@@ -85,10 +85,7 @@ export function mergeEffects(effects: BaitEffect[]): BaitEffect[] {
  * @param data 聚合数据
  * @returns 该材料对应的原始效果列表（可能为空）
  */
-function getMaterialEffects(
-  material: MaterialInfo,
-  data: AllTheMonsData,
-): BaitEffect[] {
+function getMaterialEffects(material: MaterialInfo, data: AllTheMonsData): BaitEffect[] {
   return data.baitEffects[material.baitId]?.effects ?? [];
 }
 
@@ -552,7 +549,7 @@ export function computeImpact(
     if (!item) {
       item = {
         id,
-        name: species?.nameZh ?? species?.name ?? id,
+        name: species?.names.zh ?? species?.names.en ?? id,
         types: species?.types ?? [],
         buckets: new Set(),
         posTypes: new Set(),

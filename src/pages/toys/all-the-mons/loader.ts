@@ -5,6 +5,7 @@
 import type {
   AllTheMonsData,
   AllTheMonsMeta,
+  LabelsData,
   MaterialInfo,
   PoolEntry,
   SpawnBait,
@@ -33,22 +34,38 @@ async function loadJson<T>(name: string): Promise<T> {
 export function loadAllTheMonsData(): Promise<AllTheMonsData> {
   if (!cachePromise) {
     cachePromise = (async () => {
-      const [baitEffects, materials, speciesList, spawnPool, biomeTagReverse, meta] =
-        await Promise.all([
-          loadJson<Record<string, SpawnBait>>("bait-effects.json"),
-          loadJson<MaterialInfo[]>("materials.json"),
-          loadJson<SpeciesInfo[]>("species.json"),
-          loadJson<PoolEntry[]>("spawn-pool.json"),
-          loadJson<Record<string, string[]>>("biome-tags-reverse.json"),
-          loadJson<AllTheMonsMeta>("meta.json"),
-        ]);
+      const [
+        baitEffects,
+        materials,
+        speciesList,
+        spawnPool,
+        biomeTagReverse,
+        labels,
+        meta,
+      ] = await Promise.all([
+        loadJson<Record<string, SpawnBait>>("bait-effects.json"),
+        loadJson<MaterialInfo[]>("materials.json"),
+        loadJson<SpeciesInfo[]>("species.json"),
+        loadJson<PoolEntry[]>("spawn-pool.json"),
+        loadJson<Record<string, string[]>>("biome-tags-reverse.json"),
+        loadJson<LabelsData>("labels.json"),
+        loadJson<AllTheMonsMeta>("meta.json"),
+      ]);
 
       const species: Record<string, SpeciesInfo> = {};
       for (const item of speciesList) {
         species[item.id] = item;
       }
 
-      return { baitEffects, materials, species, spawnPool, biomeTagReverse, meta };
+      return {
+        baitEffects,
+        materials,
+        species,
+        spawnPool,
+        biomeTagReverse,
+        labels,
+        meta,
+      };
     })().catch((err) => {
       // 加载失败时清空缓存，允许重试
       cachePromise = null;

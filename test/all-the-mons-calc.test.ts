@@ -19,28 +19,28 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
   const species: AllTheMonsData["species"] = {
     charmander: {
       id: "charmander",
-      name: "Charmander",
+      names: { zh: null, en: "Charmander" },
       types: ["fire"],
       eggGroups: ["monster", "dragon"],
       evYield: { speed: 1 },
     },
     bulbasaur: {
       id: "bulbasaur",
-      name: "Bulbasaur",
+      names: { zh: null, en: "Bulbasaur" },
       types: ["grass", "poison"],
       eggGroups: ["monster", "grass"],
       evYield: { special_attack: 1 },
     },
     squirtle: {
       id: "squirtle",
-      name: "Squirtle",
+      names: { zh: null, en: "Squirtle" },
       types: ["water"],
       eggGroups: ["monster", "water_1"],
       evYield: { defence: 1 },
     },
     dragonite: {
       id: "dragonite",
-      name: "Dragonite",
+      names: { zh: null, en: "Dragonite" },
       types: ["dragon", "flying"],
       eggGroups: ["water_1", "dragon"],
       evYield: { attack: 3 },
@@ -159,7 +159,7 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
       {
         id: "berry:pecha_berry",
         kind: "berry",
-        label: "Pecha Berry",
+        names: { zh: "Pecha Berry", en: "Pecha Berry" },
         baitId: "berries/pecha_berry",
         flavours: { SWEET: 10 },
         category: "egg_group",
@@ -168,7 +168,7 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
       {
         id: "berry:charti_berry",
         kind: "berry",
-        label: "Charti Berry",
+        names: { zh: "Charti Berry", en: "Charti Berry" },
         baitId: "berries/charti_berry",
         flavours: null,
         category: "typing",
@@ -177,7 +177,7 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
       {
         id: "berry:occa_berry",
         kind: "berry",
-        label: "Occa Berry",
+        names: { zh: "Occa Berry", en: "Occa Berry" },
         baitId: "berries/occa_berry",
         flavours: null,
         category: "typing",
@@ -186,7 +186,7 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
       {
         id: "berry:pomeg_berry",
         kind: "berry",
-        label: "Pomeg Berry",
+        names: { zh: "Pomeg Berry", en: "Pomeg Berry" },
         baitId: "berries/pomeg_berry",
         flavours: null,
         category: "ev",
@@ -195,7 +195,7 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
       {
         id: "berry:hami_berry",
         kind: "berry",
-        label: "Hami Berry",
+        names: { zh: "Hami Berry", en: "Hami Berry" },
         baitId: "berries/hami_berry",
         flavours: null,
         category: "ev",
@@ -204,7 +204,7 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
       {
         id: "item:allthemodium_apple",
         kind: "item",
-        label: "Allthemodium Apple",
+        names: { zh: "Allthemodium Apple", en: "Allthemodium Apple" },
         baitId: "fruits/allthemodium_apple",
         flavours: null,
         category: "other",
@@ -214,6 +214,11 @@ function makeData(overrides: Partial<AllTheMonsData> = {}): AllTheMonsData {
     species,
     spawnPool,
     biomeTagReverse: {},
+    labels: {
+      types: { zh: {}, en: {} },
+      stats: { zh: {}, en: {} },
+      eggGroups: { zh: {}, en: {} },
+    },
     meta: { generatedAt: "", counts: {} },
     ...overrides,
   };
@@ -585,11 +590,7 @@ describe("computeImpact", () => {
         ...data.spawnPool.slice(1),
       ],
     });
-    const impact = computeImpact(
-      dataWithWm,
-      { ...baseScenario, weather: "thunder" },
-      [],
-    );
+    const impact = computeImpact(dataWithWm, { ...baseScenario, weather: "thunder" }, []);
     // 倍率在雷暴下生效，但未选材料时场景倍率只影响基础概率，不应产生变化
     expect(impact.species.every((s) => s.delta === 0)).toBe(true);
     expect(impact.species.every((s) => s.ratio === 1)).toBe(true);

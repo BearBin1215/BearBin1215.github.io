@@ -29,6 +29,7 @@ function loadRealData(): AllTheMonsData {
     species,
     spawnPool: read("spawn-pool.json") as PoolEntry[],
     biomeTagReverse: read("biome-tags-reverse.json") as Record<string, string[]>,
+    labels: read("labels.json") as AllTheMonsData["labels"],
     meta: read("meta.json") as AllTheMonsData["meta"],
   };
 }
@@ -130,9 +131,11 @@ describe("真实数据管线冒烟测试", () => {
   });
 
   it("中文名覆盖：材料与物种均应有中文名", () => {
-    const noZhMaterials = data.materials.filter((m) => !/[\u4e00-\u9fff]/.test(m.label));
+    const noZhMaterials = data.materials.filter(
+      (m) => !/[\u4e00-\u9fff]/.test(m.names.zh),
+    );
     expect(noZhMaterials).toEqual([]);
-    const noZhSpecies = Object.values(data.species).filter((s) => !s.nameZh);
+    const noZhSpecies = Object.values(data.species).filter((s) => !s.names.zh);
     expect(noZhSpecies).toEqual([]);
   });
 

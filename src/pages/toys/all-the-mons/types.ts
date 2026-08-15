@@ -33,8 +33,13 @@ export interface MaterialInfo {
   /** 唯一 id，如 berry:pecha_berry */
   id: string;
   kind: MaterialKind;
-  /** 显示名称 */
-  label: string;
+  /** 多语言显示名（zh / en 均从语言文件或数据兜底解析） */
+  names: {
+    /** 中文名 */
+    zh: string;
+    /** 英文名 */
+    en: string;
+  };
   /** 指向 bait-effects.json 的键 */
   baitId: string;
   /** 口味值，可为空 */
@@ -49,10 +54,13 @@ export interface MaterialInfo {
 export interface SpeciesInfo {
   /** 物种 id，如 charmander */
   id: string;
-  /** 英文显示名，如 Pikachu */
-  name: string;
-  /** 中文显示名（来自 zh_cn 语言文件），可能为空 */
-  nameZh?: string | null;
+  /** 多语言名称（en 恒有，zh 可能缺失） */
+  names: {
+    /** 中文名（来自 zh_cn 语言文件） */
+    zh: string | null;
+    /** 英文名 */
+    en: string;
+  };
   /** 属性列表 */
   types: string[];
   /** 蛋群列表 */
@@ -115,6 +123,24 @@ export interface AllTheMonsMeta {
   counts: Record<string, number>;
 }
 
+/** 单一分类的语言标签（zh / en），如属性、能力值、蛋群 */
+export interface LabelsFile {
+  /** 标签 id -> 中文名 */
+  zh: Record<string, string>;
+  /** 标签 id -> 英文名 */
+  en: Record<string, string>;
+}
+
+/** labels.json 文件结构：各分类标签翻译（属性 / 能力值 / 蛋群） */
+export interface LabelsData {
+  /** 属性翻译（cobblemon.type.*） */
+  types: LabelsFile;
+  /** 能力值翻译（cobblemon.stat.<id>.name） */
+  stats: LabelsFile;
+  /** 蛋群翻译（cobblemon.egg_group.*） */
+  eggGroups: LabelsFile;
+}
+
 /** 聚合后的完整数据 */
 export interface AllTheMonsData {
   baitEffects: Record<string, SpawnBait>;
@@ -123,5 +149,7 @@ export interface AllTheMonsData {
   spawnPool: PoolEntry[];
   /** 群系 id -> 所属标签列表（含通过嵌套标签传递解析，仅限本数据可解析的群系） */
   biomeTagReverse: Record<string, string[]>;
+  /** 界面标签翻译（属性 / 能力值 / 蛋群），来自 Cobblemon 语言文件 */
+  labels: LabelsData;
   meta: AllTheMonsMeta;
 }

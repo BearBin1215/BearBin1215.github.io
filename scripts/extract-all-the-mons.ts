@@ -17,10 +17,11 @@
  *
  * 生成文件：
  *   bait-effects.json  baitId -> { item, effects[] }
- *   materials.json     可选材料列表（含 category 分类与 detail 子类别）
- *   species.json       [{ id, name, nameZh, types[], eggGroups[], evYield{} }]
+ *   materials.json     可选材料列表（含多语言 names 与 category / detail 分类）
+ *   species.json       [{ id, names{zh,en}, types[], eggGroups[], evYield{} }]
  *   spawn-pool.json    世界生成池条目（已合并 All The Mons 覆盖）
  *   biome-tags-reverse.json  群系 id -> 所属标签列表（含原版/Common 标签与神兽刷新标签）
+ *   labels.json        界面标签翻译（属性 / 能力值 / 蛋群，zh / en）
  *   meta.json          生成时间、版本号与统计信息
  */
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -45,13 +46,12 @@ const OVERRIDES_DIR = process.env.COBBLEMON_OVERRIDES_DIR
 const LANG_FILE = process.env.COBBLEMON_LANG_FILE
   ? resolve(process.env.COBBLEMON_LANG_FILE)
   : resolve(DATA_DIR, "../../assets/cobblemon/lang/zh_cn.json");
+/** 英文语言文件（与 LANG_FILE 同目录），用于提取属性等界面标签的英文翻译 */
+const EN_LANG_FILE = resolve(dirname(LANG_FILE), "en_us.json");
 const OUT_DIR = resolve(PROJECT_ROOT, "public/data/all-the-mons");
 
 /** All The Mons 整合包 manifest（版本信息） */
-const ATM_MANIFEST = resolve(
-  PROJECT_ROOT,
-  "../cobblemon/All-the-Mons/manifest.json",
-);
+const ATM_MANIFEST = resolve(PROJECT_ROOT, "../cobblemon/All-the-Mons/manifest.json");
 /** All The Mons 源码仓库 CHANGELOG.md（manifest.json 缺失时解析最新版本号） */
 const ATM_CHANGELOG = resolve(PROJECT_ROOT, "../cobblemon/All-the-Mons/CHANGELOG.md");
 /** Cobblemon 模组 gradle.properties（mod_version） */
@@ -90,8 +90,8 @@ interface SeasoningRaw {
 /** 物种数据 */
 interface SpeciesRaw {
   id: string;
-  name: string;
-  nameZh: string | null;
+  /** 多语言名称（en 恒有，zh 可能缺失） */
+  names: { zh: string | null; en: string };
   types: string[];
   eggGroups: string[];
   evYield: Record<string, number>;
@@ -143,7 +143,8 @@ type MaterialCategory = "typing" | "egg_group" | "ev" | "other";
 interface MaterialRaw {
   id: string;
   kind: MaterialKind;
-  label: string;
+  /** 多语言显示名（zh / en 均从语言文件或数据兜底解析） */
+  names: { zh: string; en: string };
   baitId: string;
   flavours: Record<string, number> | null;
   /** 显示分类 */
@@ -599,27 +600,76 @@ function loadVersions(): { allTheMons: string | null; cobblemon: string | null }
   return { allTheMons, cobblemon };
 }
 
-/** 读取简体中文语言文件，返回 key -> 中文名 的映射 */
-function loadLang(): Record<string, string> {
-  if (!existsSync(LANG_FILE)) {
-    console.warn(`[warn] 未找到简体中文语言文件：${LANG_FILE}`);
+/** 读取语言文件，返回 key -> 文本 的映射 */
+function loadLangFile(path: string): Record<string, string> {
+  if (!existsSync(path)) {
+    console.warn(`[warn] 未找到语言文件：${path}`);
     return {};
   }
-  const lang = readJson(LANG_FILE);
+  const lang = readJson(path);
   if (lang === null || typeof lang !== "object" || Array.isArray(lang)) {
     return {};
   }
   return lang as Record<string, string>;
 }
 
-/** 根据物品 id 获取中文名（优先 cobblemon 语言文件，其次兜底表，最后回退英文化 id） */
+/**
+ * 从语言文件中提取属性翻译（cobblemon.type.<id> -> 名称）。
+ * 排除 cobblemon.type.suffix（格式化占位符，非具体属性）。
+ */
+function extractTypeLabels(lang: Record<string, string>): Record<string, string> {
+  const prefix = "cobblemon.type.";
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(lang)) {
+    if (!key.startsWith(prefix) || key === `${prefix}suffix`) {
+      continue;
+    }
+    out[key.slice(prefix.length)] = value;
+  }
+  return out;
+}
+
+/**
+ * 从语言文件中提取能力值翻译（cobblemon.stat.<id>.name -> 名称）。
+ * id 保留小写蛇形命名（如 special_attack），与物种 evYield 键一致。
+ */
+function extractStatLabels(lang: Record<string, string>): Record<string, string> {
+  const prefix = "cobblemon.stat.";
+  const suffix = ".name";
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(lang)) {
+    if (!key.startsWith(prefix) || !key.endsWith(suffix)) {
+      continue;
+    }
+    const id = key.slice(prefix.length, -suffix.length);
+    if (id) {
+      out[id] = value;
+    }
+  }
+  return out;
+}
+
+/** 从语言文件中提取蛋群翻译（cobblemon.egg_group.<id> -> 名称） */
+function extractEggGroupLabels(lang: Record<string, string>): Record<string, string> {
+  const prefix = "cobblemon.egg_group.";
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(lang)) {
+    if (!key.startsWith(prefix)) {
+      continue;
+    }
+    out[key.slice(prefix.length)] = value;
+  }
+  return out;
+}
+
+/** 根据物品 id 从语言文件取显示名（优先 item，其次 block 前缀） */
+function itemLangLabel(lang: Record<string, string>, itemId: string): string | null {
+  return lang[`item.cobblemon.${itemId}`] ?? lang[`block.cobblemon.${itemId}`] ?? null;
+}
+
+/** 根据物品 id 获取中文名（优先 cobblemon 语言文件，其次兜底表） */
 function itemZhLabel(lang: Record<string, string>, itemId: string): string | null {
-  return (
-    lang[`item.cobblemon.${itemId}`] ??
-    lang[`block.cobblemon.${itemId}`] ??
-    ITEM_ZH_FALLBACK[itemId] ??
-    null
-  );
+  return itemLangLabel(lang, itemId) ?? ITEM_ZH_FALLBACK[itemId] ?? null;
 }
 
 /** 读取并解析一个 JSON 文件；文件不存在或解析失败时返回 null */
@@ -770,7 +820,7 @@ function loadSeasonings(
   return map;
 }
 
-/** 读取 species 数据，返回 id -> { name, nameZh, types, eggGroups, evYield } */
+/** 读取 species 数据，返回 id -> { names{zh,en}, types, eggGroups, evYield } */
 function loadSpecies(
   dataDir: string,
   lang: Record<string, string>,
@@ -810,8 +860,10 @@ function loadSpecies(
     const id = idOf(file);
     map.set(id, {
       id,
-      name: typeof speciesData.name === "string" ? speciesData.name : humanize(id),
-      nameZh: lang[`cobblemon.species.${id}.name`] ?? null,
+      names: {
+        zh: lang[`cobblemon.species.${id}.name`] ?? null,
+        en: typeof speciesData.name === "string" ? speciesData.name : humanize(id),
+      },
       types: types.filter(Boolean),
       eggGroups: Array.isArray(speciesData.eggGroups)
         ? (speciesData.eggGroups as string[]).map(String)
@@ -1123,6 +1175,7 @@ function buildMaterials(
   berries: Map<string, BerryRaw>,
   seasonings: Map<string, SeasoningRaw>,
   lang: Record<string, string>,
+  enLang: Record<string, string>,
 ): MaterialRaw[] {
   const materials: MaterialRaw[] = [];
   const seen = new Set<string>();
@@ -1146,7 +1199,10 @@ function buildMaterials(
     materials.push({
       id,
       kind,
-      label: itemZhLabel(lang, itemId) ?? berry?.name ?? humanize(itemId),
+      names: {
+        zh: itemZhLabel(lang, itemId) ?? berry?.name ?? humanize(itemId),
+        en: itemLangLabel(enLang, itemId) ?? berry?.name ?? humanize(itemId),
+      },
       baitId,
       flavours: berry?.flavours ?? null,
       category,
@@ -1167,10 +1223,16 @@ function buildMaterials(
     materials.push({
       id,
       kind: "seasoning",
-      label:
-        itemZhLabel(lang, itemId) ??
-        itemZhLabel(lang, seasoningId) ??
-        humanize(seasoningId),
+      names: {
+        zh:
+          itemZhLabel(lang, itemId) ??
+          itemZhLabel(lang, seasoningId) ??
+          humanize(seasoningId),
+        en:
+          itemLangLabel(enLang, itemId) ??
+          itemLangLabel(enLang, seasoningId) ??
+          humanize(seasoningId),
+      },
       baitId: `seasonings:${seasoningId}`,
       flavours: null,
       category,
@@ -1192,7 +1254,8 @@ function main(): void {
     console.warn(`[warn] 覆盖数据目录不存在，已忽略：${OVERRIDES_DIR}`);
   }
 
-  const lang = loadLang();
+  const lang = loadLangFile(LANG_FILE);
+  const enLang = loadLangFile(EN_LANG_FILE);
   const versions = loadVersions();
   const baitEffects = loadBaitEffects(DATA_DIR, overridesDir);
   const berries = loadBerries(DATA_DIR);
@@ -1211,7 +1274,7 @@ function main(): void {
     }
   }
   const biomeTagReverse = buildBiomeTagReverse(biomeTagContents);
-  const materials = buildMaterials(baitEffects, berries, seasonings, lang);
+  const materials = buildMaterials(baitEffects, berries, seasonings, lang, enLang);
 
   mkdirSync(OUT_DIR, { recursive: true });
 
@@ -1236,6 +1299,11 @@ function main(): void {
   write("spawn-pool.json", spawnPool);
   write("biome-tags-reverse.json", biomeTagReverse);
   write("materials.json", materials);
+  write("labels.json", {
+    types: { zh: extractTypeLabels(lang), en: extractTypeLabels(enLang) },
+    stats: { zh: extractStatLabels(lang), en: extractStatLabels(enLang) },
+    eggGroups: { zh: extractEggGroupLabels(lang), en: extractEggGroupLabels(enLang) },
+  });
   write("meta.json", {
     generatedAt: new Date().toISOString(),
     versions,
