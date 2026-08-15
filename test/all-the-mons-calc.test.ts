@@ -291,7 +291,7 @@ describe("computeSpeciesWeight", () => {
   const charmander = data.species.charmander!;
 
   it("未知物种不产生变化", () => {
-    const result = computeSpeciesWeight(null, [], []);
+    const result = computeSpeciesWeight(null, []);
     expect(result.weight).toBe(1);
     expect(result.weight).toBe(1);
   });
@@ -300,8 +300,7 @@ describe("computeSpeciesWeight", () => {
     const raw: BaitEffect[] = [
       { type: "cobblemon:typing", subcategory: "fire", chance: 1, value: 10 },
     ];
-    const merged = mergeEffects(raw);
-    const result = computeSpeciesWeight(charmander, raw, merged);
+    const result = computeSpeciesWeight(charmander, raw);
     expect(result.weight).toBe(10);
     expect(result.matchedTyping).toBe("fire");
   });
@@ -310,8 +309,7 @@ describe("computeSpeciesWeight", () => {
     const raw: BaitEffect[] = [
       { type: "cobblemon:typing", subcategory: "rock", chance: 1, value: 10 },
     ];
-    const merged = mergeEffects(raw);
-    const result = computeSpeciesWeight(charmander, raw, merged);
+    const result = computeSpeciesWeight(charmander, raw);
     expect(result.weight).toBe(1);
     expect(result.matchedTyping).toBeNull();
   });
@@ -321,8 +319,7 @@ describe("computeSpeciesWeight", () => {
       { type: "cobblemon:typing", subcategory: "rock", chance: 1, value: 10 },
       { type: "cobblemon:typing", subcategory: "fire", chance: 1, value: 10 },
     ];
-    const merged = mergeEffects(raw);
-    const result = computeSpeciesWeight(charmander, raw, merged);
+    const result = computeSpeciesWeight(charmander, raw);
     // 第一个 typing 是 rock，未命中 → 权重不变
     expect(result.weight).toBe(1);
     expect(result.matchedTyping).toBeNull();
@@ -332,8 +329,7 @@ describe("computeSpeciesWeight", () => {
     const raw: BaitEffect[] = [
       { type: "cobblemon:ev", subcategory: "hp", chance: 1, value: 100 },
     ];
-    const merged = mergeEffects(raw);
-    const result = computeSpeciesWeight(charmander, raw, merged);
+    const result = computeSpeciesWeight(charmander, raw);
     expect(result.weight).toBe(0);
     expect(result.blockedByEv).toBe("hp");
   });
@@ -342,8 +338,7 @@ describe("computeSpeciesWeight", () => {
     const raw: BaitEffect[] = [
       { type: "cobblemon:ev", subcategory: "speed", chance: 1, value: 100 },
     ];
-    const merged = mergeEffects(raw);
-    const result = computeSpeciesWeight(charmander, raw, merged);
+    const result = computeSpeciesWeight(charmander, raw);
     expect(result.weight).toBe(1);
     expect(result.blockedByEv).toBeNull();
   });
@@ -352,13 +347,12 @@ describe("computeSpeciesWeight", () => {
     const raw: BaitEffect[] = [
       { type: "cobblemon:ev", subcategory: "spa", chance: 1, value: 100 },
     ];
-    const merged = mergeEffects(raw);
-    // bulbasaur evYield.special_attack = 1 → 命中，不拦截
-    const matched = computeSpeciesWeight(data.species.bulbasaur!, raw, merged);
+    // bulbasaur evYield.special_attack = 1 -> 命中，不拦截
+    const matched = computeSpeciesWeight(data.species.bulbasaur!, raw);
     expect(matched.weight).toBe(1);
     expect(matched.blockedByEv).toBeNull();
     // charmander 无特攻产量 → 拦截
-    const blocked = computeSpeciesWeight(charmander, raw, merged);
+    const blocked = computeSpeciesWeight(charmander, raw);
     expect(blocked.weight).toBe(0);
     expect(blocked.blockedByEv).toBe("spa");
   });
@@ -367,8 +361,7 @@ describe("computeSpeciesWeight", () => {
     const raw: BaitEffect[] = [
       { type: "cobblemon:egg_group", subcategory: "dragon", chance: 1, value: 10 },
     ];
-    const merged = mergeEffects(raw);
-    const result = computeSpeciesWeight(charmander, raw, merged);
+    const result = computeSpeciesWeight(charmander, raw);
     expect(result.weight).toBe(10);
     expect(result.matchedEggGroups).toContain("dragon");
   });

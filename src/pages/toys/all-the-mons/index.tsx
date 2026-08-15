@@ -997,27 +997,20 @@ export default function AllTheMonsCalculator() {
 
       <Card>
         <CardHeader>
-          <CardTitle>算法说明与局限</CardTitle>
+          <CardTitle>算法说明</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
           <p>
-            概率模型：先按宝点心桶权重（common 83.25 / uncommon 11.25 / rare 4.125 /
-            ultra-rare 1.375）加权选桶，再在桶内按条目权重加权选择，最后按物种汇总。
-            若材料含 rarity_bucket 效果，桶权重会先取 w^(1/n) 并归一到 100。
+            概率模型：先按宝点心桶权重（common 83.25 / uncommon 11.25 / rare 4.125 / ultra-rare 1.375）加权选桶，再在桶内按条目权重加权选择，最后按物种汇总。若材料含 rarity_bucket 效果，桶权重会先取 w^(1/n) 并归一到 100。
           </p>
           <p>
-            材料最多 {MAX_MATERIALS} 个槽位（对应游戏中烹饪锅的调料槽），可重复放置，
-            相同材料效果会叠加合并；槽位顺序影响「首个」属性 / EV 效果。
+            材料最多 {MAX_MATERIALS} 个槽位（对应游戏中烹饪锅的调料槽），可重复放置，相同材料效果会叠加合并；槽位顺序影响「首个」属性 / EV 效果。
           </p>
           <p>
-            与源码一致的行为：属性吸引与 EV
-            筛选只取「第一个」对应效果（与材料选择顺序有关）；
-            蛋组吸引遍历全部蛋组效果。各材料自带的 weightMultiplier（时间/天气修正）与
-            drops 在本工具中未纳入。
+            属性吸引与 EV 筛选只取「第一个」对应效果（与材料选择顺序有关）；蛋组吸引遍历全部蛋组效果。各材料自带的 weightMultiplier（时间/天气修正）与 drops 在本工具中未纳入。
           </p>
           <p>
-            数据合并自 Cobblemon 源码与 All The Mons 数据包覆盖（材料与生成池）；
-            结果反映的是相对刷新概率变化，未模拟实际的生成频率（每区块数量、生成周期等）。
+            数据合并自 Cobblemon 源码与 All The Mons 数据包覆盖（材料与生成池）；结果反映的是相对刷新概率变化，未模拟实际的生成频率（每区块数量、生成周期等）。
           </p>
         </CardContent>
       </Card>

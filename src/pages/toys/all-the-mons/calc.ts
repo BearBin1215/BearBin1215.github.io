@@ -156,6 +156,8 @@ export function resolveLure(materialIds: string[], data: AllTheMonsData): LureSu
     raw.push(...getMaterialEffects(material, data));
   }
   const merged = mergeEffects(raw);
+  /** 按效果类型过滤合并后的效果 */
+  const byType = (type: string) => merged.filter((e) => e.type === type);
 
   const activeTypingEffect = raw.find((e) => e.type === EFFECT.TYPING) ?? null;
   const activeEvEffect = raw.find((e) => e.type === EFFECT.EV) ?? null;
@@ -167,10 +169,10 @@ export function resolveLure(materialIds: string[], data: AllTheMonsData): LureSu
     rarityTier: Math.floor(
       raw.filter((e) => e.type === EFFECT.RARITY_BUCKET).reduce((s, e) => s + e.value, 0),
     ),
-    typingEffects: merged.filter((e) => e.type === EFFECT.TYPING),
-    eggGroupEffects: merged.filter((e) => e.type === EFFECT.EGG_GROUP),
-    evEffects: merged.filter((e) => e.type === EFFECT.EV),
-    biteTimeEffects: merged.filter((e) => e.type === EFFECT.BITE_TIME),
+    typingEffects: byType(EFFECT.TYPING),
+    eggGroupEffects: byType(EFFECT.EGG_GROUP),
+    evEffects: byType(EFFECT.EV),
+    biteTimeEffects: byType(EFFECT.BITE_TIME),
     qualityEffects: merged.filter((e) => QUALITY_EFFECT_TYPES.has(e.type)),
     activeTypingEffect,
     activeEvEffect,
@@ -208,30 +210,16 @@ export const EV_STAT_KEYS: Record<string, string> = {
 
 /**
  * 计算单个物种受吸引效果的权重影响（复刻 SpawnBaitInfluence.affectWeight）。
+ * 各效果类型均直接在原始列表上查找（merged 由 raw 合并而来，
+ * raw 中不存在对应类型时查找自然落空，无需再经 merged 预判）。
  * @param species 物种信息（未知返回 null 乘数）
  * @param raw 原始（未合并）效果列表
- * @param merged 合并后效果列表
  */
 export function computeSpeciesWeight(
   species: SpeciesInfo | null,
   raw: BaitEffect[],
-  merged: BaitEffect[],
 ): SpeciesWeightResult {
   if (!species) {
-    return {
-      weight: 1,
-      matchedTyping: null,
-      matchedEggGroups: [],
-      blockedByEv: null,
-    };
-  }
-
-  const hasRelevant =
-    merged.some((e) => e.type === EFFECT.EV) ||
-    merged.some((e) => e.type === EFFECT.TYPING) ||
-    merged.some((e) => e.type === EFFECT.EGG_GROUP);
-
-  if (!hasRelevant) {
     return {
       weight: 1,
       matchedTyping: null,
@@ -244,21 +232,19 @@ export function computeSpeciesWeight(
   let blockedByEv: string | null = null;
 
   // EV：源码取原始列表首个 ev 效果；物种对应能力产量为 0 时权重归 0
-  if (merged.some((e) => e.type === EFFECT.EV)) {
-    const evEffect = raw.find((e) => e.type === EFFECT.EV);
-    if (evEffect?.subcategory) {
-      const stat = evEffect.subcategory;
-      const evYieldValue = species.evYield[EV_STAT_KEYS[stat] ?? stat] ?? 0;
-      if (evYieldValue <= 0) {
-        weight = 0;
-        blockedByEv = stat;
-      }
+  const evEffect = raw.find((e) => e.type === EFFECT.EV);
+  if (evEffect?.subcategory) {
+    const stat = evEffect.subcategory;
+    const evYieldValue = species.evYield[EV_STAT_KEYS[stat] ?? stat] ?? 0;
+    if (evYieldValue <= 0) {
+      weight = 0;
+      blockedByEv = stat;
     }
   }
 
   let matchedTyping: string | null = null;
   // typing：源码取原始列表首个 typing 效果，命中属性则乘以 value
-  if (weight > 0 && merged.some((e) => e.type === EFFECT.TYPING)) {
+  if (weight > 0) {
     const typingEffect = raw.find((e) => e.type === EFFECT.TYPING);
     if (typingEffect?.subcategory && species.types.includes(typingEffect.subcategory)) {
       matchedTyping = typingEffect.subcategory;
@@ -268,7 +254,7 @@ export function computeSpeciesWeight(
 
   // egg_group：遍历原始列表，命中任一蛋组则乘以对应 value
   const matchedEggGroups: string[] = [];
-  if (weight > 0 && merged.some((e) => e.type === EFFECT.EGG_GROUP)) {
+  if (weight > 0) {
     for (const effect of raw) {
       if (effect.type !== EFFECT.EGG_GROUP || !effect.subcategory) {
         continue;
@@ -484,12 +470,11 @@ export function computeImpact(
 ): ImpactResult {
   const lure = resolveLure(materialIds, data);
   const raw = lure.raw;
-  const merged = lure.merged;
   const pool = filterScenarioPool(data, scenario);
 
   const entries: ScenarioEntry[] = pool.map((entry) => {
     const species = data.species[entry.p] ?? null;
-    const result = computeSpeciesWeight(species, raw, merged);
+    const result = computeSpeciesWeight(species, raw);
     // 基础权重 × 场景权重倍率（天气 / 时间 / 群系）——场景条件同样作用于基础概率
     const baseWeight = entry.weight * weightMultiplierProduct(entry, scenario);
     // 基础权重 × 吸引影响
