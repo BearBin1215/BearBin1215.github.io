@@ -413,11 +413,12 @@ function LureSummaryCard({ lure }: { lure: ReturnType<typeof resolveLure> }) {
 }
 
 /** 结果列表排序键与默认方向 */
-const SORT_KEYS = ["rarity", "pAfter", "name"] as const;
+const SORT_KEYS = ["rarity", "pAfter", "pBefore", "name"] as const;
 type SortKey = (typeof SORT_KEYS)[number];
 const SORT_DEFAULT_DIR: Record<SortKey, "asc" | "desc"> = {
   rarity: "asc",
   pAfter: "desc",
+  pBefore: "desc",
   name: "asc",
 };
 
@@ -497,6 +498,9 @@ function ImpactTable({
       }
       if (sort.key === "pAfter") {
         return dirMul * (a.pAfter - b.pAfter);
+      }
+      if (sort.key === "pBefore") {
+        return dirMul * (a.pBefore - b.pBefore);
       }
       const ra = speciesRarityIndex(a);
       const rb = speciesRarityIndex(b);
@@ -586,7 +590,14 @@ function ImpactTable({
                       onSort={setSortKey}
                     />
                   </TableHead>
-                  <TableHead className="text-right">基础概率</TableHead>
+                  <TableHead className="text-right">
+                    <SortHeader
+                      label="基础概率"
+                      sortKey="pBefore"
+                      sort={sort}
+                      onSort={setSortKey}
+                    />
+                  </TableHead>
                   <TableHead className="text-right">
                     <SortHeader
                       label="吸引后概率"
