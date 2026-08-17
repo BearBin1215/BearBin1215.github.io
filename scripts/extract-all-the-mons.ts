@@ -6,14 +6,11 @@
  *
  * 数据来源（默认）：
  *   ../cobblemon/cobblemon/common/src/main/resources/data/cobblemon
- * 并自动合并 All The Mons 整合包覆盖（../cobblemon/All the Mons/overrides/kubejs/data/cobblemon）：
+ * 并自动合并 All The Mons 整合包覆盖（../cobblemon/All-the-Mons/kubejs/data/cobblemon）：
  *   材料（spawn_bait_effects / seasonings）、生成池（spawn_pool_world）
- * 可通过环境变量覆盖：
- *   COBBLEMON_DATA_DIR     基础数据目录（默认为上面的 Cobblemon 源码路径）
- *   COBBLEMON_OVERRIDES_DIR 可选的数据包覆盖目录（如 All the Mons 的
- *                           overrides/kubejs/data/cobblemon），会合并覆盖
- *                           seasonings、spawn_bait_effects 与 spawn_pool_world
- *   COBBLEMON_LANG_FILE    简体中文语言文件路径（默认取 cobblemon 的 zh_cn.json）
+ * 可通过环境变量 COBBLEMON_ROOT 覆盖工作区根目录（默认 ../cobblemon，
+ * 其下应包含 cobblemon 模组源码仓库与 All-the-Mons 整合包仓库），
+ * 所有数据 / 语言 / 版本文件路径均由该根目录派生。
  *
  * 生成文件：
  *   bait-effects.json  baitId -> { item, effects[] }
@@ -30,35 +27,26 @@ import { fileURLToPath } from "node:url";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(SCRIPT_DIR, "..");
-const DEFAULT_DATA_DIR = resolve(
-  PROJECT_ROOT,
-  "../cobblemon/cobblemon/common/src/main/resources/data/cobblemon",
-);
-const DEFAULT_OVERRIDES_DIR = resolve(
-  PROJECT_ROOT,
-  "../cobblemon/All-the-Mons/kubejs/data/cobblemon",
-);
+/**
+ * 数据来源工作区根目录：其下包含 cobblemon 模组源码仓库与 All-the-Mons
+ * 整合包仓库，所有数据 / 语言 / 版本文件路径均由此派生。
+ */
+const DEFAULT_COBBLEMON_ROOT = resolve(PROJECT_ROOT, "../cobblemon");
+const COBBLEMON_ROOT = resolve(process.env.COBBLEMON_ROOT ?? DEFAULT_COBBLEMON_ROOT);
+/** Cobblemon 模组资源根（data 与 assets 同级） */
+const COBBLEMON_RESOURCES = join(COBBLEMON_ROOT, "cobblemon/common/src/main/resources");
 
-const DATA_DIR = resolve(process.env.COBBLEMON_DATA_DIR ?? DEFAULT_DATA_DIR);
-const OVERRIDES_DIR = process.env.COBBLEMON_OVERRIDES_DIR
-  ? resolve(process.env.COBBLEMON_OVERRIDES_DIR)
-  : DEFAULT_OVERRIDES_DIR;
-const LANG_FILE = process.env.COBBLEMON_LANG_FILE
-  ? resolve(process.env.COBBLEMON_LANG_FILE)
-  : resolve(DATA_DIR, "../../assets/cobblemon/lang/zh_cn.json");
+const DATA_DIR = join(COBBLEMON_RESOURCES, "data/cobblemon");
+const OVERRIDES_DIR = join(COBBLEMON_ROOT, "All-the-Mons/kubejs/data/cobblemon");
+const LANG_FILE = join(COBBLEMON_RESOURCES, "assets/cobblemon/lang/zh_cn.json");
 /** 英文语言文件（与 LANG_FILE 同目录），用于提取属性等界面标签的英文翻译 */
 const EN_LANG_FILE = resolve(dirname(LANG_FILE), "en_us.json");
 const OUT_DIR = resolve(PROJECT_ROOT, "public/data/all-the-mons");
 
-/** All The Mons 整合包 manifest（版本信息） */
-const ATM_MANIFEST = resolve(PROJECT_ROOT, "../cobblemon/All-the-Mons/manifest.json");
-/** All The Mons 源码仓库 CHANGELOG.md（manifest.json 缺失时解析最新版本号） */
-const ATM_CHANGELOG = resolve(PROJECT_ROOT, "../cobblemon/All-the-Mons/CHANGELOG.md");
+/** All The Mons 源码仓库 CHANGELOG.md（解析最新版本号） */
+const ATM_CHANGELOG = join(COBBLEMON_ROOT, "All-the-Mons/CHANGELOG.md");
 /** Cobblemon 模组 gradle.properties（mod_version） */
-const COBBLEMON_GRADLE_PROPERTIES = resolve(
-  PROJECT_ROOT,
-  "../cobblemon/cobblemon/gradle.properties",
-);
+const COBBLEMON_GRADLE_PROPERTIES = join(COBBLEMON_ROOT, "cobblemon/gradle.properties");
 
 /** 单个吸引效果（对应源码 SpawnBait.Effect） */
 interface BaitEffect {
@@ -566,15 +554,8 @@ const EFFECT_TYPE_TO_CATEGORY: Record<string, MaterialCategory> = {
 /** 读取 All The Mons 与 Cobblemon 版本号 */
 function loadVersions(): { allTheMons: string | null; cobblemon: string | null } {
   let allTheMons: string | null = null;
-  const manifest = readJson(ATM_MANIFEST);
-  if (manifest !== null && typeof manifest === "object" && !Array.isArray(manifest)) {
-    const version = (manifest as { version?: unknown }).version;
-    if (typeof version === "string" && version.trim() !== "") {
-      allTheMons = version.trim();
-    }
-  }
-  // manifest 缺失时从 CHANGELOG.md 解析最新的「## [版本号]」标题
-  if (!allTheMons && existsSync(ATM_CHANGELOG)) {
+  // 从 CHANGELOG.md 解析最新的「## [版本号]」标题
+  if (existsSync(ATM_CHANGELOG)) {
     try {
       const text = readFileSync(ATM_CHANGELOG, "utf8");
       const match = text.match(/^##\s+.*?\[([^\]]+)\]/m);
@@ -1245,7 +1226,7 @@ function buildMaterials(
 function main(): void {
   if (!existsSync(DATA_DIR)) {
     console.error(`[error] 找不到 Cobblemon 数据目录：${DATA_DIR}`);
-    console.error("请通过环境变量 COBBLEMON_DATA_DIR 指定数据目录后重试。");
+    console.error("请通过环境变量 COBBLEMON_ROOT 指定数据来源工作区根目录后重试。");
     process.exit(1);
   }
 
