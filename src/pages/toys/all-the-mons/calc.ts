@@ -7,6 +7,10 @@
  *   （注意：源码用「未合并」的原始效果列表取首个 typing / ev 效果，蛋组则遍历原始列表；本模块忠实复刻）
  * - BucketNormalizingInfluence：rarity_bucket 层级把各稀有度桶权重取 w^(1/n) 后归一到 100
  * - 概率模型：先按 pokeSnackBuckets 权重选桶，再在桶内按条目权重加权选择
+ *
+ * 各函数注释中的源码位置均相对于
+ * ../cobblemon/cobblemon/common/src/main/kotlin/com/cobblemon/mod/common/，
+ * 行号基于 Cobblemon 1.8.0 快照，随源码更新可能漂移。
  */
 import type {
   BaitEffect,
@@ -17,7 +21,11 @@ import type {
   WeightMultiplier,
 } from "./types";
 
-/** 宝点心生成池配置（best-spawner-config.json 的 pokeSnackBuckets） */
+/**
+ * 宝点心生成池配置。
+ * 源码位置：api/spawning/preset/BestSpawnerConfig.kt:64（pokeSnackBuckets 默认值），
+ * 由 api/spawning/spawner/PokeSnackSpawnerFactory.kt:75 传入 spawner 的 buckets。
+ */
 export const POKE_SNACK_BUCKETS: Record<string, number> = {
   common: 83.25,
   uncommon: 11.25,
@@ -25,7 +33,11 @@ export const POKE_SNACK_BUCKETS: Record<string, number> = {
   "ultra-rare": 1.375,
 };
 
-/** 稀有度桶归一化参数（PokeSnackSpawnerFactory 传入） */
+/**
+ * 稀有度桶归一化参数。
+ * 源码位置：api/spawning/spawner/PokeSnackSpawnerFactory.kt:58-62
+ * （BucketNormalizingInfluence(tier, gradient = 0.2F, firstTier = 1.2F)）。
+ */
 const BUCKET_FIRST_TIER = 1.2;
 const BUCKET_GRADIENT = 0.2;
 
@@ -56,6 +68,7 @@ const QUALITY_EFFECT_TYPES = new Set([
 /**
  * 合并效果（复刻 SpawnBaitUtils.mergeEffects）。
  * 按 (type, subcategory) 分组：chance 求和但不超过 1，value 求和后向上取整。
+ * 源码位置：api/fishing/SpawnBaitUtils.kt:15-29
  */
 export function mergeEffects(effects: BaitEffect[]): BaitEffect[] {
   const groups = new Map<string, BaitEffect[]>();
@@ -142,6 +155,9 @@ export interface LureSummary {
 
 /**
  * 由选中的材料 id 列表解析出完整吸引效果摘要。
+ * 源码位置：api/spawning/spawner/PokeSnackSpawnerFactory.kt:51-67（influenceBuilders）--
+ * 稀有度层级 = 原始 rarity_bucket 效果 value 求和取整（53-56 行），
+ * SpawnBaitInfluence 直接使用原始效果列表（64-66 行）。
  * @param materialIds 材料 id 列表（顺序即材料顺序，影响首 typing/ev 效果）
  * @param data 聚合数据
  */
@@ -193,7 +209,11 @@ export interface SpeciesWeightResult {
 
 /**
  * EV 效果子类别（Showdown 短代码）到物种 evYield 键的映射。
- * 对应源码 Stats.getStat：atk->attack、def->defence、spa->special_attack、spd->special_defence、spe->speed、hp->hp。
+ * 对应 Cobblemon 源码 Stats.getStat()：
+ * 源码位置：api/pokemon/stats/Stats.kt:53-62
+ * hp->hp, atk/attack->attack, def/defense/defence->defence,
+ * spa->special_attack, spd->special_defence, spe/speed->speed。
+ * Cobblemon 使用英式拼写 defence（非 defense），evYield 键与此一致。
  */
 export const EV_STAT_KEYS: Record<string, string> = {
   hp: "hp",
@@ -210,6 +230,10 @@ export const EV_STAT_KEYS: Record<string, string> = {
 
 /**
  * 计算单个物种受吸引效果的权重影响（复刻 SpawnBaitInfluence.affectWeight）。
+ * 源码位置：api/spawning/influence/SpawnBaitInfluence.kt:63-141 --
+ * EV 取原始列表首个效果、产量不匹配时权重归 0（88-102 行），
+ * typing 取原始列表首个效果、命中属性乘 value（104-117 行），
+ * egg_group 遍历原始列表、首个命中蛋组乘 value（119-137 行）。
  * 各效果类型均直接在原始列表上查找（merged 由 raw 合并而来，
  * raw 中不存在对应类型时查找自然落空，无需再经 merged 预判）。
  * @param species 物种信息（未知返回 null 乘数）
@@ -289,7 +313,10 @@ function lightCompatible(entry: PoolEntry, light: LightRange): boolean {
 
 /**
  * 过滤出指定场景下的生成池条目（宝点心场景）。
- * 固定排除垂钓位置与仅垂钓（minLureLevel）条目——宝点心无法触发。
+ * 源码位置：api/spawning/condition/SpawningCondition.kt:77-135（fits）--
+ * 天空光照区间（86-89 行）、雨天 / 雷暴（94-97 行）、
+ * biomes 条件任一命中（102-103 行，反条件见各子类的 anticondition 判断）。
+ * 固定排除垂钓位置与仅垂钓（minLureLevel）条目--宝点心无法触发。
  * 群系匹配取并集：条目条件生物群系命中任一选中标签即纳入，
  * 反向条件生物群系命中任一选中标签即排除。
  * 天气匹配：按场景天气判断 isRaining / isThundering 条件。
@@ -348,7 +375,12 @@ function timeRangeMatches(timeRange: string | undefined, light: LightRange): boo
   return false;
 }
 
-/** 判断单个权重倍率的条件是否由场景满足（condition 全部满足且 anticondition 未命中） */
+/**
+ * 判断单个权重倍率的条件是否由场景满足（condition 全部满足且 anticondition 未命中）。
+ * 源码位置：api/spawning/multiplier/WeightMultiplier.kt:33-37（affectWeight）--
+ * conditions 为空或任一满足，且 anticonditions 为空或均不满足时乘以 multiplier；
+ * 单个条件的判定复用 SpawningCondition.fits（同 filterScenarioPool 引用）。
+ */
 export function weightMultiplierApplies(
   wm: WeightMultiplier,
   scenario: Scenario,
@@ -377,7 +409,11 @@ export function weightMultiplierApplies(
   return condOk && !antiSatisfied;
 }
 
-/** 计算条目在场景下的权重倍率乘积（多个倍率连乘） */
+/**
+ * 计算条目在场景下的权重倍率乘积（多个倍率连乘）。
+ * 源码位置：api/spawning/position/SpawnablePosition.kt:179 --
+ * 生成位置计算权重时逐个应用 detail.weightMultipliers。
+ */
 export function weightMultiplierProduct(entry: PoolEntry, scenario: Scenario): number {
   let product = 1;
   for (const wm of entry.weightMultipliers ?? []) {
@@ -392,8 +428,6 @@ export function weightMultiplierProduct(entry: PoolEntry, scenario: Scenario): n
 export interface SpeciesImpact {
   /** 物种 id */
   id: string;
-  /** 显示名 */
-  name: string;
   /** 属性 */
   types: string[];
   /** 出现的稀有度桶 */
@@ -458,6 +492,12 @@ export interface ImpactResult {
 
 /**
  * 计算吸引效果对指定场景下宝可梦刷新概率的影响。
+ * 源码位置：
+ * - api/spawning/spawner/Spawner.kt:176-190（chooseBucket：桶权重先经各 influence 的
+ *   affectBucketWeights 调整，再按调整后权重加权选桶，仅保留生成池内出现的桶）
+ * - api/spawning/influence/BucketNormalizingInfluence.kt:35-47（桶权重取 w^(1/n) 后归一化）
+ * - api/spawning/spawner/Spawner.kt:86-98（calculateSpawnActionForPosition：
+ *   选桶 -> 桶内按条目影响后权重加权选择）
  * 算法：
  * 1. 按 pokeSnackBuckets 权重选桶；若 rarityTier > 0，桶权重取 w^(1/n) 后归一到 100
  * 2. 桶内按条目权重加权选择（基础 vs 吸引后）
@@ -514,7 +554,6 @@ export function computeImpact(
     string,
     {
       id: string;
-      name: string;
       types: string[];
       buckets: Set<string>;
       posTypes: Set<string>;
@@ -534,7 +573,6 @@ export function computeImpact(
     if (!item) {
       item = {
         id,
-        name: species?.names.zh ?? species?.names.en ?? id,
         types: species?.types ?? [],
         buckets: new Set(),
         posTypes: new Set(),
@@ -592,7 +630,6 @@ export function computeImpact(
       const ratio = item.pBefore > 0 ? item.pAfter / item.pBefore : null;
       return {
         id: item.id,
-        name: item.name,
         types: item.types,
         buckets: [...item.buckets],
         posTypes: [...item.posTypes],

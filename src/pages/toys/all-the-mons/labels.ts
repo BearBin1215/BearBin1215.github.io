@@ -1,5 +1,7 @@
 /**
- * All The Mons 宝点心页面的中文标签与展示辅助。
+ * All The Mons 宝点心页面的展示辅助（不含界面文案）。
+ * 属性 / 能力值 / 蛋群的名称由数据文件 labels.json 提供；
+ * 稀有度、材料分类、效果类型、场景选项等中文文案直接写在各组件内。
  */
 
 /** 属性徽章颜色（背景） */
@@ -34,23 +36,6 @@ export const EV_STAT_ORDER: Record<string, number> = {
   spe: 5,
 };
 
-/** 稀有度筛选选项（按 超稀有 → 普通 排序） */
-export const RARITY_FILTER_OPTIONS = [
-  { value: "ultra-rare", label: "超稀有" },
-  { value: "rare", label: "稀有" },
-  { value: "uncommon", label: "不普通" },
-  { value: "common", label: "普通" },
-] as const;
-
-/** 稀有度桶中文名 */
-export const BUCKET_LABELS: Record<string, string> = {
-  common: "普通",
-  uncommon: "不普通",
-  rare: "稀有",
-  "ultra-rare": "超稀有",
-  boss: "头目",
-};
-
 /** 稀有度桶排序优先级（数值越小越稀有），用于物种列表按稀有度排序 */
 export const BUCKET_RARITY_INDEX: Record<string, number> = {
   "ultra-rare": 0,
@@ -60,54 +45,14 @@ export const BUCKET_RARITY_INDEX: Record<string, number> = {
   boss: 4,
 };
 
-/** 材料显示分类中文名与展示顺序 */
-export const MATERIAL_CATEGORY_LABELS: Record<string, string> = {
-  typing: "属性",
-  egg_group: "蛋群",
-  ev: "基础点数",
-  other: "其他",
-};
-
 /** 材料显示分类展示顺序 */
 export const MATERIAL_CATEGORY_ORDER = ["typing", "egg_group", "ev", "other"] as const;
 
-/** 效果类型说明 */
-export const EFFECT_LABELS: Record<string, string> = {
-  "cobblemon:typing": "属性吸引",
-  "cobblemon:egg_group": "蛋群吸引",
-  "cobblemon:ev": "EV 筛选",
-  "cobblemon:rarity_bucket": "稀有度提升",
-  "cobblemon:bite_time": "刷新间隔",
-  "cobblemon:nature": "性格",
-  "cobblemon:iv": "个体值",
-  "cobblemon:shiny_reroll": "闪率重掷",
-  "cobblemon:mark_chance": "标记",
-  "cobblemon:drops_reroll": "掉落重掷",
-  "cobblemon:gender_chance": "性别",
-  "cobblemon:level_raise": "等级提升",
-  "cobblemon:ha_chance": "隐藏特性",
-  "cobblemon:alpha_chance": "头目概率",
-  "cobblemon:friendship": "亲密度",
-  "cobblemon:size": "体型",
-};
-
 /** 生成位置类型可选项（宝点心场景，不含垂钓） */
-export const POSITION_OPTIONS = [
-  { value: "grounded", label: "地面" },
-  { value: "surface", label: "水面" },
-  { value: "submerged", label: "水下" },
-  { value: "seafloor", label: "海底" },
-] as const;
+export const POSITION_VALUES = ["grounded", "surface", "submerged", "seafloor"] as const;
 
 /** 光照范围选项（白天 / 夜晚互斥） */
-export const LIGHT_OPTIONS = [
-  { value: "day", label: "白天（光照 8-15）" },
-  { value: "night", label: "夜晚（光照 0-7）" },
-] as const;
+export const LIGHT_VALUES = ["day", "night"] as const;
 
 /** 天气选项 */
-export const WEATHER_OPTIONS = [
-  { value: "clear", label: "晴" },
-  { value: "rain", label: "雨" },
-  { value: "thunder", label: "雷暴" },
-] as const;
+export const WEATHER_VALUES = ["clear", "rain", "thunder"] as const;

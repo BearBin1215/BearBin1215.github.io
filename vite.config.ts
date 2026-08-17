@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [react(), svgr(), tailwindcss(), mdPlugin({ mode: [Mode.MARKDOWN] })],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
   server: {
