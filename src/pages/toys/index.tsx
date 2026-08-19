@@ -12,7 +12,7 @@ interface ToyItem {
 /** 玩具菜单列表 */
 const toys: ToyItem[] = [
   { name: "Oritech 效率计算", path: "oritech" },
-  { name: "All The Mons 宝点心吸引计算", path: "all-the-mons" },
+  { name: "宝可梦属性相克表", path: "pokemon-type-chart" },
 ];
 
 /** 根据 NavLink 是否激活返回对应的 className */

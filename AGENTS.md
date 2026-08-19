@@ -42,6 +42,9 @@ pnpm typecheck
 # 代码规范检查
 pnpm lint
 
+# 代码格式化
+pnpm format
+
 # 添加 shadcn/ui 组件
 pnpm dlx shadcn@latest add 组件名
 ```
@@ -90,4 +93,4 @@ test/                     # 测试脚本
 - 多次使用的变量、通用组件、工具函数都应有对应的jsdoc注释，复杂逻辑需要描述逻辑
 - 接口定义的每个属性都要有对应jsdoc注释，除非是 id/key 等唯一标识符等一眼能看出含义的属性
 - 代码修改后，不要注释说明这里曾经是什么样，只说明最新代码（除非要提醒开发者不要使用废弃方案）
-- 每次涉及ts的代码修改后运行 `pnpm typecheck` 和 `pnpm lint` 检查类型和规范错误
+- 每次涉及ts的代码修改后运行 `pnpm typecheck`、`pnpm lint`、`pnpm format` 检查类型和规范错误

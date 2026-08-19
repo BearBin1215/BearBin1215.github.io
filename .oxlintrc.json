@@ -49,7 +49,7 @@
 
     "typescript/no-shadow": "error",
     "typescript/ban-ts-comment": "off",
-    "typescript/no-explicit-any": "off",
+    "typescript/no-explicit-any": "warn",
     "typescript/no-unused-vars": [
       "error",
       {

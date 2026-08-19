@@ -36,9 +36,11 @@ const routes: RouteObject[] = [
               import("@/pages/toys/oritech").then((m) => ({ Component: m.default })),
           },
           {
-            path: "all-the-mons",
+            path: "pokemon-type-chart",
             lazy: () =>
-              import("@/pages/toys/all-the-mons").then((m) => ({ Component: m.default })),
+              import("@/pages/toys/pokemon-type-chart").then((m) => ({
+                Component: m.default,
+              })),
           },
         ],
       },
