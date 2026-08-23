@@ -523,14 +523,20 @@ export default function TypeChart() {
   );
 
   /** 切换进攻方属性选择 */
-  const toggleAttacker = useCallback((id: TypeId) => {
-    toggleType(setSelectedAttackers, id);
-  }, [toggleType]);
+  const toggleAttacker = useCallback(
+    (id: TypeId) => {
+      toggleType(setSelectedAttackers, id);
+    },
+    [toggleType],
+  );
 
   /** 切换防守方属性选择 */
-  const toggleDefender = useCallback((id: TypeId) => {
-    toggleType(setSelectedDefenders, id);
-  }, [toggleType]);
+  const toggleDefender = useCallback(
+    (id: TypeId) => {
+      toggleType(setSelectedDefenders, id);
+    },
+    [toggleType],
+  );
 
   /** 悬浮框越界保护：综合行或综合列收起后不再显示其旧位置 */
   const hoverVisible =
@@ -553,7 +559,7 @@ export default function TypeChart() {
             <div className="h-6 w-16 shrink-0" />
             <div
               className={cn(
-                "flex h-6 items-center justify-center bg-blue-400 dark:bg-blue-700 text-xs font-medium text-white",
+                "flex h-6 items-center justify-center bg-blue-400 text-xs font-medium text-white dark:bg-blue-700",
                 hasDualDefenders ? "w-190" : "w-180",
               )}
             >
@@ -566,7 +572,7 @@ export default function TypeChart() {
               <div className="h-10" />
               <div
                 className={cn(
-                  "flex w-6 items-center justify-center bg-rose-600 dark:bg-rose-800 text-xs font-medium text-white [text-orientation:upright] [writing-mode:vertical-rl]",
+                  "flex w-6 items-center justify-center bg-rose-600 text-xs font-medium text-white [text-orientation:upright] [writing-mode:vertical-rl] dark:bg-rose-800",
                   hasDualAttackers ? "h-190" : "h-180",
                 )}
               >

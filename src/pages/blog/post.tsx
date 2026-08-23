@@ -12,6 +12,7 @@ import { Link, useOutletContext, useParams } from "react-router";
 import { MarkdownHooks, type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import {
   Check,
   ChevronLeft,
@@ -20,6 +21,7 @@ import {
   CornerUpLeft,
   FileX,
 } from "lucide-react";
+import { remarkBilibili } from "@/lib/remark-bilibili";
 import { CopyScreenshotButton } from "@/components/copy-screenshot-button";
 import { ExternalLink } from "@/components/external-link";
 import { buttonVariants } from "@/components/ui/button";
@@ -124,6 +126,25 @@ function CodeBlock({
       <pre ref={preRef} className={className}>
         {children}
       </pre>
+    </div>
+  );
+}
+
+/**
+ * 通用 iframe：包裹在响应式容器中保持 16:9 宽高比并圆角显示。
+ * 适配 bilibili 等嵌入播放器；协议相对地址（//xxx）自动补全为 https。
+ */
+function ResponsiveIframe({ title, src, className, ...props }: ComponentProps<"iframe">) {
+  const resolvedSrc = typeof src === "string" ? src.replace(/^\/\//, "https://") : src;
+  return (
+    <div className="my-4 aspect-video overflow-hidden rounded-lg border bg-muted">
+      <iframe
+        title={title ?? "嵌入内容"}
+        src={resolvedSrc}
+        className={cn("size-full", className)}
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        {...props}
+      />
     </div>
   );
 }
@@ -378,14 +399,17 @@ function PostContent({ post }: { post: BlogPost }) {
         {children}
       </h4>
     ),
-    img: ({ src, alt, ...props }) => {
+    img: ({ src, alt, node: _, ...props }) => {
       const resolved =
-        typeof src === "string" ? resolveImage(src, post.date.slice(0, 4)) : src;
+        typeof src === "string"
+          ? resolveImage(src, post.date.slice(0, 4), post.slug)
+          : src;
       return <img src={resolved} alt={alt} {...props} />;
     },
     pre: ({ children, className }) => (
       <CodeBlock className={className}>{children}</CodeBlock>
     ),
+    iframe: ResponsiveIframe,
   };
 
   return (
@@ -413,8 +437,8 @@ function PostContent({ post }: { post: BlogPost }) {
         </header>
         <div className="prose prose-sm max-w-none md:prose-base">
           <MarkdownHooks
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
+            remarkPlugins={[remarkGfm, remarkBilibili]}
+            rehypePlugins={[rehypeRaw, rehypeHighlight]}
             remarkRehypeOptions={{ footnoteLabel: "参考文献" }}
             components={components}
             fallback={<LoadingPlaceholder spinnerSize="size-6" className="py-8" />}

@@ -311,6 +311,13 @@
     margin-top: 1.2em;
     margin-bottom: 1.2em;
   }
+
+  p {
+    > img {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+  }
 }
 
 /*

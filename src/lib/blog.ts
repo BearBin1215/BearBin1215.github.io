@@ -206,14 +206,35 @@ const imageUrls = import.meta.glob("/src/content/blog/**/*.{png,jpg,jpeg,gif,web
 
 /**
  * 将 markdown 中的图片 src 解析为 Vite URL
- * 绝对路径与 http(s) URL 原样返回；相对路径按文章所在年份目录 + 文件名查找映射。
+ * 绝对路径与 http(s) URL 原样返回；相对路径优先按「年份/slug」文章子目录、
+ * 其次按年份目录 + 文件名查找映射（兼容图片直接放年份目录的旧组织方式）。
+ * remark-rehype 输出的 src 经过 normalizeUri 百分号编码（中文文件名会被编码），
+ * 而 glob key 是磁盘原始路径，故查找时依次尝试原始与解码后的候选文件名。
  * 使 markdown 可用 ./xxx.png 相对路径（IDE 预览友好），运行时映射为构建时 URL
  */
-export function resolveImage(src: string, year: string): string {
+export function resolveImage(src: string, year: string, slug?: string): string {
   if (src.startsWith("/") || /^https?:/.test(src)) {
     return src;
   }
   const filename = src.replace(/^\.\/+/, "");
-  const key = `/src/content/blog/${year}/${filename}`;
-  return imageUrls[key] ?? src;
+  const candidates = new Set([filename]);
+  try {
+    candidates.add(decodeURI(filename));
+    candidates.add(decodeURIComponent(filename));
+  } catch {
+    /* 文件名含非法百分号编码序列时跳过解码候选 */
+  }
+  for (const name of candidates) {
+    if (slug) {
+      const subDirUrl = imageUrls[`/src/content/blog/${year}/${slug}/${name}`];
+      if (subDirUrl) {
+        return subDirUrl;
+      }
+    }
+    const yearUrl = imageUrls[`/src/content/blog/${year}/${name}`];
+    if (yearUrl) {
+      return yearUrl;
+    }
+  }
+  return src;
 }

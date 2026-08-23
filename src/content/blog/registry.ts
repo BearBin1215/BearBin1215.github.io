@@ -3,6 +3,13 @@ import type { BlogPostEntry } from "@/lib/blog";
 /** 博客文章注册表：新增文章时在此添加条目，并创建对应 .md */
 const posts: BlogPostEntry[] = [
   {
+    slug: "0823-C108",
+    title: "C108 开箱！",
+    date: "2026-08-23",
+    tags: ["日常", "ACG"],
+    loadContent: () => import("./2026/0823-C108/index.md"),
+  },
+  {
     slug: "0727-battle-of-penghu",
     title: "谈《澎湖海战》的影响",
     excerpt: "不只关乎历史认知，更潜藏着严峻的现实风险。",
