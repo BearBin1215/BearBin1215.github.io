@@ -20,16 +20,22 @@ function isXUrl(href: string | undefined): boolean {
   }
 }
 
+/** ExternalLink 额外支持的属性（在原生 `<a>` 属性基础上扩展） */
+interface ExternalLinkProps extends ComponentProps<"a"> {
+  /** 是否在链接指向 x.com（推特）时，于链接文本前自动添加 X 图标，默认关闭 */
+  showIcon?: boolean;
+}
+
 /**
  * 外部链接：在新标签页打开第三方网站。
  * 自动添加 `target="_blank"` 与 `rel="noopener noreferrer"`，避免每次重复写、避免遗漏 rel 导致安全风险。
  * 默认带 `.link` 样式（前景色 + 点状下划线，hover 变虚线），与正文（`.prose a`）链接一致。
  * 传入 className 时会整体覆盖默认样式（如按钮、卡片等已自定样式的场景）。
  * 其他属性（href、children 等）与普通 `<a>` 一致。
- * 若链接指向 x.com（推特），会在链接文本前添加 X 图标。
+ * 当 `showIcon` 为 true 且链接指向 x.com（推特）时，会在链接文本前添加 X 图标；默认关闭。
  */
-function ExternalLink({ href, children, ...props }: ComponentProps<"a">) {
-  const isX = isXUrl(href);
+function ExternalLink({ href, children, showIcon = false, ...props }: ExternalLinkProps) {
+  const isX = showIcon && isXUrl(href);
 
   return (
     <a target="_blank" rel="noopener noreferrer" className="link" href={href} {...props}>

@@ -381,7 +381,9 @@ function PostContent({ post }: { post: BlogPost }) {
       return props.href?.startsWith("#") ? (
         <a {...props}>{children}</a>
       ) : (
-        <ExternalLink {...props}>{children}</ExternalLink>
+        <ExternalLink {...props} showIcon>
+          {children}
+        </ExternalLink>
       );
     },
     h2: ({ children, ...props }) => (
