@@ -27,8 +27,8 @@ const backgrounds: BackgroundItem[] = [
   },
   {
     src: bg3,
-    position: "64% 45%",
-    source: "https://x.com/roro046/status/2001238104209076417",
+    position: "30% 45%",
+    source: "https://pixiv.net/artworks/148997860",
   },
 ];
 
