@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { NavLink, Outlet } from "react-router";
+import { matchPath, NavLink, Outlet, useLocation } from "react-router";
 import { ChevronDown, Search, X } from "lucide-react";
 import {
   Collapsible,
@@ -43,6 +43,9 @@ function Blog() {
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  /** 当前是否为杂记首页（/blog）：首页不展示右侧目录，仅显示音乐播放器 */
+  const isBlogIndex = matchPath("/blog", useLocation().pathname) !== null;
 
   // 首次挂载触发懒加载；开发模式下 registry 变更（hmrVersion 变化）时重新加载
   useEffect(() => {
@@ -271,44 +274,49 @@ function Blog() {
         <Outlet context={context} />
       </main>
 
-      {/* 右侧 TOC：仅桌面端显示 */}
+      {/* 右侧栏：仅桌面端显示 */}
       <aside className="hidden lg:block lg:w-72 lg:shrink-0 lg:border-l">
         <div className="lg:sticky lg:top-(--header-offset) lg:max-h-(--sticky-viewport-height) lg:overflow-y-auto lg:py-6">
-          <div className="mb-2 flex items-center justify-between px-4">
-            <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-              目录
-            </p>
-            {toc.length > 0 && (
-              <div
-                role="group"
-                aria-label="目录显示层级"
-                className="flex items-center gap-0.5 rounded-md border bg-background/50 p-0.5"
-              >
-                {([2, 3, 4] as const).map((lvl) => (
-                  <button
-                    key={lvl}
-                    type="button"
-                    onClick={() => setMaxLevel(lvl)}
-                    aria-pressed={maxLevel === lvl}
-                    title={`最多显示到 H${lvl}`}
-                    className={cn(
-                      "h-5 w-5 rounded text-[10px] leading-none font-medium transition-colors",
-                      maxLevel === lvl
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground",
-                    )}
-                  >
-                    H{lvl}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          {renderTocBody()}
           {/* 推荐音乐：与首页共享同一播放状态（zustand store） */}
-          <div className="mt-4 border-t px-4 pt-4">
+          <div className="px-4">
             <MusicPlayer />
           </div>
+          {/* 目录：杂记首页不显示，文章页正常展示 */}
+          {!isBlogIndex && (
+            <div className="mt-4 border-t pt-4">
+              <div className="mb-2 flex items-center justify-between px-4">
+                <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                  目录
+                </p>
+                {toc.length > 0 && (
+                  <div
+                    role="group"
+                    aria-label="目录显示层级"
+                    className="flex items-center gap-0.5 rounded-md border bg-background/50 p-0.5"
+                  >
+                    {([2, 3, 4] as const).map((lvl) => (
+                      <button
+                        key={lvl}
+                        type="button"
+                        onClick={() => setMaxLevel(lvl)}
+                        aria-pressed={maxLevel === lvl}
+                        title={`最多显示到 H${lvl}`}
+                        className={cn(
+                          "h-5 w-5 rounded text-[10px] leading-none font-medium transition-colors",
+                          maxLevel === lvl
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:text-foreground",
+                        )}
+                      >
+                        H{lvl}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {renderTocBody()}
+            </div>
+          )}
         </div>
       </aside>
     </div>
