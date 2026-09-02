@@ -125,7 +125,7 @@ function About() {
     <div className="mx-auto w-full max-w-6xl space-y-8 p-6">
       <section>
         <SectionTitle className="mb-4">关于本站</SectionTitle>
-        <article className="prose prose-sm">
+        <article className="prose prose-sm max-w-none!">
           <p>虽然会写点CSS，但美术水平相当有限，美观程度不足请见谅。</p>
           <p>
             {"这个网站也是建了拆拆了建，最早是非常粗糙的纯静态 HTML"}
