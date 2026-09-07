@@ -28,7 +28,7 @@ import { BorderBeam } from "@/components/ui/border-beam";
 import { MusicPlayer } from "@/components/music-player";
 import { SectionTitle } from "@/components/section-title";
 import { ExternalLink } from "@/components/external-link";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 import { TechBadge } from "./tech-badge";
 

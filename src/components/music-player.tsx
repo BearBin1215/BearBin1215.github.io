@@ -6,7 +6,7 @@ import { SectionTitle } from "@/components/section-title";
 import { buttonVariants } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMusicPlayerStore, useCurrentTrack } from "@/stores/music-player";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 /** 格式化时间为 mm:ss */
 function formatTime(seconds: number): string {

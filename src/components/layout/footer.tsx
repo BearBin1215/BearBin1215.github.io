@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 import { ExternalLink } from "@/components/external-link";
 import { backgrounds, useBackgroundStore } from "@/stores/background";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 /** 底部页脚（随页面滚动） */
 function Footer() {

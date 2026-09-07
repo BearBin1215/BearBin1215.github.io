@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 /** 区块标题变体 */
 type SectionTitleVariant = "default" | "accent";
