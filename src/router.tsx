@@ -42,6 +42,13 @@ const routes: RouteObject[] = [
                 Component: m.default,
               })),
           },
+          {
+            path: "mc-sphere-coverage",
+            lazy: () =>
+              import("@/pages/toys/mc-sphere-coverage").then((m) => ({
+                Component: m.default,
+              })),
+          },
         ],
       },
       {
