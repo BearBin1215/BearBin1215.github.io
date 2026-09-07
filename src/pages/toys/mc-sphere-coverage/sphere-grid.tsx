@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import { createCoverageContext, type CoverageContext } from "./sphere";
 
 /** 示意图调色板（颜色取自主题 CSS 变量） */
@@ -347,10 +347,7 @@ export function SphereCoverageGrid({
             key={item.label}
             className="flex items-center gap-1.5 text-xs text-muted-foreground"
           >
-            <span
-              className="size-3 rounded-xs"
-              style={{ backgroundColor: item.color }}
-            />
+            <span className="size-3 rounded-xs" style={{ backgroundColor: item.color }} />
             {item.label}
           </span>
         ))}
