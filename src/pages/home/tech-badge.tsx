@@ -1,7 +1,7 @@
 import { useEffect, useRef, type FC, type ReactNode } from "react";
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 interface TechBadgeProps {
   /** 徽章显示文字 */

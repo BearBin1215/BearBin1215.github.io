@@ -3,7 +3,7 @@ import { default as Icon, GithubOutlined, BilibiliOutlined } from "@ant-design/i
 import { ExternalLink } from "@/components/external-link";
 import { buttonVariants } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import MoegirlPedia from "@/assets/icons/moe.svg?react";
 
 /** 社交链接项 */

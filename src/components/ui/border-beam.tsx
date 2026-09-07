@@ -1,5 +1,5 @@
 import { motion, type MotionStyle, type Transition } from "motion/react";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 interface BorderBeamProps {
   /** 流光尺寸 */

@@ -45,7 +45,7 @@ import {
   type BlogPost,
   type BlogPostMeta,
 } from "@/lib/blog";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 
 /**

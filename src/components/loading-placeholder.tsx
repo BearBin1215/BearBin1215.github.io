@@ -1,5 +1,5 @@
 import { Spinner } from "@/components/ui/spinner";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 interface LoadingPlaceholderProps {
   /** Spinner 尺寸类（如 "size-8"），默认 "size-8" */

@@ -9,7 +9,7 @@ import {
 import { LoadingPlaceholder } from "@/components/loading-placeholder";
 import { MusicPlayer } from "@/components/music-player";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import {
   BlogOutletContext,
   collectTags,

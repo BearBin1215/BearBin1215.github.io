@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigation } from "react-router";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 /**
  * 顶部导航进度条

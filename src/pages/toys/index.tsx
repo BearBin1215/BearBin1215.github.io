@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 /** 玩具菜单项 */
 interface ToyItem {

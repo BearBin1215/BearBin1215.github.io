@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ExternalLink } from "@/components/external-link";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 
 /** 基础处理用时（tick），20tick = 1s */

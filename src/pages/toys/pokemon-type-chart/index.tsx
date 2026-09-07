@@ -13,7 +13,7 @@ import {
 } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useDocumentTitle } from "@/hooks/use-document-title";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import {
   bestOffensiveEffectiveness,
   combinedEffectiveness,

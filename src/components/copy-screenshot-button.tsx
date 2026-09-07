@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import { AlertCircle, Camera, Check, Download, Loader2 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 /** 按钮反馈状态 */
 type CopyStatus = "idle" | "copying" | "success" | "downloaded" | "error";
