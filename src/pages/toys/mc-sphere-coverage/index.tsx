@@ -59,11 +59,14 @@ function findMaxSafeDistance(diameter: number): number {
   return 1;
 }
 
-/** 解析输入框值并限制到 [MIN_DIAMETER, MAX_DIAMETER] */
-const clampDiameter = (value: string): number => {
+/**
+ * 解析输入框值并钳制到 [MIN_DIAMETER, MAX_DIAMETER]
+ * @param fallback 无法解析（如已清空）时回退的值，一般为当前直径
+ */
+const clampDiameter = (value: string, fallback: number): number => {
   const v = parseInt(value, 10);
   if (Number.isNaN(v)) {
-    return DEFAULT_DIAMETER;
+    return fallback;
   }
   return Math.min(Math.max(v, MIN_DIAMETER), MAX_DIAMETER);
 };
@@ -86,9 +89,9 @@ export default function McSphereCoverage() {
     setDistance(findMaxSafeDistance(value));
   };
 
-  /** 失焦/回车时解析草稿并钳制到合法范围，有变化才提交 */
+  /** 失焦/回车时解析草稿并钳制到合法范围（空值回退当前直径），有变化才提交 */
   const commitDiameterDraft = () => {
-    const value = clampDiameter(diameterDraft);
+    const value = clampDiameter(diameterDraft, diameter);
     setDiameterDraft(String(value));
     if (value !== diameter) {
       handleDiameterChange(value);
@@ -150,11 +153,10 @@ export default function McSphereCoverage() {
         </div>
         <div className="min-w-60 flex-1 space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="distance">球心间距 s（格）</Label>
+            <Label>球心间距 s（格）</Label>
             <span className="text-sm tabular-nums">{distance}</span>
           </div>
           <Slider
-            id="distance"
             min={1}
             max={diameter}
             value={[distance]}
@@ -196,9 +198,9 @@ export default function McSphereCoverage() {
       />
 
       <Dialog open={show3D} onOpenChange={setShow3D}>
-        <DialogContent className="flex! h-[min(90vh,760px)] max-w-[calc(100%-1rem)] flex-col p-0 sm:max-w-[min(96vw,1200px)]!">
-          <DialogHeader className="p-5 pr-14 pb-4">
-            <DialogTitle>球体覆盖 3D 查看</DialogTitle>
+        <DialogContent className="flex! h-[min(90vh,760px)] max-w-[calc(100%-1rem)] flex-col gap-0! p-0 sm:max-w-[min(96vw,1200px)]!">
+          <DialogHeader className="p-5 pr-14 pb-3">
+            <DialogTitle>3D 查看</DialogTitle>
             <DialogDescription>
               直径 {diameter} 格，球心间距 {distance} 格
             </DialogDescription>

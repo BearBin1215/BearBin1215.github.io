@@ -11,9 +11,18 @@ interface SphereCoverage3DProps {
   open: boolean;
 }
 
-/** 将支持半格球心的体素坐标编码为整数键，避免浮点误差影响邻接判断。 */
-function voxelKey(x: number, y: number, z: number): string {
-  return `${x},${y},${z}`;
+/** 体素坐标编码偏移：world 坐标范围 [-129, 385]（含邻接查询 ±2），加偏移后落入每轴 10bit 无符号区间 */
+const VOXEL_KEY_OFFSET = 129;
+/** 体素坐标每轴位宽，三轴共 30bit，编码结果保持在 32 位安全整数范围内 */
+const VOXEL_KEY_BITS = 10;
+
+/** 将支持半格球心的体素坐标编码为整数键，避免浮点误差与海量字符串分配影响邻接判断。 */
+function voxelKey(x: number, y: number, z: number): number {
+  return (
+    ((x + VOXEL_KEY_OFFSET) << (VOXEL_KEY_BITS * 2)) |
+    ((y + VOXEL_KEY_OFFSET) << VOXEL_KEY_BITS) |
+    (z + VOXEL_KEY_OFFSET)
+  );
 }
 
 /**
@@ -82,7 +91,7 @@ export function SphereCoverage3D({ diameter, distance, open }: SphereCoverage3DP
         keyLight.position.set(span, span * 1.5, span);
         scene.add(keyLight);
 
-        const occupied = new Set<string>();
+        const occupied = new Set<number>();
         const centers: ReadonlyArray<readonly [number, number]> = [
           [0, 0],
           [distance, 0],
@@ -90,15 +99,20 @@ export function SphereCoverage3D({ diameter, distance, open }: SphereCoverage3DP
           [distance, distance],
         ];
         const offset = diameter - 1;
+        // 体素坐标为扁平 [x, y, z] 连续存储
         const voxels = getSphereVoxels(diameter);
         for (const [cx, cy] of centers) {
-          for (const [x, y, z] of voxels) {
+          for (let i = 0; i < voxels.length; i += 3) {
+            const x = voxels[i] ?? 0;
+            const y = voxels[i + 1] ?? 0;
+            const z = voxels[i + 2] ?? 0;
             occupied.add(
               voxelKey(x * 2 - offset + cx * 2, z * 2 - offset, y * 2 - offset + cy * 2),
             );
           }
         }
 
+        // 渲染四球并集中至少一面外露的方块（occupied 已按世界格去重）
         const exposed: Array<readonly [number, number, number]> = [];
         const neighbors = [
           [2, 0, 0],
@@ -108,17 +122,11 @@ export function SphereCoverage3D({ diameter, distance, open }: SphereCoverage3DP
           [0, 0, 2],
           [0, 0, -2],
         ] as const;
+        const keyMask = (1 << VOXEL_KEY_BITS) - 1;
         for (const key of occupied) {
-          const parts = key.split(",");
-          const xText = parts[0];
-          const yText = parts[1];
-          const zText = parts[2];
-          if (xText === undefined || yText === undefined || zText === undefined) {
-            continue;
-          }
-          const x = Number(xText);
-          const y = Number(yText);
-          const z = Number(zText);
+          const x = (key >> (VOXEL_KEY_BITS * 2)) - VOXEL_KEY_OFFSET;
+          const y = ((key >> VOXEL_KEY_BITS) & keyMask) - VOXEL_KEY_OFFSET;
+          const z = (key & keyMask) - VOXEL_KEY_OFFSET;
           if (
             neighbors.some(
               ([dx, dy, dz]) => !occupied.has(voxelKey(x + dx, y + dy, z + dz)),
@@ -185,13 +193,22 @@ export function SphereCoverage3D({ diameter, distance, open }: SphereCoverage3DP
           controls.dispose();
           geometry.dispose();
           material.dispose();
+          grid.geometry.dispose();
+          // GridHelper 的材质类型为单个或数组，两种情况都释放
+          if (Array.isArray(grid.material)) {
+            for (const m of grid.material) {
+              m.dispose();
+            }
+          } else {
+            grid.material.dispose();
+          }
           renderer.dispose();
         };
       })
       .catch(() => {
         if (!disposed) {
           setLoading(false);
-          setError("3D 渲染库加载失败，请稍后重试");
+          setError("3D 视图初始化失败，请稍后重试");
         }
       });
 

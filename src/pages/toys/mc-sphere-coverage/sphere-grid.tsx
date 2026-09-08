@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "cn";
 import { BoxIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { createCoverageContext, type CoverageContext } from "./sphere";
 
 /** 示意图调色板（颜色取自主题 CSS 变量） */
@@ -200,8 +201,9 @@ interface HoverInfo {
   x: number;
   /** 相对提示容器的纵向位置（px） */
   y: number;
-  /** 悬浮格子的列总层数 */
-  height: number;
+  /** 悬浮格子的世界网格坐标（高度与覆盖状态渲染时实时派生，避免参数变化后显示过期值） */
+  gridX: number;
+  gridY: number;
 }
 
 /** MC 球覆盖方格示意图（Canvas 逐格渲染 + 图例），随容器宽度与主题变化自动重绘 */
@@ -315,7 +317,8 @@ export function SphereCoverageGrid({
       // 靠近右边界时提示翻到鼠标左侧，靠近顶部时放到下方
       x: mx > containerRect.width - 130 ? mx - 118 : mx + 14,
       y: my > 48 ? my - 36 : my + 18,
-      height: coverage.columnHeight(x, y),
+      gridX: x,
+      gridY: y,
     });
   };
 
@@ -332,16 +335,23 @@ export function SphereCoverageGrid({
           避免 flex 居中导致左侧溢出内容永远无法滚动到 */}
       <div ref={containerRef} className="relative overflow-x-auto">
         {onOpen3D && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="absolute top-2 right-2 z-10 bg-background/90 shadow-sm backdrop-blur-sm"
-            onClick={onOpen3D}
-          >
-            <BoxIcon />
-            3D 查看
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon-sm"
+                  className="absolute top-2 right-2 z-10 bg-background/90 shadow-sm backdrop-blur-sm"
+                  onClick={onOpen3D}
+                  aria-label="3D 查看"
+                />
+              }
+            >
+              <BoxIcon />
+            </TooltipTrigger>
+            <TooltipContent>3D 查看</TooltipContent>
+          </Tooltip>
         )}
         <canvas
           ref={canvasRef}
@@ -349,12 +359,12 @@ export function SphereCoverageGrid({
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHover(null)}
         />
-        {hover && (
+        {hover && coverage.countCovered(hover.gridX, hover.gridY) > 0 && (
           <div
             className="pointer-events-none absolute z-10 rounded-md border bg-popover px-2 py-1 text-xs text-popover-foreground shadow-md"
             style={{ left: hover.x, top: hover.y }}
           >
-            该列共 {hover.height} 层
+            该列共 {coverage.columnHeight(hover.gridX, hover.gridY)} 层
           </div>
         )}
       </div>

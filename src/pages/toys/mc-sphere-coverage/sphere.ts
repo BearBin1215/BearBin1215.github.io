@@ -6,8 +6,8 @@ interface SphereShape {
   columnSpan: Uint8Array;
   /** 网格边长（= 直径） */
   size: number;
-  /** 球体内所有方块的局部坐标，供 3D 视图实例化渲染 */
-  voxels: ReadonlyArray<readonly [number, number, number]>;
+  /** 球体内所有方块的局部坐标，扁平 [x, y, z] 连续存储，供 3D 视图实例化渲染 */
+  voxels: Int16Array;
 }
 
 /** 球体形状按直径缓存，供示意图绘制与页面覆盖计算共享，避免重复构建 */
@@ -39,7 +39,8 @@ function buildSphereShape(diameter: number): SphereShape {
   // 列跨度的 zmin/zmax 临时表，索引 y * size + x
   const zmin = new Uint16Array(size * size).fill(size + 1);
   const zmax = new Uint16Array(size * size);
-  const voxels: Array<readonly [number, number, number]> = [];
+  // 先以普通数组收集再转扁平 Int16Array：避免嵌套三元数组的高额对象开销（d=128 约 110 万个体素）
+  const voxelCoords: number[] = [];
   for (let z = 1; z <= size; z++) {
     const bz = (2 * (z - 0.5)) / size - 1;
     const bzz = bz * bz;
@@ -71,7 +72,7 @@ function buildSphereShape(diameter: number): SphereShape {
         if (!isFilled) {
           continue;
         }
-        voxels.push([x, y, z - 1]);
+        voxelCoords.push(x, y, z - 1);
         // 中间层：记录各行半宽（行偏移按 floor(|dy|) 归组）
         if (z === sliceZ) {
           const i = Math.floor(Math.abs(y - center));
@@ -94,18 +95,21 @@ function buildSphereShape(diameter: number): SphereShape {
     const lo = zmin[i] ?? size + 1;
     columnSpan[i] = lo > size ? 0 : (zmax[i] ?? lo) - lo + 1;
   }
-  const shape: SphereShape = { sliceHalfWidth, columnSpan, size, voxels };
+  const shape: SphereShape = {
+    sliceHalfWidth,
+    columnSpan,
+    size,
+    voxels: new Int16Array(voxelCoords),
+  };
   sphereShapeCache.set(diameter, shape);
   return shape;
 }
 
 /**
- * 获取指定直径球体的体素列表。
+ * 获取指定直径球体的体素列表（扁平 [x, y, z] 连续存储）。
  * 坐标均为球体包围盒内的局部整数坐标，缓存结果以避免重复构建。
  */
-export function getSphereVoxels(
-  diameter: number,
-): ReadonlyArray<readonly [number, number, number]> {
+export function getSphereVoxels(diameter: number): Int16Array {
   return buildSphereShape(diameter).voxels;
 }
 
