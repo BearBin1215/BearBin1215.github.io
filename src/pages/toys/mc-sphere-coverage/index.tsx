@@ -1,5 +1,12 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -7,6 +14,7 @@ import { Switch } from "@/components/ui/switch";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 import { createCoverageContext } from "./sphere";
 import { SphereCoverageGrid } from "./sphere-grid";
+import { SphereCoverage3D } from "./sphere-3d";
 
 /** 直径上限（格），避免示意图网格过大导致单格过小 */
 const MAX_DIAMETER = 128;
@@ -66,6 +74,7 @@ export default function McSphereCoverage() {
   const [diameterDraft, setDiameterDraft] = useState(String(DEFAULT_DIAMETER));
   const [distance, setDistance] = useState(() => findMaxSafeDistance(DEFAULT_DIAMETER));
   const [showHeight, setShowHeight] = useState(false);
+  const [show3D, setShow3D] = useState(false);
   useDocumentTitle("MC 球覆盖计算器");
 
   /** 逐格验证下无空隙的最大整数间距 */
@@ -183,7 +192,20 @@ export default function McSphereCoverage() {
         diameter={diameter}
         distance={distance}
         showHeight={showHeight}
+        onOpen3D={() => setShow3D(true)}
       />
+
+      <Dialog open={show3D} onOpenChange={setShow3D}>
+        <DialogContent className="flex! h-[min(90vh,760px)] max-w-[calc(100%-1rem)] flex-col p-0 sm:max-w-[min(96vw,1200px)]!">
+          <DialogHeader className="p-5 pr-14 pb-4">
+            <DialogTitle>球体覆盖 3D 查看</DialogTitle>
+            <DialogDescription>
+              直径 {diameter} 格，球心间距 {distance} 格
+            </DialogDescription>
+          </DialogHeader>
+          <SphereCoverage3D diameter={diameter} distance={distance} open={show3D} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

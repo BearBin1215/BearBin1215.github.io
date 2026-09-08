@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "cn";
+import { BoxIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { createCoverageContext, type CoverageContext } from "./sphere";
 
 /** 示意图调色板（颜色取自主题 CSS 变量） */
@@ -54,6 +56,8 @@ interface SphereCoverageGridProps {
   showHeight: boolean;
   /** 自定义容器 className */
   className?: string;
+  /** 打开 3D 查看弹窗 */
+  onOpen3D?: () => void;
 }
 
 /** 示意图网格边长（格）：四球包围盒（宽 distance + 直径 d）四周各外扩 1 格空白 */
@@ -206,6 +210,7 @@ export function SphereCoverageGrid({
   distance,
   showHeight,
   className,
+  onOpen3D,
 }: SphereCoverageGridProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -326,6 +331,18 @@ export function SphereCoverageGrid({
       {/* 画布居中用 mx-auto 而非 flex justify-center：溢出滚动时 auto margin 会回退为左对齐，
           避免 flex 居中导致左侧溢出内容永远无法滚动到 */}
       <div ref={containerRef} className="relative overflow-x-auto">
+        {onOpen3D && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="absolute top-2 right-2 z-10 bg-background/90 shadow-sm backdrop-blur-sm"
+            onClick={onOpen3D}
+          >
+            <BoxIcon />
+            3D 查看
+          </Button>
+        )}
         <canvas
           ref={canvasRef}
           className="mx-auto block"
