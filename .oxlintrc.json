@@ -60,7 +60,7 @@
     ],
 
     "react/jsx-no-useless-fragment": "warn",
-    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/exhaustive-deps": "warn",
 
     "import/newline-after-import": ["error", { "considerComments": true }],
     "import/no-duplicates": ["error", { "preferInline": true }]

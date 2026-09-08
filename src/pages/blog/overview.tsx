@@ -85,6 +85,8 @@ function BlogOverview() {
     return () => {
       mounted = false;
     };
+    // hmrVersion 为 HMR 热更新哨兵，规则无法识别其用途，见 @/lib/blog 注释
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [hmrVersion]);
 
   if (posts === null) {

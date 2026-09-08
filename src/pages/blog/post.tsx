@@ -35,7 +35,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { LoadingPlaceholder } from "@/components/loading-placeholder";
 import {
-  BlogOutletContext,
+  type BlogOutletContext,
   extractToc,
   getPostMetas,
   hmrVersion,
@@ -305,6 +305,8 @@ function PostContent({ post }: { post: BlogPost }) {
       prev: idx > 0 ? (metas[idx - 1] ?? null) : null,
       next: idx >= 0 && idx < metas.length - 1 ? (metas[idx + 1] ?? null) : null,
     };
+    // hmrVersion 为 HMR 热更新哨兵，规则无法识别其用途，见 @/lib/blog 注释
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [post.slug, hmrVersion]);
 
   // 文章内容加载，同步目录并监听标题位置

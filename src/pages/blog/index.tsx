@@ -11,7 +11,7 @@ import { MusicPlayer } from "@/components/music-player";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { cn } from "cn";
 import {
-  BlogOutletContext,
+  type BlogOutletContext,
   collectTags,
   filterPosts,
   groupByYear,
@@ -59,6 +59,8 @@ function Blog() {
     return () => {
       mounted = false;
     };
+    // hmrVersion 为 HMR 热更新哨兵，规则无法识别其用途，见 @/lib/blog 注释
+    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [hmrVersion]);
 
   const tags = useMemo(() => collectTags(allPosts), [allPosts]);
