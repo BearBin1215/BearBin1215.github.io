@@ -13,6 +13,7 @@ interface ToyItem {
 const toys: ToyItem[] = [
   { name: "Oritech 效率计算", path: "oritech" },
   { name: "宝可梦属性相克表", path: "pokemon-type-chart" },
+  { name: "MC 球覆盖计算器", path: "mc-sphere-coverage" },
 ];
 
 /** 根据 NavLink 是否激活返回对应的 className */
