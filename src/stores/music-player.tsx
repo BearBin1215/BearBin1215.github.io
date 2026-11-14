@@ -1,9 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { ReactNode } from "react";
-import { ExternalLink } from "@/components/external-link";
-import coverUrl from "@/assets/music/necromance-jacket.jpg";
-import songUrl from "@/assets/music/春宵一刻.m4a";
+import coverUrl from "@/assets/music/silence-of-the-ruins.jpg";
+import songUrl from "@/assets/music/月明かりの記憶.m4a";
 
 /** 音轨 */
 interface Track {
@@ -35,26 +34,14 @@ interface Track {
 /** 推荐曲目列表 */
 const tracks: Track[] = [
   {
-    name: "春宵一刻",
-    artist: "Isle & Notes",
-    album: "Necromance ～散りゆく桜花と屍者の国～",
+    name: "月明かりの記憶",
+    artist: "Pulse Plum",
+    album: "Silence of the ruins",
     cover: coverUrl,
     src: songUrl,
-    duration: 231, // 3:51，loadedmetadata 触发时会被实际值校准
-    songUrl: "https://music.163.com/song?id=3370855400",
-    albumUrl: "https://music.163.com/album?id=371363015",
-    comment: (
-      <>
-        26春
-        <ExternalLink
-          href="https://zh.moegirl.org.cn/Music_Media-Mix_Market"
-          className="text-inherit"
-        >
-          M3
-        </ExternalLink>
-        最佳！两个月爽听600遍
-      </>
-    ),
+    duration: 255, // 4:15
+    albumUrl: "https://music.163.com/album?id=271293026",
+    comment: "一年猛听两千遍，超上头",
   },
 ];
 

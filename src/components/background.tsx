@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { backgrounds, useBackgroundStore } from "@/stores/background";
 
 /** 轮播间隔 */
@@ -32,24 +32,25 @@ function fade(img: HTMLImageElement | null | undefined, from: number, to: number
  * 2. 全局覆层：位于背景图层之上，为所有内容提供统一的半透明背景色
  */
 function Background() {
-  const imgRef = useRef<(HTMLImageElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
   /**
    * 初始索引仅读取一次：后续切换由内部定时器驱动并通过 store 同步给页脚，
    * 此处不订阅 store 变化，避免每次切换触发本组件重渲染与定时器重建。
    */
-  const initialIndex = useRef(useBackgroundStore.getState().currentIndex).current;
+  const [initialIndex] = useState(() => useBackgroundStore.getState().currentIndex);
   const setCurrentIndex = useBackgroundStore((s) => s.setCurrentIndex);
 
   useEffect(() => {
+    const imgs = containerRef.current?.querySelectorAll("img");
     let current = initialIndex;
 
     // 入场淡入：起始图片从 opacity 0 平滑淡入到 1，避免突兀
-    fade(imgRef.current[current], 0, 1);
+    fade(imgs?.[current], 0, 1);
 
     const timer = setInterval(() => {
       const next = (current + 1) % backgrounds.length;
-      fade(imgRef.current[current], 1, 0);
-      fade(imgRef.current[next], 0, 1);
+      fade(imgs?.[current], 1, 0);
+      fade(imgs?.[next], 0, 1);
 
       current = next;
       setCurrentIndex(current);
@@ -59,15 +60,13 @@ function Background() {
 
   return (
     <div
+      ref={containerRef}
       className="pointer-events-none fixed top-0 bottom-0 left-0 -z-10 w-screen"
       aria-hidden="true"
     >
       {backgrounds.map((item, i) => (
         <img
           key={item.src}
-          ref={(el) => {
-            imgRef.current[i] = el;
-          }}
           src={item.src}
           alt=""
           loading={i === initialIndex ? "eager" : "lazy"}

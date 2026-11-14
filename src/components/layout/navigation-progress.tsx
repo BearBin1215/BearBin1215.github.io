@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigation } from "react-router";
 import { cn } from "cn";
 
@@ -10,17 +9,6 @@ import { cn } from "cn";
 function NavigationProgress() {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
-  const [visible, setVisible] = useState(false);
-
-  // 延迟显示，避免瞬时导航（lazy chunk 已缓存）造成进度条闪烁
-  useEffect(() => {
-    if (!isLoading) {
-      setVisible(false);
-      return;
-    }
-    const timer = setTimeout(() => setVisible(true), 120);
-    return () => clearTimeout(timer);
-  }, [isLoading]);
 
   return (
     <div
@@ -28,7 +16,8 @@ function NavigationProgress() {
       className={cn(
         "pointer-events-none fixed inset-x-0 top-0 z-60 h-0.5 overflow-hidden",
         "transition-opacity duration-300",
-        visible ? "opacity-100" : "opacity-0",
+        // 显示延迟 120ms 避免瞬时导航闪烁，隐藏时不延迟
+        isLoading ? "opacity-100 delay-[120ms]" : "opacity-0",
       )}
     >
       <div className="h-full w-1/3 animate-navigation-progress bg-primary" />
