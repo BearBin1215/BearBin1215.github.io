@@ -61,6 +61,8 @@ src/
 │   ├── ui/               # shadcn/ui 组件目录（按需添加）
 │   ├── audio-controller.tsx   # 全局 audio 元素，由 zustand store 驱动
 │   ├── background.tsx    # 背景图轮播
+│   ├── copy-screenshot-button.tsx  # 复制为图片
+│   ├── external-link.tsx
 │   ├── loading-placeholder.tsx
 │   ├── music-player.tsx  # 音乐播放器 UI（状态来自 store）
 │   ├── section-title.tsx
@@ -68,10 +70,12 @@ src/
 ├── content/
 │   └── blog/<year>/*.md  # 博客文章，按年份分子目录存放
 ├── hooks/
+│   ├── use-copy-to-clipboard.ts   # 复制到剪贴板与瞬时状态
+│   ├── use-document-title.ts
 │   └── use-local-storage.ts
 ├── lib/
 │   ├── blog.ts           # 博客文章加载、frontmatter 解析、TOC 提取
-│   └── utils.ts          # cn 等通用工具函数
+│   └── remark-bilibili.ts  # remark 插件：B 站视频卡片
 ├── pages/
 │   ├── about/            # 关于页
 │   ├── blog/             # 杂记页（列表 + 文章详情 + 入口页）

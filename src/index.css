@@ -88,6 +88,10 @@
     ui-sans-serif, system-ui, "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji", "Inter Variable", sans-serif;
   --font-heading: var(--font-sans);
+  /* MOTD 编辑区使用的像素字体，1:1 渲染时按 12px 字号最清晰 */
+  --font-pixel:
+    "Fusion Pixel 12px Proportional SC", ui-monospace, "Cascadia Mono",
+    Consolas, monospace;
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);

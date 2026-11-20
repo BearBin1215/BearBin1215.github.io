@@ -49,6 +49,13 @@ const routes: RouteObject[] = [
                 Component: m.default,
               })),
           },
+          {
+            path: "motd-editor",
+            lazy: () =>
+              import("@/pages/toys/motd-editor").then((m) => ({
+                Component: m.default,
+              })),
+          },
         ],
       },
       {

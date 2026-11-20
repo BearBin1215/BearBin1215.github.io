@@ -46,6 +46,7 @@ import {
   type BlogPostMeta,
 } from "@/lib/blog";
 import { cn } from "cn";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useDocumentTitle } from "@/hooks/use-document-title";
 
 /**
@@ -97,18 +98,12 @@ function CodeBlock({
   className?: string;
 }) {
   const preRef = useRef<HTMLPreElement>(null);
-  const [copied, setCopied] = useState(false);
+  const { status, copy } = useCopyToClipboard();
+  const copied = status === "success";
 
-  async function handleCopy() {
-    const text = preRef.current?.querySelector("code")?.textContent ?? "";
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* 剪贴板不可用时静默忽略 */
-    }
-  }
+  const handleCopy = () => {
+    copy(preRef.current?.querySelector("code")?.textContent ?? "");
+  };
 
   return (
     <div className="group relative">
@@ -121,7 +116,7 @@ function CodeBlock({
           "absolute top-1.5 right-1.5 z-10 bg-background/70 text-muted-foreground backdrop-blur hover:bg-background/90 hover:text-foreground md:opacity-0 md:group-hover:opacity-100",
         )}
       >
-        {copied ? <Check className="text-emerald-500" /> : <Copy />}
+        {copied ? <Check className="text-emerald-600 dark:text-emerald-400" /> : <Copy />}
       </button>
       <pre ref={preRef} className={className}>
         {children}
