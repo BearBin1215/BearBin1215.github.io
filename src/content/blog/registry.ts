@@ -3,6 +3,13 @@ import type { BlogPostEntry } from "@/lib/blog";
 /** 博客文章注册表：新增文章时在此添加条目，并创建对应 .md */
 const posts: BlogPostEntry[] = [
   {
+    slug: "1121-M3-autumn",
+    title: "2026秋M3开箱及感想",
+    date: "2026-11-21",
+    tags: ["日常", "ACG"],
+    loadContent: () => import("./2026/1121-M3-autumn/index.md"),
+  },
+  {
     slug: "0823-C108",
     title: "C108 开箱！",
     date: "2026-08-23",
