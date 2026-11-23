@@ -47,6 +47,9 @@ pnpm format
 
 # 添加 shadcn/ui 组件
 pnpm dlx shadcn@latest add 组件名
+
+# 博客配图批量转 WebP（缩放 + 清除元数据），可带文章目录参数
+pnpm images 2026/1121-M3-autumn
 ```
 
 ## 项目结构
@@ -88,6 +91,7 @@ src/
 ├── main.tsx
 └── router.tsx            # 路由配置（createBrowserRouter + lazy）
 test/                     # 测试脚本
+scripts/                  # 开发期辅助脚本（博客配图处理等）
 ```
 
 ## 代码规范
