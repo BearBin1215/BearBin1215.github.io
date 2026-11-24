@@ -434,7 +434,7 @@ function PostContent({ post }: { post: BlogPost }) {
           </div>
           {post.excerpt && <p className="mt-3 text-muted-foreground">{post.excerpt}</p>}
         </header>
-        <div className="prose prose-sm max-w-none md:prose-base">
+        <div className="prose prose-sm max-w-none! md:prose-base">
           <MarkdownHooks
             remarkPlugins={[remarkGfm, remarkBilibili]}
             rehypePlugins={[rehypeRaw, rehypeHighlight]}
