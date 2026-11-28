@@ -49,8 +49,8 @@ export interface DetonatorProgress {
 /**
  * GIF 起爆器的状态与处理流程。
  *
- * 解码、加速与编码都在主线程执行，靠让出主线程来刷新进度；
- * object URL 在结果被替换与组件卸载时回收。
+ * 解码由浏览器的 `ImageDecoder` 完成，逐帧读取像素、加速与编码仍在主线程执行，
+ * 靠让出主线程来刷新进度；object URL 在结果被替换与组件卸载时回收。
  */
 export function useGifDetonator() {
   const [source, setSource] = useState<DetonatorSource | null>(null);
@@ -148,7 +148,7 @@ export function useGifDetonator() {
       try {
         await nextTick();
 
-        const gif = decodeGif(current.bytes, MAX_OUTPUT_WIDTH);
+        const gif = await decodeGif(current.bytes, MAX_OUTPUT_WIDTH);
         if (gif.frames.length > MAX_SOURCE_FRAMES) {
           throw new Error(
             `原图 ${gif.frames.length} 帧，超过 ${MAX_SOURCE_FRAMES} 帧上限。`,
