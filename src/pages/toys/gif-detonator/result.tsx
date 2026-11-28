@@ -35,7 +35,7 @@ export default function GifDetonatorResultPanel({
       <img
         src={result.url}
         alt="生成结果预览"
-        className="mx-auto max-h-90 w-auto max-w-full rounded-md border border-border bg-muted/40"
+        className="mx-auto max-h-90 w-auto max-w-full border border-border bg-muted/40"
       />
 
       <a
