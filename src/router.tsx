@@ -56,6 +56,13 @@ const routes: RouteObject[] = [
                 Component: m.default,
               })),
           },
+          {
+            path: "gif-detonator",
+            lazy: () =>
+              import("@/pages/toys/gif-detonator").then((m) => ({
+                Component: m.default,
+              })),
+          },
         ],
       },
       {
