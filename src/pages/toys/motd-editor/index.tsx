@@ -122,11 +122,6 @@ export default function MotdEditorPage() {
     <div className="max-w-4xl space-y-4">
       <header className="space-y-2">
         <h1 className="text-2xl font-semibold">MOTD 编辑器</h1>
-        <p className="max-w-3xl text-sm text-muted-foreground">
-          {
-            "编辑两行文字，给选中的片段上色，编辑区按游戏内的样式显示；粘贴已有的 MOTD 会自动解析出颜色与格式。"
-          }
-        </p>
       </header>
 
       <MotdToolbar
@@ -151,20 +146,17 @@ export default function MotdEditorPage() {
       <section className="rounded-xl border bg-card/60 p-4 backdrop-blur-sm">
         <h2 className="text-sm font-medium">使用说明</h2>
         <ul className="mt-2 space-y-1.5 pl-1 text-xs text-muted-foreground">
-          <li>颜色码在游戏内会清空已经设置的格式，编辑器按同样的规则生成代码。</li>
-          <li>
-            {`MOTD 只显示 ${MOTD_MAX_LINES} 行，每行超过约 ${LINE_SOFT_LIMIT} 字符时，游戏内可能换行或被截断。`}
-          </li>
           <li>编辑区使用网页字体，游戏内的字体与换行可能略有差异。</li>
-          <li>乱码在编辑区显示原文，游戏内会随机跳字。</li>
+          <li>
+            选中文字后可以用 Ctrl/Cmd 加 B、I、U 切换格式，加 Shift 再加 X 切换删除线。
+          </li>
+          <li>
+            {`MOTD 只显示 ${MOTD_MAX_LINES} 行，每行上限约 ${LINE_SOFT_LIMIT} 字符。`}
+          </li>
           <li>
             {
               "server.properties 只有原版 1.16 及以上版本识别十六进制颜色，修改后需要重启服务器。"
             }
-          </li>
-          <li>只有插件会识别 & 代码，原版服务端请使用 § 代码或转义后的 motd 行。</li>
-          <li>
-            选中文字后可以用 Ctrl/Cmd 加 B、I、U 切换格式，加 Shift 再加 X 切换删除线。
           </li>
         </ul>
       </section>
