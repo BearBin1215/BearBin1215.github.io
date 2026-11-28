@@ -20,7 +20,7 @@ function totalDuration(frames: { delayMs: number }[]): number {
 
 describe("GIF 结尾加速", () => {
   it("帧间隔不低于 GIF 下限，并按 10ms 取整", () => {
-    const frames = accelerate(makeGif(40, 100), 6);
+    const frames = accelerate(makeGif(40, 100), 6, 2);
     for (const frame of frames) {
       expect(frame.delayMs).toBeGreaterThanOrEqual(MIN_DELAY_MS);
       expect(frame.delayMs % 10).toBe(0);
@@ -28,17 +28,23 @@ describe("GIF 结尾加速", () => {
   });
 
   it("源片太短时循环播放，直到加速段达到最短时长", () => {
-    const frames = accelerate(makeGif(40, 100), 6);
+    const frames = accelerate(makeGif(40, 100), 6, 2);
     expect(totalDuration(frames)).toBeGreaterThanOrEqual(2400);
   });
 
   it("末段的帧间隔明显小于开头", () => {
-    const frames = accelerate(makeGif(40, 100), 6);
+    const frames = accelerate(makeGif(40, 100), 6, 2);
     expect(frames.at(-1)!.delayMs).toBeLessThan(frames[0]!.delayMs);
   });
 
   it("循环遍数有上限，极短的源片不会无限重复", () => {
-    const frames = accelerate(makeGif(10, 100), 12);
+    const frames = accelerate(makeGif(10, 100), 12, 2);
     expect(frames.length).toBeLessThanOrEqual(10 * 8);
+  });
+
+  it("曲线指数改变加速节奏", () => {
+    const linear = accelerate(makeGif(40, 100), 6, 1).map((f) => f.delayMs);
+    const steep = accelerate(makeGif(40, 100), 6, 4).map((f) => f.delayMs);
+    expect(steep).not.toEqual(linear);
   });
 });

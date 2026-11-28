@@ -16,22 +16,28 @@ interface Pass {
 /**
  * 循环源片并重新分配帧间隔：起始为原速，结尾为 `peakSpeed` 倍。
  *
- * 速度曲线覆盖整段（含所有循环），所以每一遍都比上一遍快。
+ * 倍速按 `progress ** curve` 从 1 涨到 `peakSpeed`，曲线覆盖整段（含所有循环），
+ * 所以每一遍都比上一遍快。
  * 单帧累计时长不足 `MIN_DELAY_MS` 时并入下一帧，末段帧数因此减少，观感是明显跳帧。
  *
  * @param gif 解码后的源 GIF
  * @param peakSpeed 加速曲线末端的倍速
+ * @param curve 加速曲线的幂指数，1 为线性爬坡，越大越把加速堆到结尾
  */
-export function accelerate(gif: DecodedGif, peakSpeed: number): GifFrame[] {
+export function accelerate(
+  gif: DecodedGif,
+  peakSpeed: number,
+  curve: number,
+): GifFrame[] {
   let loops = 1;
-  let pass = buildPass(gif, peakSpeed, loops);
+  let pass = buildPass(gif, peakSpeed, curve, loops);
 
   while (pass.durationMs < MIN_RAMP_MS && loops < MAX_LOOPS) {
     if (gif.frames.length * (loops + 1) > MAX_RAMP_FRAMES) {
       break;
     }
     loops += 1;
-    pass = buildPass(gif, peakSpeed, loops);
+    pass = buildPass(gif, peakSpeed, curve, loops);
   }
 
   return pass.frames;
@@ -42,7 +48,12 @@ export function accelerate(gif: DecodedGif, peakSpeed: number): GifFrame[] {
  *
  * @param loops 源片循环遍数
  */
-function buildPass(gif: DecodedGif, peakSpeed: number, loops: number): Pass {
+function buildPass(
+  gif: DecodedGif,
+  peakSpeed: number,
+  curve: number,
+  loops: number,
+): Pass {
   const source = gif.frames;
   const totalFrames = source.length * loops;
   const frames: GifFrame[] = [];
@@ -54,7 +65,7 @@ function buildPass(gif: DecodedGif, peakSpeed: number, loops: number): Pass {
   for (let loop = 0; loop < loops; loop++) {
     for (let i = 0; i < source.length; i++, index++) {
       const progress = totalFrames > 1 ? index / (totalFrames - 1) : 1;
-      const speed = 1 + (peakSpeed - 1) * progress * progress;
+      const speed = 1 + (peakSpeed - 1) * progress ** curve;
       pending += source[i]!.delayMs / speed;
 
       if (pending >= MIN_DELAY_MS || index === totalFrames - 1) {

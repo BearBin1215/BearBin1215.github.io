@@ -4,14 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Spinner } from "@/components/ui/spinner";
 import { useDocumentTitle } from "@/hooks/use-document-title";
-import { SPEED_RANGE } from "./config";
+import { CURVE_RANGE, SPEED_RANGE } from "./config";
 import GifDetonatorDropzone from "./dropzone";
 import GifDetonatorResultPanel from "./result";
 import { useGifDetonator } from "./use-detonator";
 
+/** 取出单值滑杆回调里的数值，兼容基元与数组两种形式 */
+function readSliderValue(value: number | readonly number[]): number | undefined {
+  return typeof value === "number" ? value : value[0];
+}
+
 export default function GifDetonatorPage() {
   useDocumentTitle("GIF 加速起爆器");
-  const [peakSpeed, setPeakSpeed] = useState(SPEED_RANGE.default);
+  const [peakSpeed, setPeakSpeed] = useState<number>(SPEED_RANGE.default);
+  const [curve, setCurve] = useState<number>(CURVE_RANGE.default);
   const { source, result, progress, error, busy, selectFile, generate } =
     useGifDetonator();
 
@@ -26,32 +32,62 @@ export default function GifDetonatorPage() {
       />
 
       <section className="space-y-3 rounded-xl border bg-card/60 p-4 backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-4">
-          <span className="text-sm font-medium">结尾加速</span>
-          <span className="font-mono text-sm text-primary tabular-nums">
-            {peakSpeed}×
-          </span>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm font-medium">结尾加速</span>
+            <span className="font-mono text-sm text-primary tabular-nums">
+              {peakSpeed}×
+            </span>
+          </div>
+
+          <Slider
+            min={SPEED_RANGE.min}
+            max={SPEED_RANGE.max}
+            step={1}
+            value={[peakSpeed]}
+            disabled={busy}
+            onValueChange={(value) => {
+              const next = readSliderValue(value);
+              if (next !== undefined) {
+                setPeakSpeed(next);
+              }
+            }}
+          />
         </div>
 
-        <Slider
-          min={SPEED_RANGE.min}
-          max={SPEED_RANGE.max}
-          step={1}
-          value={[peakSpeed]}
-          disabled={busy}
-          onValueChange={(value) => {
-            const next = Array.isArray(value) ? value[0] : value;
-            if (next !== undefined) {
-              setPeakSpeed(next);
-            }
-          }}
-        />
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-4">
+            <span className="text-sm font-medium">加速曲线</span>
+            <span className="font-mono text-sm text-primary tabular-nums">
+              {curve.toFixed(1)} 次方
+            </span>
+          </div>
+
+          <Slider
+            min={CURVE_RANGE.min}
+            max={CURVE_RANGE.max}
+            step={0.1}
+            value={[curve]}
+            disabled={busy}
+            onValueChange={(value) => {
+              const next = readSliderValue(value);
+              if (next !== undefined) {
+                setCurve(next);
+              }
+            }}
+          />
+
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>前段提速</span>
+            <span>尾段提速</span>
+          </div>
+        </div>
 
         <Button
           className="w-full"
           size="lg"
           disabled={!source || busy}
-          onClick={() => void generate(peakSpeed)}
+          onClick={() => void generate(peakSpeed, curve)}
         >
           {busy ? <Spinner /> : <Bomb />}
           {busy ? "生成中" : "生成"}

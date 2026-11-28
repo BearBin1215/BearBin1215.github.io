@@ -127,9 +127,14 @@ export function useGifDetonator() {
     [clearResult],
   );
 
-  /** 解码源片，接上按 `peakSpeed` 加速的循环与爆炸片段后重新编码 */
+  /**
+   * 解码源片，接上按 `peakSpeed` 与 `curve` 加速的循环、以及爆炸片段后重新编码。
+   *
+   * @param peakSpeed 加速曲线末端的倍速
+   * @param curve 加速曲线的幂指数
+   */
   const generate = useCallback(
-    async (peakSpeed: number) => {
+    async (peakSpeed: number, curve: number) => {
       const current = sourceRef.current;
       if (!current || busyRef.current) {
         return;
@@ -152,7 +157,7 @@ export function useGifDetonator() {
 
         setProgress({ fraction: 0.25, label: "结尾加速中" });
         await nextTick();
-        const accelerated = accelerate(gif, peakSpeed);
+        const accelerated = accelerate(gif, peakSpeed, curve);
         const explosion = fillBox(await loadExplosion(), gif.width, gif.height);
 
         setProgress({ fraction: 0.45, label: "编码中" });
